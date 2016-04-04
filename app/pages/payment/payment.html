@@ -1,0 +1,17 @@
+<ion-navbar *navbar>    
+</ion-navbar>
+
+<ion-content>
+    <div class="payment">
+        
+        <p class="payment-readable-amount">{{ readableAmount }}</p>       
+        
+        <div class="payment-qr" [innerHTML]="qrImage"></div>
+        
+        <div class="payment-info">
+            <p class="payment-text">Waiting for Payment</p>        
+            <ion-spinner name="dots"></ion-spinner>        
+        </div>
+        
+    </div>   
+</ion-content>

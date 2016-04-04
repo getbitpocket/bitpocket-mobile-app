@@ -1,0 +1,24 @@
+.payment {
+    
+    .payment-qr {
+        padding:0 0 20px 0;    
+        text-align: center;
+    }
+    
+    .payment-readable-amount {
+        text-align: center;
+        padding:20px 0;
+        margin:0;
+        font-size:1.8em;
+        font-weight: bold;
+    }
+    
+    .payment-info {
+        text-align: center;
+        
+        .payment-text {
+            margin:0;
+        }        
+    }
+    
+}

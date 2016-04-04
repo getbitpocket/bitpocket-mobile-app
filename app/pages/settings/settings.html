@@ -1,0 +1,12 @@
+<ion-navbar *navbar>
+    <button menuToggle="left"><ion-icon name="menu"></ion-icon></button>    
+</ion-navbar>
+
+<ion-content>
+    <ion-list>
+        <button ion-item *ngFor="#setting of settings" (click)="openPage(setting.page)">
+            <h2>{{ setting.name }}</h2>
+            <p>{{ setting.description }}</p>
+        </button>        
+    </ion-list>
+</ion-content>

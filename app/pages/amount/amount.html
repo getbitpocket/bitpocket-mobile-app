@@ -1,0 +1,33 @@
+<ion-navbar *navbar>
+    <button menuToggle="left"><ion-icon name="menu"></ion-icon></button>
+</ion-navbar>
+
+<ion-content>
+    
+    <div class="amount">
+    
+        <div class="amount-input">
+            <div class="amount-input-form">
+                <span class="currency">{{ currency }}</span> <span clear class="number digits">{{ digits }}</span><span class="separator">{{ separator }}</span><span clear class="number decimals">{{ decimals }}</span>
+            </div>
+        </div>
+        
+        <div class="amount-numpad">
+            <button class="amount-numpad-button border-right" (click)="numberInput(1)" clear>1</button>
+            <button class="amount-numpad-button border-right" (click)="numberInput(2)" clear>2</button>
+            <button class="amount-numpad-button" (click)="numberInput(3)" clear>3</button>
+            <button class="amount-numpad-button border-right" (click)="numberInput(4)" clear>4</button>
+            <button class="amount-numpad-button border-right" (click)="numberInput(5)" clear>5</button>
+            <button class="amount-numpad-button" (click)="numberInput(6)" clear>6</button>
+            <button class="amount-numpad-button border-right" (click)="numberInput(7)" clear>7</button>
+            <button class="amount-numpad-button border-right" (click)="numberInput(8)" clear>8</button>
+            <button class="amount-numpad-button" (click)="numberInput(9)" clear>9</button>
+            <button class="amount-numpad-button border-right" (click)="backspaceInput()" clear><ion-icon name="backspace"></ion-icon></button>
+            <button class="amount-numpad-button border-right" (click)="numberInput(0)" clear>0</button>
+            <button class="amount-numpad-button" (click)="switchInput('decimals')" clear>{{ separator }}</button>
+            <button class="amount-numpad-confirm-button" secondary (click)="requestPayment()"><ion-icon ios="logo-bitcoin" md="logo-bitcoin"></ion-icon> Request Payment</button>
+        </div>
+    
+    </div>
+    
+</ion-content>

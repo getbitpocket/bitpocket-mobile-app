@@ -1,0 +1,61 @@
+
+.amount {
+    height:100%;
+    width:100%;   
+}
+
+.amount-input {    
+    height:30%;   
+    padding:0 25px;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.amount-input-form {
+    text-align:center;
+    font-size:2.4em;
+    
+    .number {
+        display:inline-block;        
+        margin:0;
+        padding:0;        
+        
+        &.digits {
+            text-align:right;
+        }
+        
+        &.decimals {
+        }                
+    }
+}
+
+.amount-numpad {    
+    height:70%; 
+    display: flex;
+    flex-flow: row wrap;
+    justify-content:space-between;
+    border-top:1px solid map-get($colors, secondary);    
+}
+
+.amount-numpad-confirm-button {
+    flex:1 1 100%;    
+    margin:0;
+    height:20%;
+    font-size:1.4em;
+    border-radius:0;
+}
+
+.amount-numpad-button {
+   flex:1 1 33%;
+   margin:0;
+   padding:0;
+   height:20%;
+   font-size:1.4em;
+   border-bottom:1px solid map-get($colors, secondary);   
+   border-radius:0;
+   
+   &.border-right {
+      border-right:1px solid map-get($colors, secondary);
+   }   
+}
