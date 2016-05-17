@@ -5,7 +5,7 @@
 }
 
 .amount-input {    
-    height:30%;   
+    height:30%;
     padding:0 25px;
     display:flex;
     flex-direction: column;
@@ -32,30 +32,25 @@
 
 .amount-numpad {    
     height:70%; 
+    padding:0 12%;
     display: flex;
     flex-flow: row wrap;
     justify-content:space-between;
-    border-top:1px solid map-get($colors, secondary);    
+    align-content: space-between;
 }
 
-.amount-numpad-confirm-button {
-    flex:1 1 100%;    
+.amount-numpad-primary-button {
+    flex:1 1 45%;    
     margin:0;
-    height:20%;
-    font-size:1.4em;
+    font-size:1em;
     border-radius:0;
 }
 
 .amount-numpad-button {
-   flex:1 1 33%;
-   margin:0;
+   flex:0 1 62px;
+   margin:0 5%;
    padding:0;
-   height:20%;
-   font-size:1.4em;
-   border-bottom:1px solid map-get($colors, secondary);   
-   border-radius:0;
-   
-   &.border-right {
-      border-right:1px solid map-get($colors, secondary);
-   }   
+   height: 62px;
+   font-size:1.8em;
+   border-radius:100%;      
 }

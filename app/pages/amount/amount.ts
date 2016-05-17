@@ -1,4 +1,4 @@
-import {Page,NavController} from 'ionic-angular';
+import {Page,NavController, Platform} from 'ionic-angular';
 import {PaymentPage} from '../payment/payment';
 import {Config} from '../../providers/config';
 import {Currency} from '../../providers/currency/currency';
@@ -18,14 +18,19 @@ export class AmountPage {
     position:string;
     index:number;
     
-    constructor(private currencyService: Currency, private navigation:NavController) {
-        this.currency = Config.getItem('symbol');
-        this.separator = ",";
+    constructor(private platform: Platform, private currencyService: Currency, private config: Config, private navigation:NavController) {
         this.digits = "0";
-        this.decimals = "00";
-        
+        this.decimals = "00";        
         this.position = POSITION_DIGITS;
         this.index = 0;
+        
+        Promise.all<any>([
+            this.config.get('symbol') ,
+            this.config.get('currency-format-s')
+        ]).then(settings => {
+            this.currency = settings[0];
+            this.separator = settings[1];
+        });        
     }
     
     backspaceInput() {
@@ -89,20 +94,30 @@ export class AmountPage {
         }
     }
     
+    resetAmount() {
+        this.digits = "0";
+        this.decimals = "00";        
+        this.position = POSITION_DIGITS;
+        this.index = 0;
+    }
+    
     requestPayment() {
         let amount = parseFloat(this.digits+"."+this.decimals);
         let readableAmount = this.currency + " " + this.digits + this.separator + this.decimals;
         
         if (amount <= 0) {            
             return;
-        } else {
-            amount = this.currencyService.convertToBitcoin(amount);
         }
         
-        this.navigation.push(PaymentPage,{
-            amount: amount ,
-            readableAmount: readableAmount
-        });
+        this.currencyService.convertToBitcoin(amount).then(bitcoinUnit => {
+            this.navigation.push(PaymentPage,{
+                bitcoinAmount: bitcoinUnit ,
+                fiatAmount : amount ,
+                currency : this.currency ,
+                readableFiatAmount: readableAmount
+            });
+        });   
+        
     }
     
 }

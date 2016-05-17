@@ -14,13 +14,16 @@ export class CurrencyPage {
     selectedCurrency:string;
     availableCurrencies:Array<any>;
     
-    constructor(private currencyService:Currency) {
+    constructor(private currencyService:Currency) {        
         this.exchangeServices = currencyService.getAvailabeServices();
-        this.selectedExchange = currencyService.getSelectedService();
-        this.selectedCurrency = currencyService.getSelectedCurrency();
-        
-        currencyService.getAvailableCurrencies().then((currencies) => {
-            this.availableCurrencies = currencies;
+        Promise.all<any>([
+            currencyService.getSelectedService() ,
+            currencyService.getSelectedCurrency() ,
+            currencyService.getAvailableCurrencies()
+        ]).then(selections => {
+            this.selectedExchange = selections[0];
+            this.selectedCurrency = selections[1];
+            this.availableCurrencies = selections[2];
         });
     }
     

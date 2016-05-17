@@ -1,14 +1,15 @@
 import {Http} from 'angular2/http';
 import {Injectable} from 'angular2/core';
-import {ExchangeService} from './currency';
+import {CurrencyExchangeRate} from '../../api/currency-exchange-rate';
+import {CurrencyExchangeService} from '../../api/currency-exchange-service';
 
 @Injectable()
-export class BlockchainExchangeService implements ExchangeService {
+export class BlockchainExchangeService implements CurrencyExchangeService {
         
     constructor(private http:Http) {
     }
     
-    prepareOutput(json:any) : Array<{code:string,symbol:string,rate?:number}> {
+    prepareOutput(json:any) : Array<CurrencyExchangeRate> {
         let output = [];
         
         for (let key in json) {
@@ -24,11 +25,11 @@ export class BlockchainExchangeService implements ExchangeService {
         return output;
     }
     
-    getAvailableCurrencies() : Promise<Array<{code:string,symbol:string,rate?:number}>> {
+    getAvailableCurrencies() : Promise<Array<CurrencyExchangeRate>> {
         return this.getExchangeRates();
     }
     
-    getExchangeRates() : Promise<Array<{code:string,symbol:string,rate:number}>> {
+    getExchangeRates() : Promise<Array<CurrencyExchangeRate>> {
         return new Promise((resolve, reject) => {
             try {
                 this.http.get('https://blockchain.info/ticker?cors=true')
@@ -48,7 +49,7 @@ export class BlockchainExchangeService implements ExchangeService {
         });
     }
     
-    getExchangeRate(code:string) : Promise<{code:string,symbol:string,rate:number}> {
+    getExchangeRate(code:string) : Promise<CurrencyExchangeRate> {
         return new Promise((resolve, reject) => {
             try {
                 this.http.get('https://blockchain.info/ticker?cors=true')

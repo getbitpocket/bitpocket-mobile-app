@@ -1,7 +1,8 @@
 import {Injectable, Injector} from 'angular2/core';
+import {BitcoinUnit} from '../currency/bitcoin-unit';
 
 // Payment Services
-import {BlockchainPaymentService} from './blockchain';
+import {ElectrumPaymentService} from './electrum';
 
 export const PAYMENT_STATUS_RECEIVED = 'received';
 export const PAYMENT_STATUS_NOT_RECEIVED = 'not_received';
@@ -11,7 +12,7 @@ export const PAYMENT_STATUS_TIMEOUT = 'timeout';
 export const PAYMENT_STATUS_SERVICE_ERROR = 'service_error';
 
 export interface PaymentService {
-    checkPayment(address: string, amount: number) : Promise<{status: string, tx?: string}>;
+    checkPayment(address: string, amount: BitcoinUnit) : Promise<{status: string, tx?: string}>;
 }
 
 @Injectable()
@@ -20,11 +21,11 @@ export class Payment {
     private service: PaymentService;
     
     constructor(private injector: Injector) {        
-        this.service = this.injector.get(BlockchainPaymentService);
+        this.service = this.injector.get(ElectrumPaymentService);
     }
     
-    checkPayment(address: string, amount: number) : Promise<{status: string, tx?: string}> {
-        return this.service.checkPayment(address,amount);
+    checkPayment(address: string, amount: BitcoinUnit) : Promise<{status: string, tx?: string}> {
+        return this.service.checkPayment(address, amount);
     }
     
 }

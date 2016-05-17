@@ -11,9 +11,9 @@
   ],
   "exclude": [
     "node_modules",
-    "plugins/electrum-network-plugin/lib",
-    "typings/main",
-    "typings/main.d.ts"
+    "typings/browser",
+    "typings/browser.d.ts",
+    "plugins"
   ],
   "compileOnSave": false,
   "atom": {

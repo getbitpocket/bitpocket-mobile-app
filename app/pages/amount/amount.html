@@ -1,5 +1,6 @@
 <ion-navbar *navbar>
     <button menuToggle="left"><ion-icon name="menu"></ion-icon></button>
+    <ion-title>Request amount</ion-title>
 </ion-navbar>
 
 <ion-content>
@@ -13,19 +14,24 @@
         </div>
         
         <div class="amount-numpad">
-            <button class="amount-numpad-button border-right" (click)="numberInput(1)" clear>1</button>
-            <button class="amount-numpad-button border-right" (click)="numberInput(2)" clear>2</button>
-            <button class="amount-numpad-button" (click)="numberInput(3)" clear>3</button>
-            <button class="amount-numpad-button border-right" (click)="numberInput(4)" clear>4</button>
-            <button class="amount-numpad-button border-right" (click)="numberInput(5)" clear>5</button>
-            <button class="amount-numpad-button" (click)="numberInput(6)" clear>6</button>
-            <button class="amount-numpad-button border-right" (click)="numberInput(7)" clear>7</button>
-            <button class="amount-numpad-button border-right" (click)="numberInput(8)" clear>8</button>
-            <button class="amount-numpad-button" (click)="numberInput(9)" clear>9</button>
-            <button class="amount-numpad-button border-right" (click)="backspaceInput()" clear><ion-icon name="backspace"></ion-icon></button>
-            <button class="amount-numpad-button border-right" (click)="numberInput(0)" clear>0</button>
-            <button class="amount-numpad-button" (click)="switchInput('decimals')" clear>{{ separator }}</button>
-            <button class="amount-numpad-confirm-button" secondary (click)="requestPayment()"><ion-icon ios="logo-bitcoin" md="logo-bitcoin"></ion-icon> Request Payment</button>
+            <button secondary class="amount-numpad-button border-right" (click)="numberInput(1)">1</button>
+            <button secondary class="amount-numpad-button border-right" (click)="numberInput(2)">2</button>
+            <button secondary class="amount-numpad-button" (click)="numberInput(3)">3</button>
+            
+            <button secondary class="amount-numpad-button border-right" (click)="numberInput(4)">4</button>
+            <button secondary class="amount-numpad-button border-right" (click)="numberInput(5)">5</button>
+            <button secondary class="amount-numpad-button" (click)="numberInput(6)">6</button>
+            
+            <button secondary class="amount-numpad-button border-right" (click)="numberInput(7)">7</button>
+            <button secondary class="amount-numpad-button border-right" (click)="numberInput(8)">8</button>
+            <button secondary class="amount-numpad-button" (click)="numberInput(9)">9</button>
+            
+            <button secondary class="amount-numpad-button" (click)="switchInput('decimals')">{{ separator }}</button>
+            <button secondary class="amount-numpad-button border-right" (click)="numberInput(0)">0</button>            
+            <button secondary class="amount-numpad-button border-right" (click)="backspaceInput()"><ion-icon name="backspace"></ion-icon></button>
+            
+            <button class="amount-numpad-primary-button" (click)="resetAmount()">Reset</button>
+            <button class="amount-numpad-primary-button" (click)="requestPayment()">Request Amount</button>
         </div>
     
     </div>

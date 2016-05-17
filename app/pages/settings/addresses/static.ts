@@ -13,22 +13,26 @@ export class StaticAddressPage {
     address: string = "";
     active: boolean = false;
        
-    constructor(private nav:NavController) {
-        let addressType = Config.getItem('address-type');        
-        if (addressType === ADDRESS_TYPE) {
-            this.active = true;
-        }
-        this.address = Config.getItem('static-address');
+    constructor(private config: Config, private nav:NavController) {
+        Promise.all<string>([
+            this.config.get('address-type') ,
+            this.config.get('static-address')
+        ]).then(promised => {
+            if (promised[0] === ADDRESS_TYPE) {
+                this.active = true;
+            }
+            this.address = promised[1];
+        });        
     }
     
     activationChanged() {        
         if (!this.active) {
-            Config.setItem('address-type',ADDRESS_TYPE);
+            this.config.set('address-type', ADDRESS_TYPE);
         }
     }
     
     addressChanged() {
-        Config.setItem('static-address',this.address);
+        this.config.set('static-address', this.address);
     }
     
     scan() { 
@@ -37,11 +41,12 @@ export class StaticAddressPage {
         BarcodeScanner.scan().then((barcodeData) => {
             try {
                     // TODO: check if this is a valid address
-                    this.address = bip21.decode(barcodeData.text).address;                    
-                } catch(e) {
-                    this.nav.present(alert);
-                }  
+                this.address = bip21.decode(barcodeData.text).address;                          
+            } catch(e) {
+                this.nav.present(alert);
+            }  
         }, (error) => {
+            console.error(error);
             this.nav.present(alert);
         });
                 

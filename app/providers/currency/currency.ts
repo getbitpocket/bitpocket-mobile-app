@@ -1,71 +1,114 @@
-import {Injectable, Injector} from 'angular2/core';
+import {Injectable, Injector} from 'angular2/core'; 
 import {Config} from '../config';
+import {CurrencyExchangeService} from '../../api/currency-exchange-service';
 import {BlockchainExchangeService} from './blockchain';
+import {BitcoinUnit} from './bitcoin-unit';
 
 const EXCHANGE_SERVICES:Array<{code:string,name:string}> = [
     {code:'blockchain',name:'Blockchain.info'},
     {code:'bitcoinaverage',name:'BitcoinAverage'}
 ];
 
-export interface ExchangeService {
-    getAvailableCurrencies() : Promise<Array<{code:string,symbol:string,rate?:number}>>;
-    getExchangeRates() : Promise<Array<{code:string,symbol:string,rate:number}>>;
-    getExchangeRate(code:string) : Promise<{code:string,symbol:string,rate:number}>;
-}
+const CURRENCY_SYMBOLS = {
+    'USD': '$', // US Dollar
+    'EUR': '€', // Euro
+    'CRC': '₡', // Costa Rican Colón
+    'GBP': '£', // British Pound Sterling
+    'ILS': '₪', // Israeli New Sheqel
+    'INR': '₹', // Indian Rupee
+    'JPY': '¥', // Japanese Yen
+    'KRW': '₩', // South Korean Won
+    'NGN': '₦', // Nigerian Naira
+    'PHP': '₱', // Philippine Peso
+    'PLN': 'zł', // Polish Zloty
+    'PYG': '₲', // Paraguayan Guarani
+    'THB': '฿', // Thai Baht
+    'UAH': '₴', // Ukrainian Hryvnia
+    'VND': '₫', // Vietnamese Dong       
+    'BTC': 'Ƀ'    
+};
 
 @Injectable()
 export class Currency {
-    
-    constructor(private injector: Injector) {        
-        if (!Config.hasItem('exchange') || !Config.hasItem('currency')) {
-            Config.setItem('exchange','blockchain');
-            Config.setItem('currency','EUR');
-        }        
+        
+    constructor(private config: Config, private injector: Injector) {        
+        this.config.initialize('exchange','blockchain');
+        this.config.initialize('currency','EUR');       
     }
     
     getAvailabeServices() : Array<{code:string,name:string}> {
         return EXCHANGE_SERVICES;
     }
-    
-    getSelectedService() : string {
-        return Config.getItem('exchange');
+        
+    getSelectedService() : Promise<string> {
+        return this.config.get('exchange');
     }
     
-    getExchangeService() : ExchangeService {
-        if (Config.getItem('exchange') === 'blockchain') {
-            return this.injector.get(BlockchainExchangeService);
-        } else {
-            return this.injector.get(BlockchainExchangeService);
-        }   
+    getExchangeService() : Promise<CurrencyExchangeService> {
+        return new Promise<CurrencyExchangeService>((resolve, reject) => {
+            this.getSelectedService().then(exchange => {
+                if (exchange === 'blockchain') {
+                    resolve(this.injector.get(BlockchainExchangeService));
+                } else {
+                    resolve(this.injector.get(BlockchainExchangeService));
+                }
+            });                
+        });
     }
     
-    getSelectedCurrency() {
-        return Config.getItem('currency');
+    getSelectedCurrency() : Promise<any> {
+        return this.config.get('currency');
     }
     
     getAvailableCurrencies() : Promise<any> {        
-        return this.getExchangeService().getAvailableCurrencies();
+        return new Promise<any>((resolve, reject) => {
+            this.getExchangeService().then(exchangeService => {
+                resolve(exchangeService.getAvailableCurrencies());
+            });
+        });       
     }
     
-    setSelectedService(code:string) {
-        Config.setItem('exchange',code);
+    setSelectedService(code:string) : Currency {
+        this.config.set('exchange', code)        
+        return this;
     }
     
-    setSelectedCurrency(code:string) {
-        Config.setItem('currency',code);
-        this.updateCurrencyRate();
+    setSelectedCurrency(code:string) : Currency {
+        this.config.set('currency', code).then(() => {
+            this.updateCurrencyRate();
+        });
+            
+        return this;
     }
     
-    updateCurrencyRate() {
-        this.getExchangeService().getExchangeRate(this.getSelectedCurrency()).then((data) => {
-            Config.setItem('symbol',data.symbol);    
-            Config.setItem('rate',data.rate.toString());
-        });        
+    updateCurrencyRate() : Currency {                        
+        Promise.all<any>([
+            this.getExchangeService() ,
+            this.getSelectedCurrency()
+        ]).then(promisedArray => {
+            return promisedArray[0].getExchangeRate(promisedArray[1]);
+        }).then(data => {
+            this.config.set('symbol', data.symbol);
+            this.config.set('rate', data.rate.toString());
+        });
+                
+        return this;
     }
     
-    convertToBitcoin(amount:number) : number {
-        let rate = parseFloat(Config.getItem('rate'));
-        return parseFloat((amount / rate).toFixed(8));
+    getCurrencySymbol(currency: string) : string {
+        if (CURRENCY_SYMBOLS.hasOwnProperty(currency)) {
+            return CURRENCY_SYMBOLS[currency];
+        } else {
+            return currency;
+        }
+    }
+    
+    convertToBitcoin(amount:number) : Promise<BitcoinUnit> {
+        return new Promise<BitcoinUnit>((resolve, reject) => {
+            this.config.get('rate').then(rate => {
+                resolve(BitcoinUnit.fromFiat(amount, rate));
+            });
+        });
     }
     
 }

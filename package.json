@@ -1,33 +1,35 @@
 {
   "dependencies": {
-    "angular2": "2.0.0-beta.6",
+    "angular2": "2.0.0-beta.15",
     "bip21": "^1.1.2",
-    "es6-promise": "3.0.2",
-    "es6-shim": "0.33.13",
-    "ionic-angular": "2.0.0-beta.3",
-    "ionic-native": "^1.0.12",
-    "ionicons": "3.0.0-alpha.3",
+    "bitcoinjs-lib": "^2.2.0",
+    "es6-promise": "3.2.1",
+    "es6-shim": "0.35.1",
+    "ionic-angular": "2.0.0-beta.6",
+    "ionic-native": "^1.2.1",
+    "ionicons": "3.0.0",
     "qrcode-generator": "^1.0.0",
     "reflect-metadata": "0.1.2",
-    "rxjs": "5.0.0-beta.0",
-    "zone.js": "0.5.14"
+    "rxjs": "5.0.0-beta.2",
+    "zone.js": "0.6.12"
   },
   "devDependencies": {
-    "awesome-typescript-loader": "0.15.10",
     "del": "2.2.0",
     "gulp": "3.9.1",
-    "gulp-autoprefixer": "^3.1.0",
-    "gulp-sass": "2.2.0",
+    "gulp-jasmine": "^2.3.0",
+    "gulp-typescript": "^2.12.2",
     "gulp-watch": "4.3.5",
-    "strip-sourcemap-loader": "0.0.1",
-    "typescript": "1.7.5",
-    "webpack": "1.12.14"
+    "ionic-gulp-browserify-typescript": "^1.0.0",
+    "ionic-gulp-fonts-copy": "^1.0.0",
+    "ionic-gulp-html-copy": "^1.0.0",
+    "ionic-gulp-sass-build": "^1.0.0",
+    "ionic-gulp-scripts-copy": "^1.0.0",
+    "run-sequence": "1.1.5"
   },
   "name": "bitpocket-mobile",
   "description": "bitpocket-mobile: An Ionic project",
   "cordovaPlugins": [
     "phonegap-plugin-barcodescanner",
-    "cordova-plugin-crosswalk-webview",
     "cordova-plugin-network-information",
     "cordova-plugin-whitelist",
     {
@@ -35,7 +37,5 @@
       "id": "electrum-network-plugin"
     }
   ],
-  "cordovaPlatforms": [
-    "android"
-  ]
+  "cordovaPlatforms": []
 }

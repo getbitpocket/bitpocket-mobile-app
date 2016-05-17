@@ -1,0 +1,38 @@
+import {Page,NavController,Alert} from 'ionic-angular';
+import {Config} from '../../../providers/config';
+
+// t = thousands point
+// s = separator
+const CURRENCY_FORMATS = {
+    'de' : {
+        t : '.' ,
+        s : ','
+    } ,
+    'us' : {
+        t : ',' ,
+        s : '.'
+    }
+};
+
+@Page({
+    templateUrl : 'build/pages/settings/general/general.html'
+})
+export class GeneralPage {
+    
+    selectedFormat: string;
+    
+    constructor(private config: Config) {
+        Promise.all<string>([
+            this.config.get('currency-format') ,
+        ]).then(promised => {
+            this.selectedFormat = promised[0];
+        });        
+    }
+    
+    formatChanged() {
+        this.config.set('currency-format',this.selectedFormat);
+        this.config.set('currency-format-t',CURRENCY_FORMATS[this.selectedFormat].t);
+        this.config.set('currency-format-s',CURRENCY_FORMATS[this.selectedFormat].s);
+    }
+    
+}

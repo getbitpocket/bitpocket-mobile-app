@@ -1,53 +1,62 @@
-import {Page,NavParams} from 'ionic-angular';
-import {Address} from '../../providers/address'
+import {Page,NavParams,NavController} from 'ionic-angular';
+import {Address} from '../../providers/address';
 import * as payment from '../../providers/payment/payment';
+import {BitcoinUnit} from '../../providers/currency/bitcoin-unit';
+import {PaymentResultPage} from './payment-result';
 import * as bip21 from 'bip21';
-import * as qrcode from 'qrcode-generator';
+import qrcode = require('qrcode-generator');
 
 @Page({
-    templateUrl : 'build/pages/payment/payment.html'    
+    templateUrl : 'build/pages/payment/payment.html'
 })
 export class PaymentPage {
     
     qrImage: any;
     
-    amount: number;
+    amount: BitcoinUnit;
+    fiatAmount : number;
+    currency : string;
+    
     address: string;
     readableAmount: string;
     
     waitingTime: number = 0;
-    checkInterval: number = 2000;
-    timeout: number = 1000 * 60; // one minute, should be configurable
+    checkInterval: number = 4000;
+    timeout: number = 1000 * 20; // one minute, should be configurable
     serviceErrorCounts: number = 0;
     maxServiceErrors: number = 4;
     
-    constructor(private addressService: Address, private paymentService: payment.Payment, private params: NavParams) {                
-        this.amount = params.data.amount;
-        this.readableAmount = params.data.readableAmount;        
-        this.address = this.addressService.getAddress();
-        
-        let bip21uri = bip21.encode(this.address,{
-            amount : this.amount ,
-            label : 'Test Payment'
-        });
-                                
-        let qr:any = qrcode(6,'M');
-        qr.addData(bip21uri);
-        qr.make();
-        this.qrImage = qr.createImgTag(5,5);        
-        
-        this.checkPayment();
+    constructor(private addressService: Address, private paymentService: payment.Payment, private params: NavParams, private navigation:NavController) {                
+        this.amount = params.data.bitcoinAmount;
+        this.readableAmount = params.data.readableFiatAmount;        
+        this.addressService.getAddress().then((address) => {
+                        
+            let bip21uri = bip21.encode(address,{
+                amount : this.amount.toBitcoin() ,
+                label : 'Test Payment'
+            });
+            
+            let qr:any = qrcode(6,'M');
+            qr.addData(bip21uri);
+            qr.make();
+            this.qrImage = qr.createImgTag(5,5);        
+            
+            this.checkPayment();            
+        });      
     }
     
     paymentError(status: string) {
-        console.log(status);
+        this.navigation.setRoot(PaymentResultPage, {
+            status: status            
+        });
     }
     
     paymentReceived(tx: string) {
-        console.log(tx);
+        this.navigation.setRoot(PaymentResultPage, {
+            status: payment.PAYMENT_STATUS_RECEIVED            
+        });
     }
-    
-    
+        
     checkPayment() {      
         setTimeout(() => {
             this.waitingTime += this.checkInterval;
