@@ -4,12 +4,12 @@
 
 <ion-content>
     <ion-list>
-        <ion-item>
+        <ion-item dark>
             <ion-label floating>Static Address</ion-label>
             <ion-input (change)="addressChanged()" type="text" [(ngModel)]="address"></ion-input>
             <button clear item-right (click)="scan()"><ion-icon name="qr-scanner"></ion-icon></button>
         </ion-item>
-        <ion-item>
+        <ion-item dark>
             <ion-label>Activate</ion-label>
             <ion-toggle (change)="activationChanged()" [checked]="active"></ion-toggle>
         </ion-item>

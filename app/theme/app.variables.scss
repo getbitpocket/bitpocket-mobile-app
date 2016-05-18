@@ -21,10 +21,16 @@
 // are different per mode.
 
 $colors: (
-  primary:    #387ef5,
-  secondary:  #32db64,
+  primary:    rgba(255,255,255,0.2),
+  secondary:  #6A6D7A,
   danger:     #f53d3d,
   light:      #f4f4f4,
   dark:       #222,
   favorite:   #69BB7B
 );
+
+$button-blue: rgba(106,109,122,1);
+$button-white: rgba(255,255,255,1);
+$button-white-transparent: rgba(255,255,255,0.2);
+
+$fontUbuntu: 'Ubuntu Condensed', sans-serif;

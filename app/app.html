@@ -7,6 +7,9 @@
     <ion-content class="outer-content">
         
         <ion-list no-lines>
+            <div class="menu-image">
+                <img src="../../img/pitbocket-menu.png">
+            </div>
             <button ion-item *ngFor="#menuItem of menu" (click)="openPage(menuItem.page)">
                 <ion-icon name="{{menuItem.icon}}" item-left></ion-icon>
                 {{menuItem.name}}

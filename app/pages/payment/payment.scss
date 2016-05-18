@@ -1,21 +1,31 @@
 .payment {
-    
+    height: 100%;
+    width: 100%;
+    color: #FFF;
+
+    .payment-info {
+        padding: 10%;
+        height: 30%;
+    }
+
     .payment-qr {
-        padding:0 0 20px 0;    
+        padding:0 10%;
         text-align: center;
+        height: 35%;
     }
     
     .payment-readable-amount {
         text-align: center;
-        padding:20px 0;
+        color: #FFF;
         margin:0;
         font-size:1.8em;
-        font-weight: bold;
+        height: 25%;
+        padding: 5% 10% 0 10%;
     }
     
     .payment-info {
         text-align: center;
-        
+        font-size: 1.2em;
         .payment-text {
             margin:0;
         }        
