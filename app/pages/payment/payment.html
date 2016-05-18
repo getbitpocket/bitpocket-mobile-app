@@ -1,17 +1,31 @@
-<ion-navbar *navbar>    
+<ion-navbar *navbar>
+    <ion-title>Payment request</ion-title>
+    <ion-buttons end>
+        <button (click)="openModal()">
+            <img class="logo" src="../../img/icon.png" alt="">
+        </button>
+    </ion-buttons>
 </ion-navbar>
 
 <ion-content>
     <div class="payment">
-        
-        <p class="payment-readable-amount">{{ readableAmount }}</p>       
-        
+
+        <p class="payment-readable-amount">{{ readableAmount }}</p>
+
+        <div class="divider-box">
+            <div class="divider"></div>
+        </div>
+
         <div class="payment-qr" [innerHTML]="qrImage"></div>
-        
+
         <div class="payment-info">
+            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+        </div>
+
+        <!--div class="payment-info">
             <p class="payment-text">Waiting for Payment</p>        
             <ion-spinner name="dots"></ion-spinner>        
-        </div>
-        
-    </div>   
+        </div-->
+
+    </div>
 </ion-content>

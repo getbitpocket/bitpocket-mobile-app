@@ -17,20 +17,32 @@ export class AmountPage {
     currency:string;
     position:string;
     index:number;
+    thisCurrency:boolean;
+    mBTC:boolean;
     
     constructor(private platform: Platform, private currencyService: Currency, private config: Config, private navigation:NavController) {
         this.digits = "0";
         this.decimals = "00";        
         this.position = POSITION_DIGITS;
         this.index = 0;
+        this.thisCurrency = true;
+        this.mBTC = false;
         
         Promise.all<any>([
-            this.config.get('symbol') ,
+            this.config.get('currency') ,
             this.config.get('currency-format-s')
         ]).then(settings => {
             this.currency = settings[0];
             this.separator = settings[1];
         });        
+    }
+
+    checkType(type, id) {
+        if(!type && id == 1){
+            this.mBTC = false;
+        } else {
+            this.thisCurrency = false;
+        }
     }
     
     backspaceInput() {

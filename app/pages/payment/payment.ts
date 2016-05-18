@@ -35,13 +35,13 @@ export class PaymentPage {
                 amount : this.amount.toBitcoin() ,
                 label : 'Test Payment'
             });
-            
+
             let qr:any = qrcode(6,'M');
             qr.addData(bip21uri);
             qr.make();
             this.qrImage = qr.createImgTag(5,5);        
             
-            this.checkPayment();            
+            this.checkPayment();
         });      
     }
     

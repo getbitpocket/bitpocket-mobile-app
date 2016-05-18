@@ -1,18 +1,43 @@
 <ion-navbar *navbar>
     <button menuToggle="left"><ion-icon name="menu"></ion-icon></button>
     <ion-title>Request amount</ion-title>
+    <ion-buttons end>
+        <button (click)="openModal()">
+            <img class="logo" src="../../img/icon.png" alt="">
+        </button>
+    </ion-buttons>
 </ion-navbar>
 
 <ion-content>
-    
     <div class="amount">
-    
         <div class="amount-input">
-            <div class="amount-input-form">
-                <span class="currency">{{ currency }}</span> <span clear class="number digits">{{ digits }}</span><span class="separator">{{ separator }}</span><span clear class="number decimals">{{ decimals }}</span>
-            </div>
+            <ion-list>
+                <ion-item>
+                    <ion-checkbox [(ngModel)]="thisCurrency" (click)="checkType(thisCurrency, 1)"></ion-checkbox>
+                    <ion-label>{{ currency }}</ion-label>
+                </ion-item>
+                <ion-item>
+                    <div class="amount-input-form thisCurrency {{thisCurrency}}">
+                        <!--span class="currency">{{ currency }}</span!--> <span clear class="number digits">{{ digits }}</span><span class="separator">{{ separator }}</span><span clear class="number decimals">{{ decimals }}</span>
+                    </div>
+                </ion-item>
+                <ion-item>
+                    <ion-checkbox [(ngModel)]="mBTC" (click)="checkType(mBTC, 2)"></ion-checkbox>
+                    <ion-label>mBTC</ion-label>
+                </ion-item>
+                <ion-item>
+                    <div class="amount-input-form mBTC {{mBTC}}">
+                        <!--span class="currency">{{ currency }}</--span!--> <span clear class="number digits">{{ digits }}</span><span class="separator">{{ separator }}</span><span clear class="number decimals">{{ decimals }}</span>
+                    </div>
+                </ion-item>
+                <div>{{ tryit }}</div>
+            </ion-list>
         </div>
-        
+
+        <div class="divider-box">
+            <div class="divider"></div>
+        </div>
+
         <div class="amount-numpad">
             <button secondary class="amount-numpad-button border-right" (click)="numberInput(1)">1</button>
             <button secondary class="amount-numpad-button border-right" (click)="numberInput(2)">2</button>
