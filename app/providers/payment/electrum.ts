@@ -13,7 +13,7 @@ export class ElectrumPaymentService implements payment.PaymentService {
         let t = bitcoin.Transaction.fromBuffer(buffer);
                 
         for (let out of t.outs) {            
-            if (address === bitcoin.address.fromOutputScript(out.script) && amount.toSatoshis() <= out.value) {
+            if (address === bitcoin.address.fromOutputScript(out.script) && amount.to('satoshis') <= out.value) {
                 return t.getId();
             }            
         }

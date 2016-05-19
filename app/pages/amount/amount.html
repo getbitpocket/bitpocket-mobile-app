@@ -13,24 +13,29 @@
         <div class="amount-input">
             <ion-list>
                 <ion-item>
-                    <ion-checkbox [(ngModel)]="thisCurrency" (click)="checkType(thisCurrency, 1)"></ion-checkbox>
+                    <ion-checkbox [(ngModel)]="entryInFiat" (click)="changeInputCurrency('Fiat')"></ion-checkbox>
                     <ion-label>{{ currency }}</ion-label>
                 </ion-item>
                 <ion-item>
-                    <div class="amount-input-form thisCurrency {{thisCurrency}}">
-                        <!--span class="currency">{{ currency }}</span!--> <span clear class="number digits">{{ digits }}</span><span class="separator">{{ separator }}</span><span clear class="number decimals">{{ decimals }}</span>
+                    <div class="amount-input-form" [ngClass]="{active:entryInFiat}">
+                        <span *ngIf="entryInFiat">
+                            <span clear class="number digits">{{ digits }}</span><span class="separator">{{ separator }}</span><span clear class="number decimals">{{ decimals }}</span>
+                        </span>
+                        <span *ngIf="entryInBTC">{{ exchangedAmount }}</span>
                     </div>
                 </ion-item>
                 <ion-item>
-                    <ion-checkbox [(ngModel)]="mBTC" (click)="checkType(mBTC, 2)"></ion-checkbox>
-                    <ion-label>mBTC</ion-label>
+                    <ion-checkbox [(ngModel)]="entryInBTC" (click)="changeInputCurrency('BTC')"></ion-checkbox>
+                    <ion-label>{{ bitcoinUnit }}</ion-label>
                 </ion-item>
                 <ion-item>
-                    <div class="amount-input-form mBTC {{mBTC}}">
-                        <!--span class="currency">{{ currency }}</--span!--> <span clear class="number digits">{{ digits }}</span><span class="separator">{{ separator }}</span><span clear class="number decimals">{{ decimals }}</span>
-                    </div>
-                </ion-item>
-                <div>{{ tryit }}</div>
+                    <div class="amount-input-form" [ngClass]="{active:entryInBTC}">
+                        <span *ngIf="entryInBTC">
+                            <span clear class="number digits">{{ digits }}</span><span class="separator">{{ separator }}</span><span clear class="number decimals">{{ decimals }}</span>
+                        </span>
+                        <span *ngIf="entryInFiat">{{ exchangedAmount }}</span>
+                    </div>                   
+                </ion-item>                
             </ion-list>
         </div>
 

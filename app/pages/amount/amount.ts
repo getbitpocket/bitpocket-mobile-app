@@ -1,7 +1,9 @@
+import {ChangeDetectorRef} from 'angular2/core';
 import {Page,NavController, Platform} from 'ionic-angular';
 import {PaymentPage} from '../payment/payment';
 import {Config} from '../../providers/config';
 import {Currency} from '../../providers/currency/currency';
+import {BitcoinUnit} from '../../providers/currency/bitcoin-unit';
 
 const POSITION_DIGITS = 'digits';
 const POSITION_DECIMALS = 'decimals';
@@ -10,39 +12,52 @@ const POSITION_DECIMALS = 'decimals';
     templateUrl : 'build/pages/amount/amount.html'    
 })
 export class AmountPage {
-    
+        
+    exchangedAmount:string; // either BTC or Fiat    
     digits:string;
     decimals:string;
     separator:string;
-    currency:string;
-    position:string;
-    index:number;
-    thisCurrency:boolean;
-    mBTC:boolean;
     
-    constructor(private platform: Platform, private currencyService: Currency, private config: Config, private navigation:NavController) {
-        this.digits = "0";
+    position:string; // digits or dicimals area
+    index:number; // index of writing position
+    entryInFiat:boolean = true;
+    entryInBTC:boolean = false;
+        
+    currency:string;
+    bitcoinUnit:string;
+            
+    constructor(private platform: Platform, private currencyService: Currency, private config: Config, private navigation:NavController, private changeDetector:ChangeDetectorRef) {
+        this.digits   = "0";
         this.decimals = "00";        
         this.position = POSITION_DIGITS;
         this.index = 0;
-        this.thisCurrency = true;
-        this.mBTC = false;
-        
+                        
         Promise.all<any>([
             this.config.get('currency') ,
-            this.config.get('currency-format-s')
+            this.config.get('currency-format-s') ,
+            this.config.get('bitcoin-unit') ,
         ]).then(settings => {
-            this.currency = settings[0];
-            this.separator = settings[1];
-        });        
+            this.currency    = settings[0];
+            this.separator   = settings[1];
+            this.bitcoinUnit = settings[2];
+            this.exchangedAmount = "0"+this.separator+"0000";
+            changeDetector.detectChanges();
+        });    
     }
 
-    checkType(type, id) {
-        if(!type && id == 1){
-            this.mBTC = false;
+    changeInputCurrency(inputCurrency: string) {                
+        this.entryInBTC  = !this.entryInBTC;
+        this.entryInFiat = !this.entryInFiat;
+        
+        if (this.entryInFiat) {
+            this.resetAmount();
         } else {
-            this.thisCurrency = false;
+            this.digits = "0";
+            this.decimals = "0000";        
+            this.position = POSITION_DIGITS;
+            this.index = 0;
         }
+        
     }
     
     backspaceInput() {
@@ -71,6 +86,8 @@ export class AmountPage {
                 this.decimals = "0" + this.decimals.slice(1);                
             }
         }
+        
+        this.updateExchangedAmount();
     }
     
     switchInput(input:string) {
@@ -87,6 +104,8 @@ export class AmountPage {
         } else if (this.position === POSITION_DECIMALS) {
             this.decimalInput(input.toString());
         }
+        
+        this.updateExchangedAmount();
     }
     
     decimalInput(input:string) {        
@@ -111,25 +130,47 @@ export class AmountPage {
         this.decimals = "00";        
         this.position = POSITION_DIGITS;
         this.index = 0;
+        this.entryInBTC = false;
+        this.entryInFiat = true;
+        this.updateExchangedAmount();
+    }
+    
+    updateExchangedAmount() {
+        let inputAmount = parseFloat(this.digits+"."+this.decimals);
+        
+        if (this.entryInBTC) {
+            this.currencyService.getSelectedCurrencyRate().then(rate => {
+                let amount = BitcoinUnit.from(inputAmount,this.bitcoinUnit).toFiat(rate);
+                this.exchangedAmount = (amount.toFixed(0) + this.separator + amount.toFixed(2).substr(-2));
+                this.changeDetector.detectChanges();
+            });
+        } else if (this.entryInFiat) {
+            this.currencyService.getSelectedCurrencyRate().then(rate => {
+                let amount = BitcoinUnit.fromFiat(inputAmount,rate).to(this.bitcoinUnit);
+                this.exchangedAmount = amount.toFixed(0) + this.separator + amount.toFixed(4).substr(-4);
+                this.changeDetector.detectChanges();
+            });
+        }
     }
     
     requestPayment() {
-        let amount = parseFloat(this.digits+"."+this.decimals);
-        let readableAmount = this.currency + " " + this.digits + this.separator + this.decimals;
+        let amount = parseFloat(this.digits+"."+this.decimals);                
         
         if (amount <= 0) {            
             return;
         }
         
-        this.currencyService.convertToBitcoin(amount).then(bitcoinUnit => {
+        if (this.entryInBTC) {
             this.navigation.push(PaymentPage,{
-                bitcoinAmount: bitcoinUnit ,
-                fiatAmount : amount ,
-                currency : this.currency ,
-                readableFiatAmount: readableAmount
+                bitcoinAmount : BitcoinUnit.from(amount,this.bitcoinUnit)
+            });                   
+        } else {
+            this.currencyService.getSelectedCurrencyRate().then(rate => {
+                this.navigation.push(PaymentPage,{
+                    bitcoinAmount: BitcoinUnit.fromFiat(amount,rate) ,                
+                });
             });
-        });   
-        
+        }                
     }
     
 }

@@ -17,4 +17,23 @@
         </ion-item>
 
     </ion-list>
+    <ion-list radio-group [(ngModel)]="selectedUnit" (change)="unitChanged()">
+        <ion-list-header>Bitcoin Unit</ion-list-header>
+        
+        <ion-item>
+            <ion-label>Bitcoin (BTC)</ion-label>
+            <ion-radio [checked]="selectedUnit === 'BTC'" value="BTC"></ion-radio>
+        </ion-item>
+        
+        <ion-item>
+            <ion-label>Milli-Bitcoin (mBTC)</ion-label>
+            <ion-radio [checked]="selectedUnit === 'mBTC'" value="mBTC"></ion-radio>
+        </ion-item>
+        
+        <ion-item>
+            <ion-label>Bits (bits)</ion-label>
+            <ion-radio [checked]="selectedUnit === 'bits'" value="bits"></ion-radio>
+        </ion-item>
+
+    </ion-list>
 </ion-content>

@@ -60,6 +60,12 @@ export class Currency {
         return this.config.get('currency');
     }
     
+    getSelectedCurrencyRate() : Promise<number> {
+        return this.config.get('rate').then(rate => {
+            return parseFloat(rate);
+        });
+    }
+    
     getAvailableCurrencies() : Promise<any> {        
         return new Promise<any>((resolve, reject) => {
             this.getExchangeService().then(exchangeService => {
@@ -76,8 +82,7 @@ export class Currency {
     setSelectedCurrency(code:string) : Currency {
         this.config.set('currency', code).then(() => {
             this.updateCurrencyRate();
-        });
-            
+        });            
         return this;
     }
     
@@ -102,14 +107,6 @@ export class Currency {
             return currency;
         }
     }
-    
-    convertToBitcoin(amount:number) : Promise<BitcoinUnit> {
-        return new Promise<BitcoinUnit>((resolve, reject) => {
-            this.config.get('rate').then(rate => {
-                resolve(BitcoinUnit.fromFiat(amount, rate));
-            });
-        });
-    }
-    
+        
 }
 

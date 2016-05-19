@@ -229,7 +229,7 @@
     text-align: right;
     font-size: 1.1em;
 
-    &.thisCurrency.true, &.mBTC.true {
+    &.active {
         /* iPhone 5 - 5s Portrait */
         @media only screen and (min-device-width: 320px) and (max-device-width: 359px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
             font-size:1.8em;

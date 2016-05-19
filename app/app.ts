@@ -61,6 +61,7 @@ export class BitpocketApp {
     initApp() {
         this.dbHelper.initDb().then(() => {
             
+            /*
             this.history.addTransaction({
                 address : '2hh23' ,
                 txid : 'blabla' ,
@@ -68,6 +69,7 @@ export class BitpocketApp {
                 fiatAmount : 1234567.90 ,
                 currency : 'EUR'
             });
+            */
         });
         this.updateCurrencyRate();
     }
