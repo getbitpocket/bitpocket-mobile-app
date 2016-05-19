@@ -10,7 +10,18 @@
 <ion-content>
     <div class="payment">
 
-        <p class="payment-readable-amount">{{ readableAmount }}</p>
+        <ion-list>
+            <ion-item>
+                <div class="payment-readable-amount">
+                    <p>{{ readableAmount }}</p>
+                </div>
+            </ion-item>
+            <ion-item>
+                <div class="payment-readable-amount-btc">
+                    <p>{{ readableAmount }}</p>
+                </div>
+            </ion-item>
+        </ion-list>
 
         <div class="divider-box">
             <div class="divider"></div>
@@ -19,7 +30,7 @@
         <div class="payment-qr" [innerHTML]="qrImage"></div>
 
         <div class="payment-info">
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+            Waiting for Payment
         </div>
 
         <!--div class="payment-info">

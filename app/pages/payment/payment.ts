@@ -7,7 +7,7 @@ import * as bip21 from 'bip21';
 import qrcode = require('qrcode-generator');
 
 @Page({
-    templateUrl : 'build/pages/payment/payment.html'
+    templateUrl : 'build/pages/payment/payment-result.html'
 })
 export class PaymentPage {
     

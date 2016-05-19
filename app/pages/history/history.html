@@ -11,11 +11,15 @@
 <ion-content class="history">
     <ion-list>
         <ion-item *ngFor="#transaction of transactionList">
-            <ion-icon [class.unconfirmed]="transaction.confirmations < 6" [class.confirmed]="transaction.confirmations >= 6" item-left ios="ios-checkmark-circle" md="ios-checkmark-circle"></ion-icon>
-            {{ transaction.timestamp | date }}
-            <div class="history-amounts" item-right>
-                {{ transaction.fiatAmount | bitpocketCurrency:currencyFormatSeparator:currencyFormatThousandsPoint:2:transaction.symbol }}
-                <p>{{ transaction.bitcoinAmount | bitpocketCurrency:currencyFormatSeparator:currencyFormatThousandsPoint }}</p>
+            <div class="card">
+                <div class="item item-text-wrap">
+                    <ion-icon [class.unconfirmed]="transaction.confirmations < 6" [class.confirmed]="transaction.confirmations >= 6" item-left ios="ios-checkmark-circle" md="ios-checkmark-circle"></ion-icon>
+                    {{ transaction.timestamp | date }}
+                    <div class="history-amounts" item-right>
+                        {{ transaction.fiatAmount | bitpocketCurrency:currencyFormatSeparator:currencyFormatThousandsPoint:2:transaction.symbol }}
+                        <p>{{ transaction.bitcoinAmount | bitpocketCurrency:currencyFormatSeparator:currencyFormatThousandsPoint }}</p>
+                    </div>
+                </div>
             </div>
         </ion-item>
     </ion-list>

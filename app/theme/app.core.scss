@@ -13,96 +13,21 @@
 @import "../pages/payment/payment.scss";
 @import "../pages/history/history.scss";
 
-@import url(https://fonts.googleapis.com/css?family=Ubuntu+Condensed);
-@import url(../../fonts/UbuntuCondensed-Regular.ttf);
+//@import url(https://fonts.googleapis.com/css?family=Ubuntu+Condensed);
+//@import url("../../fonts/UbuntuCondensed-Regular.ttf");
 
 html, body {
-  font-family: $fontUbuntu;
+  font-family: $fontubuntu;
 }
-ion-navbar {
-  ion-title {
-    .toolbar-title {
-      font-weight: 400;
-      color: $button-blue;
-    }
-  }
-}
+
 ion-content {
-  background-color: transparent;
   background: url(../../img/background.png) no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
   background-size: cover;
-  color: #FFF;
-}
-
-ion-app {
-  ion-nav {
-    ion-content {
-      scroll-content {
-        ion-list {
-          ion-list-header {
-            color: #333;
-            text-transform: uppercase;
-            ion-item {
-              ion-radio {
-                color: #000;
-                .item-radio-checked {
-                  color: #000;
-                  &:active, &:hover, &:focus {
-                    color: #000;
-                  }
-                }
-              }
-              button {
-                .button-inner {
-                  color: #000;
-                }
-              }
-              ion-toggle {
-
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-ion-menu {
-  ion-toolbar {
-    ion-title {
-      .toolbar-title {
-        font-weight: 400;
-        color: $button-blue;
-      }
-    }
-  }
-  ion-content {
-    ion-list {
-      button {
-        &.item {
-          color: $button-blue;
-          > ion-icon {
-            font-size: 2.6rem;
-          }
-        }
-      }
-    }
-  }
 }
 
 .menu-image {
   min-width: 100%;
   min-height: 100%;
-}
-
-.title {
-  font-size: 1.4em;
-  text-align: center;
-  margin: 3%;
 }
 
 .divider-box {

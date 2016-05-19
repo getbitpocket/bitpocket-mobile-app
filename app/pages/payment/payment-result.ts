@@ -1,19 +1,22 @@
-import {Page,NavParams,NavController} from 'ionic-angular';
+import {Page,Component,NavParams,NavController} from 'ionic-angular';
 import {AmountPage} from '../amount/amount';
+import {NgClass} from 'angular2/common';
 
 @Page({
-    templateUrl : 'build/pages/payment/payment.html'    
+    templateUrl : 'build/pages/payment/payment.html',
+    directives: [NgClass]
 })
+
 export class PaymentResultPage {
-    
     resultIcon : string = "";
     resultClass = { "transaction-success" : false , "transaction-failed" : true };
     resultText : string = "";
     success : boolean = false;
     
     constructor(private params: NavParams, private nav: NavController) {
+
         this.success = params.data.status !== false;
-        
+
         if (this.success) {
             this.resultClass["transaction-success" ] = true;
             this.resultClass["transaction-failed" ] = false;
@@ -22,7 +25,7 @@ export class PaymentResultPage {
             this.resultClass["transaction-success" ] = false;
             this.resultClass["transaction-failed" ] = true;
             this.resultIcon = "close-circle";
-        }             
+        }
         
         setTimeout(() => {
             nav.setRoot(AmountPage);
