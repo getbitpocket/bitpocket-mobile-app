@@ -1,4 +1,4 @@
-import {ChangeDetectorRef} from 'angular2/core';
+import {ChangeDetectorRef} from '@angular/core';
 import {Page,NavController, Platform} from 'ionic-angular';
 import {PaymentPage} from '../payment/payment';
 import {Config} from '../../providers/config';

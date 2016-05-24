@@ -1,4 +1,4 @@
-import {Injectable, Injector} from 'angular2/core';
+import {Injectable, Injector} from '@angular/core';
 import {Config} from '../config';
 import {CurrencyExchangeService} from '../../api/currency-exchange-service';
 import {BlockchainExchangeService} from './blockchain';

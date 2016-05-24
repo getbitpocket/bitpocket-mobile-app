@@ -1,6 +1,6 @@
 import {Page,NavParams,NavController} from 'ionic-angular';
 import {AmountPage} from '../amount/amount';
-import {NgClass} from 'angular2/common';
+import {NgClass} from '@angular/common';
 
 @Page({
     templateUrl : 'build/pages/payment/payment.html',

@@ -1,6 +1,6 @@
 /// <reference path="../../bitcoinjs-lib.d.ts" />
 
-import {Injectable} from 'angular2/core';
+import {Injectable} from '@angular/core';
 import {BitcoinUnit} from '../currency/bitcoin-unit';
 import * as payment from './payment';
 import * as bitcoin from 'bitcoinjs-lib';

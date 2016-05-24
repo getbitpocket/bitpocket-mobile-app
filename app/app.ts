@@ -1,6 +1,6 @@
 import 'es6-shim';
 import {App, Platform, IonicApp} from 'ionic-angular';
-import {Type} from 'angular2/core';
+import {Type} from '@angular/core';
 
 // Pages
 import {AmountPage} from './pages/amount/amount';

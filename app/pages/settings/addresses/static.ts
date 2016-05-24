@@ -1,4 +1,4 @@
-import {ChangeDetectorRef} from 'angular2/core';
+import {ChangeDetectorRef} from '@angular/core';
 import {Page,NavController,Alert} from 'ionic-angular';
 import {BarcodeScanner} from 'ionic-native';
 import * as bip21 from 'bip21';

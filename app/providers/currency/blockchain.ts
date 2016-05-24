@@ -1,5 +1,5 @@
-import {Http} from 'angular2/http';
-import {Injectable} from 'angular2/core';
+import {Http} from '@angular/http';
+import {Injectable} from '@angular/core';
 import {CurrencyExchangeRate} from '../../api/currency-exchange-rate';
 import {CurrencyExchangeService} from '../../api/currency-exchange-service';
 
