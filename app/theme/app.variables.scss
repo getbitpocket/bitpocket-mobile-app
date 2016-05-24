@@ -20,63 +20,66 @@
 // Both iOS and MD colors can be further customized if colors
 // are different per mode.
 
-$fontubuntu: 'Ubuntu Condensed', sans-serif;
-$font-family-base: 'Ubuntu Condensed', sans-serif;
+$fontubuntu:            'Ubuntu Condensed', sans-serif;
+$font-family-base:      'Ubuntu Condensed', sans-serif;
 
-$basic-color-white: #FFF;
-$basic-color-black: #000;
-$basic-design-color: rgba(106,109,122,1);
-$basic-background-color-transparency: rgba(255,255,255,0.2);
+$basic-color-white:                       #FFF;
+$basic-color-black:                       #000;
+$basic-design-color:                      rgba(106,109,122,1);
+$basic-background-color-transparency:     rgba(255,255,255,0.2);
 
-$background-color: #FFF;
+$background-color:      #FFF;
 
-$button-border-radius: 6px;
+$button-border-radius:  6px;
 
-$font-size-base: 1.8rem;
-$font-size-x-base: 1.1rem; //
-$font-size-small: 1.4rem; //
-$font-size-x-small: 1.9rem; //
-$font-size-medium: 2rem; // inactive Amount
-$font-size-x-medium: 3rem; // active Amount
-$font-size-large: 2.6rem; //
-$font-size-x-large: 3.3rem; //
+$font-size-base:        1.5rem; //
+$font-size-small:       2.0rem; //
+$font-size-x-small:     2.5rem; //
+$font-size-medium:      3.0rem; //
+$font-size-x-medium:    3.5rem; //
+$font-size-large:       4.0rem; //
+$font-size-x-large:     4.5rem; //
 
-$menu-md-background: #FFF;
-$menu-md-box-shadow-color: rgba(0, 0, 0, .25);
-$menu-md-box-shadow: 0 0 10px $menu-md-box-shadow-color;
+$menu-md-background:            #FFF;
+$menu-md-box-shadow-color:      rgba(0, 0, 0, .25);
+$menu-md-box-shadow: 0 0 10px   $menu-md-box-shadow-color;
 
-$toolbar-md-text-color: $basic-design-color;
+$toolbar-md-text-color:     $basic-design-color;
 
-$list-md-text-color: $basic-design-color;
-$list-md-header-color:	$basic-color-white;
+$list-md-text-color:        $basic-design-color;
+$list-md-header-color:	    $basic-color-white;
 $list-md-header-font-size:	$font-size-small;
 
-$toggle-md-active-color: $basic-design-color;
+$toggle-md-active-color:    $basic-design-color;
 
-$button-md-color: $basic-design-color;
-$toolbar-md-button-color: $basic-design-color;
+$button-md-color:           $basic-design-color;
+$toolbar-md-button-color:   $basic-design-color;
 
 $tabbar-md-item-icon-size: 2.8em;
 
-$radio-md-color-off: rgba(106,109,122,0.5);
-$radio-md-color-on: rgba(106,109,122,1);
+$radio-md-color-off:    rgba(106,109,122,0.5);
+$radio-md-color-on:     rgba(106,109,122,1);
 
-$alert-md-border-radius: 9px;
-$alert-md-background-color: rgba(255,255,255,0.5);
-$alert-md-message-text-color: $basic-design-color;
-$alert-md-button-text-color: $basic-design-color;
+$alert-md-border-radius:        9px;
+$alert-md-background-color:     rgba(255,255,255,0.5);
+$alert-md-message-text-color:   $basic-design-color;
+$alert-md-button-text-color:    $basic-design-color;
 
-$checkbox-md-icon-size: 28px;
-$checkbox-md-icon-background-color-on: rgba(106,109,122,0.5);
-$checkbox-md-icon-background-color-off: rgba(106,109,122,0.5);
-$checkbox-md-icon-border-color-on: rgba(106,109,122,1);
-$checkbox-md-icon-border-color-off: rgba(106,109,122,1);
-$checkbox-md-icon-checkmark-width: 3px;
+//$checkbox-md-icon-size: 28px;
+//$checkbox-md-icon-checkmark-width: 3px;
+$checkbox-md-icon-background-color-on:    rgba(106,109,122,0.5);
+$checkbox-md-icon-background-color-off:   rgba(106,109,122,0.5);
+$checkbox-md-icon-border-color-on:        rgba(106,109,122,1);
+$checkbox-md-icon-border-color-off:       rgba(106,109,122,1);
+
+$card-md-text-color:        $basic-design-color;
+$card-md-title-text-color:  $basic-design-color;
 
 $colors: (
   primary:    #333,
   secondary:  #6A6D7A,
   danger:     #f53d3d,
+  success:    #008000,
   light:      #f4f4f4,
   dark:       #222,
   favorite:   #69BB7B,
@@ -111,6 +114,10 @@ $colors: (
           contrast: $basic-design-color, //-> Text
   ),
   show-history: (
+          base: $basic-color-white, //-> Background
+          contrast: $basic-design-color, //-> Text
+  ),
+  checkbox-style: (
           base: $basic-color-white, //-> Background
           contrast: $basic-design-color, //-> Text
   )

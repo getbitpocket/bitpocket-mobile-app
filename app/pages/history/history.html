@@ -9,7 +9,26 @@
 </ion-navbar>
 
 <ion-content class="history">
-    <ion-list>
+
+
+    <ion-card *ngFor="#transaction of transactionList">
+
+        <ion-card-header>
+            <ion-icon [class.unconfirmed]="transaction.confirmations < 6" [class.confirmed]="transaction.confirmations >= 6" item-left ios="ios-checkmark-circle" md="ios-checkmark-circle"></ion-icon>
+            {{ transaction.timestamp | date }}
+        </ion-card-header>
+
+        <ion-card-content>
+            <div class="history-amounts" text-center>
+                <div class="success">{{ transaction.fiatAmount | bitpocketCurrency:currencyFormatSeparator:currencyFormatThousandsPoint:2:transaction.symbol }}</div>
+                <p>{{ transaction.bitcoinAmount | bitpocketCurrency:currencyFormatSeparator:currencyFormatThousandsPoint }}</p>
+            </div>
+        </ion-card-content>
+
+    </ion-card>
+
+
+    <!--ion-list>
         <ion-item *ngFor="#transaction of transactionList">
             <div class="card">
                 <div class="item item-text-wrap">
@@ -22,5 +41,5 @@
                 </div>
             </div>
         </ion-item>
-    </ion-list>
+    </ion-list!-->
 </ion-content>
