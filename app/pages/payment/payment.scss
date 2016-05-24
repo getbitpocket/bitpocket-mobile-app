@@ -32,3 +32,53 @@
     }
     
 }
+
+.payment-result {
+    height: 100%;
+    width: 100%;
+    color: $basic-color-white;
+
+    .payment-readable-box {
+        height: 22%;
+        .payment-readable-amount {
+            font-size: $font-size-x-large;
+        }
+
+        .payment-readable-amount-type, .payment-readable-amount-btc  {
+            font-size: $font-size-medium;
+        }
+        .first-line-height {
+            line-height: $font-size-x-large;
+        }
+        .second-line-height {
+            line-height: $font-size-medium;
+        }
+    }
+
+
+    .result-box {
+        height: 70%;
+        text-align: center;
+
+        .payment-result-icon {
+            padding: 20% 10% 5% 10%;
+            font-size: 8.0rem;
+        }
+
+        .payment-result-text {
+            font-size: $font-size-small;
+        }
+
+    }
+
+    .history-btn {
+        position: absolute;
+        bottom: 5%;
+        left: 50%;
+        transform: translateX(-50%);
+        .button-show-history {
+            border-radius: $button-border-radius;
+        }
+    }
+
+}

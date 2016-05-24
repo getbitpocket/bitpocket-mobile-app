@@ -10,15 +10,15 @@ const POSITION_DIGITS = 'digits';
 const POSITION_DECIMALS = 'decimals';
 
 @Page({
-    templateUrl : 'build/pages/amount/amount.html'    
+    templateUrl : 'build/pages/amount/amount.html'
 })
 export class AmountPage {
-        
+
     exchangedAmount:string; // either BTC or Fiat    
     digits:string;
     decimals:string;
     separator:string;
-    
+ 
     position:string; // digits or dicimals area
     index:number; // index of writing position
     entryInFiat:boolean = true;
@@ -46,51 +46,55 @@ export class AmountPage {
         });    
     }
 
-    changeInputCurrency(inputCurrency: string) {                
+
+    changeInputCurrency(inputCurrency: string) {
         this.entryInBTC  = !this.entryInBTC;
         this.entryInFiat = !this.entryInFiat;
-        
+
         if (this.entryInFiat) {
             this.resetAmount();
         } else {
             this.digits = "0";
+
             this.decimals = "0000";        
             this.position = POSITION_DIGITS;
             this.index = 0;
             this.updateExchangedAmount();
-        }   
+        }  
+        
+        this.changeDetector.detectChanges();
     }
-    
+
     backspaceInput() {
         if (this.position === POSITION_DECIMALS) {
             let emptyDecimals = "";
             for (let i = 0; i < this.decimals.length; i++) {
                 emptyDecimals += "0";
             }
-            
+
             if (emptyDecimals === this.decimals) {
                 this.position = POSITION_DIGITS;
             }
         }
-        
+
         if (this.position === POSITION_DIGITS) {
             if (this.digits.length === 1) {
                 this.digits = "0";
             } else {
                 this.digits = this.digits.slice(0,-1);
-            }           
+            }
         } else if (this.position === POSITION_DECIMALS) {
             if (this.index > 0) {
-                this.decimals = this.decimals.slice(0,this.index-1) + "0" + this.decimals.slice(this.index);  
+                this.decimals = this.decimals.slice(0,this.index-1) + "0" + this.decimals.slice(this.index);
                 this.index--;
             } else {
-                this.decimals = "0" + this.decimals.slice(1);                
+                this.decimals = "0" + this.decimals.slice(1);
             }
         }
-        
+
         this.updateExchangedAmount();
     }
-    
+
     switchInput(input:string) {
         if (input === POSITION_DECIMALS) {
             this.position = POSITION_DECIMALS;
@@ -98,26 +102,26 @@ export class AmountPage {
             this.position = POSITION_DIGITS;
         }
     }
-    
+
     numberInput(input:string) {
         if (this.position === POSITION_DIGITS) {
-            this.digitInput(input.toString());    
+            this.digitInput(input.toString());
         } else if (this.position === POSITION_DECIMALS) {
             this.decimalInput(input.toString());
         }
-        
+
         this.updateExchangedAmount();
     }
-    
-    decimalInput(input:string) {        
+
+    decimalInput(input:string) {
         if (this.index >= this.decimals.length) {
             this.index = this.decimals.length-1;
         }
-        
+
         this.decimals = this.decimals.slice(0,this.index) + input + this.decimals.slice(this.index+1);
-        this.index++;        
+        this.index++;
     }
-    
+
     digitInput(input:string) {
         if (this.digits.length > 0 && this.digits.charAt(0) === "0") {
             this.digits = input;
@@ -125,10 +129,10 @@ export class AmountPage {
             this.digits += input;
         }
     }
-    
+
     resetAmount() {
         this.digits = "0";
-        this.decimals = "00";        
+        this.decimals = "00";
         this.position = POSITION_DIGITS;
         this.index = 0;
         this.entryInBTC = false;
@@ -154,7 +158,7 @@ export class AmountPage {
             });
         }
     }
-    
+
     requestPayment() {
         let amount = parseFloat(this.digits+"."+this.decimals);                
         
@@ -172,7 +176,7 @@ export class AmountPage {
                     bitcoinAmount: BitcoinUnit.fromFiat(amount,rate) ,                
                 });
             });
-        }                
-    }
-    
+        }    
+    } 
+               
 }

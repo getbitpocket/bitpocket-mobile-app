@@ -11,32 +11,36 @@
 <ion-content>
     <div class="amount">
         <div class="amount-input">
-            <ion-list>
-                <ion-item>
+
+            <ion-row>
+                <ion-col  class="amount-type" [ngClass]="{active:entryInFiat}" width-30>
                     <ion-checkbox [(ngModel)]="entryInFiat" (click)="changeInputCurrency('Fiat')"></ion-checkbox>
                     <ion-label>{{ currency }}</ion-label>
-                </ion-item>
-                <ion-item>
+                </ion-col>
+                <ion-col  class="readable-amount" [ngClass]="{active:entryInFiat}" width-70>
                     <div class="amount-input-form" [ngClass]="{active:entryInFiat}">
                         <span *ngIf="entryInFiat">
                             <span clear class="number digits">{{ digits }}</span><span class="separator">{{ separator }}</span><span clear class="number decimals">{{ decimals }}</span>
                         </span>
                         <span *ngIf="entryInBTC">{{ exchangedAmount }}</span>
                     </div>
-                </ion-item>
-                <ion-item>
+                </ion-col>
+            </ion-row>
+
+            <ion-row>
+                <ion-col class="amount-type" [ngClass]="{active:entryInFiat}" width-30>
                     <ion-checkbox [(ngModel)]="entryInBTC" (click)="changeInputCurrency('BTC')"></ion-checkbox>
                     <ion-label>{{ bitcoinUnit }}</ion-label>
-                </ion-item>
-                <ion-item>
+                </ion-col>
+                <ion-col class="readable-amount" [ngClass]="{active:entryInFiat}" width-70>
                     <div class="amount-input-form" [ngClass]="{active:entryInBTC}">
                         <span *ngIf="entryInBTC">
                             <span clear class="number digits">{{ digits }}</span><span class="separator">{{ separator }}</span><span clear class="number decimals">{{ decimals }}</span>
                         </span>
                         <span *ngIf="entryInFiat">{{ exchangedAmount }}</span>
-                    </div>                   
-                </ion-item>                
-            </ion-list>
+                    </div>
+                </ion-col>
+            </ion-row>
         </div>
 
         <div class="divider-box">
@@ -44,24 +48,24 @@
         </div>
 
         <div class="amount-numpad">
-            <button secondary class="amount-numpad-button border-right" (click)="numberInput(1)">1</button>
-            <button secondary class="amount-numpad-button border-right" (click)="numberInput(2)">2</button>
-            <button secondary class="amount-numpad-button" (click)="numberInput(3)">3</button>
+            <button number class="amount-numpad-button border-right" (click)="numberInput(1)">1</button>
+            <button number class="amount-numpad-button border-right" (click)="numberInput(2)">2</button>
+            <button number class="amount-numpad-button" (click)="numberInput(3)">3</button>
             
-            <button secondary class="amount-numpad-button border-right" (click)="numberInput(4)">4</button>
-            <button secondary class="amount-numpad-button border-right" (click)="numberInput(5)">5</button>
-            <button secondary class="amount-numpad-button" (click)="numberInput(6)">6</button>
+            <button number class="amount-numpad-button border-right" (click)="numberInput(4)">4</button>
+            <button number class="amount-numpad-button border-right" (click)="numberInput(5)">5</button>
+            <button number class="amount-numpad-button" (click)="numberInput(6)">6</button>
             
-            <button secondary class="amount-numpad-button border-right" (click)="numberInput(7)">7</button>
-            <button secondary class="amount-numpad-button border-right" (click)="numberInput(8)">8</button>
-            <button secondary class="amount-numpad-button" (click)="numberInput(9)">9</button>
+            <button number class="amount-numpad-button border-right" (click)="numberInput(7)">7</button>
+            <button number class="amount-numpad-button border-right" (click)="numberInput(8)">8</button>
+            <button number class="amount-numpad-button" (click)="numberInput(9)">9</button>
             
-            <button secondary class="amount-numpad-button" (click)="switchInput('decimals')">{{ separator }}</button>
-            <button secondary class="amount-numpad-button border-right" (click)="numberInput(0)">0</button>            
-            <button secondary class="amount-numpad-button border-right" (click)="backspaceInput()"><ion-icon name="backspace"></ion-icon></button>
+            <button number-decimals class="amount-numpad-button" (click)="switchInput('decimals')">{{ separator }}</button>
+            <button number class="amount-numpad-button border-right" (click)="numberInput(0)">0</button>
+            <button number-backspaceinput class="amount-numpad-button border-right" (click)="backspaceInput()"><ion-icon name="backspace"></ion-icon></button>
             
-            <button class="amount-numpad-primary-button" (click)="resetAmount()">Reset</button>
-            <button class="amount-numpad-primary-button" (click)="requestPayment()">Request Amount</button>
+            <button numbpad-reset class="amount-numpad-primary-button text-uppercase" (click)="resetAmount()">Reset</button>
+            <button numbpad-request class="amount-numpad-primary-button text-uppercase" (click)="requestPayment()">Request Amount</button>
         </div>
     
     </div>

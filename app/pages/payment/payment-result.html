@@ -1,11 +1,44 @@
+<ion-navbar *navbar>
+    <ion-title>Payment request</ion-title>
+    <ion-buttons end>
+        <button (click)="openModal()">
+            <img class="logo" src="../../img/icon.png" alt="">
+        </button>
+    </ion-buttons>
+</ion-navbar>
+
+
 <ion-content [ngClass]="resultClass">
     <div class="payment-result">
-        
-        <div class="payment-result-icon">
-            <ion-icon [name]="resultIcon"></ion-icon>
-        </div>       
-        
-        <p class="payment-result-text">{{ resultText }}</p>
-        
+
+        <div class="payment-readable-box">
+
+            <ion-row>
+                <ion-col  class="payment-readable-amount-type first-line-height" offset-10 width-30><ion-label>{{ currency }}</ion-label></ion-col>
+                <ion-col  class="payment-readable-amount first-line-height" width-40 offset-20><ion-label>{{ amountCurrency }}</ion-label></ion-col>
+            </ion-row>
+
+            <ion-row>
+                <ion-col class="payment-readable-amount-type second-line-height" offset-10 width-30><ion-label>mBTC</ion-label></ion-col>
+                <ion-col class="payment-readable-amount-btc second-line-height" width-40 offset-20><ion-label>{{ amountmBTC }}</ion-label></ion-col>
+            </ion-row>
+
+        </div>
+
+        <div class="divider-box">
+            <div class="divider"></div>
+        </div>
+
+        <div class="result-box">
+            <div class="payment-result-icon">
+                <ion-icon [name]="resultIcon"></ion-icon>
+            </div>
+            <div class="payment-result-text text-center">{{ resultText }}</div>
+        </div>
+
+        <div class="history-btn">
+            <button show-history class="text-uppercase" (click)="showHistory()">Show details</button>
+        </div>
+
     </div>   
 </ion-content>

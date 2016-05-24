@@ -6,6 +6,7 @@ import {Type} from 'angular2/core';
 import {AmountPage} from './pages/amount/amount';
 import {SettingsPage} from './pages/settings/settings';
 import {HistoryPage} from './pages/history/history';
+//import {PaymentPage} from './pages/payment/payment';
 
 // Providers
 import {DatabaseHelper} from './providers/database-helper';
@@ -36,7 +37,6 @@ import {ElectrumPaymentService} from './providers/payment/electrum';
     config: {} // http://ionicframework.com/docs/v2/api/config/Config/
 })
 export class BitpocketApp {
-    // rootPage: Type = AmountPage;
     rootPage: Type = AmountPage;
     menu:Array<{name:string,icon:string,page:any}> = [];
 
@@ -45,7 +45,8 @@ export class BitpocketApp {
         this.menu[0] = { name:'Payment' , icon:'keypad' , page:AmountPage };        
         this.menu[1] = { name:'History', icon:'list', page:HistoryPage };
         this.menu[2] = { name:'Settings', icon:'options', page:SettingsPage };
-      
+        //this.menu[3] = { name:'Payment-Try', icon:'options', page:PaymentPage };
+
         platform.ready().then(() => {            
             this.initApp();           
         });
@@ -73,6 +74,16 @@ export class BitpocketApp {
         });
         this.updateCurrencyRate();
     }
+
+    /*
+    this.history.addTransaction({
+    address : '2hh23' ,
+    txid : 'blabla' ,
+    bitcoinAmount : 0.12345678 ,
+    fiatAmount : 1234567.90 ,
+    currency : 'EUR'
+    });
+    */
     
     openPage(page:any) {
         this.app.getComponent('menu').close();

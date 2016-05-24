@@ -6,14 +6,13 @@ const BITCOIN_UNITS = {
 };
 
 export class BitcoinUnit {
-    
     // internal representation is in satoshis
     private satoshis: number = 0;
-    
+
     set value(value: number) {
         this.satoshis = value;
     }
-    
+
     constructor(value: number) {
         this.satoshis = value;
     }
@@ -33,7 +32,7 @@ export class BitcoinUnit {
         let unitSpec = BitcoinUnit.getUnitSpecification(bitcoinUnit);        
         return new BitcoinUnit( parseInt((value * unitSpec[0]).toFixed(0)) );
     }
-    
+   
     static fromFiat(fiatValue: number, exchangeRate: number) : BitcoinUnit {
         let valueInBTC:number = fiatValue / exchangeRate;        
         return BitcoinUnit.from(valueInBTC, 'BTC');
@@ -48,9 +47,9 @@ export class BitcoinUnit {
         let btcValue = this.to('BTC');
         return parseFloat((btcValue * exchangeRate).toFixed(decimals));
     }
-    
+
     toString() {
         return this.satoshis.toFixed(0);
     }
-    
+
 }
