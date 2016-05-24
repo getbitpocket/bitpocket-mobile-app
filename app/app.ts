@@ -72,6 +72,16 @@ export class BitpocketApp {
         });
         this.updateCurrencyRate();
     }
+
+    /*
+    this.history.addTransaction({
+    address : '2hh23' ,
+    txid : 'blabla' ,
+    bitcoinAmount : 0.12345678 ,
+    fiatAmount : 1234567.90 ,
+    currency : 'EUR'
+    });
+    */
     
     openPage(page:any) {
         this.app.getComponent('menu').close();

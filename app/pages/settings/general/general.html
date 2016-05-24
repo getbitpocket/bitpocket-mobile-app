@@ -3,17 +3,22 @@
 </ion-navbar>
 
 <ion-content>
-    <ion-list radio-group [(ngModel)]="selectedFormat" (change)="formatChanged()">
-        <ion-list-header>Currency Format</ion-list-header>
-        
+    <ion-list radio-group [(ngModel)]="selectedUnit" (change)="unitChanged()">
+        <ion-list-header>Bitcoin Unit</ion-list-header>
+
         <ion-item>
-            <ion-label>Example: $ 1,000.00</ion-label>
-            <ion-radio [checked]="currencyFormat === 'us'" value="us"></ion-radio>
+            <ion-label>Bitcoin (BTC)</ion-label>
+            <ion-radio [checked]="selectedUnit === 'BTC'" value="BTC"></ion-radio>
         </ion-item>
-        
+
         <ion-item>
-            <ion-label>Example: € 1.000,00</ion-label>
-            <ion-radio [checked]="currencyFormat === 'de'" value="de"></ion-radio>
+            <ion-label>Milli-Bitcoin (mBTC)</ion-label>
+            <ion-radio [checked]="selectedUnit === 'mBTC'" value="mBTC"></ion-radio>
+        </ion-item>
+
+        <ion-item>
+            <ion-label>Bits (bits)</ion-label>
+            <ion-radio [checked]="selectedUnit === 'bits'" value="bits"></ion-radio>
         </ion-item>
 
     </ion-list>

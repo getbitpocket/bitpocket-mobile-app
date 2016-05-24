@@ -1,4 +1,4 @@
-import {Page,Component,NavParams,NavController} from 'ionic-angular';
+import {Page,NavParams,NavController} from 'ionic-angular';
 import {AmountPage} from '../amount/amount';
 import {NgClass} from 'angular2/common';
 

@@ -32,7 +32,7 @@ export class PaymentPage {
         this.addressService.getAddress().then((address) => {
                         
             let bip21uri = bip21.encode(address,{
-                amount : this.amount.toBitcoin() ,
+                amount : this.amount.to('BTC') ,
                 label : 'Test Payment'
             });
 

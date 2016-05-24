@@ -20,13 +20,20 @@ const CURRENCY_FORMATS = {
 export class GeneralPage {
     
     selectedFormat: string;
-    
+    selectedUnit: string;
+
     constructor(private config: Config) {
         Promise.all<string>([
             this.config.get('currency-format') ,
+            this.config.get('bitcoin-unit') ,
         ]).then(promised => {
             this.selectedFormat = promised[0];
-        });        
+            this.selectedUnit = promised[1];
+        });
+    }
+
+    unitChanged() {
+        this.config.set('bitcoin-unit', this.selectedUnit);
     }
     
     formatChanged() {

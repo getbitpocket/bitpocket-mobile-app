@@ -46,6 +46,7 @@
             ion-label {
                 display: inline-block;
                 font-size: $font-size-medium;
+                line-height: $font-size-medium;
             }
         }
 
@@ -54,7 +55,9 @@
     .amount-type {
 
         &.active {
+            ion-label {
 
+            }
         }
     }
 

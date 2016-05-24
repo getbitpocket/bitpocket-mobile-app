@@ -1,4 +1,4 @@
-import {Injectable, Injector} from 'angular2/core'; 
+import {Injectable, Injector} from 'angular2/core';
 import {Config} from '../config';
 import {CurrencyExchangeService} from '../../api/currency-exchange-service';
 import {BlockchainExchangeService} from './blockchain';
@@ -24,26 +24,26 @@ const CURRENCY_SYMBOLS = {
     'PYG': '₲', // Paraguayan Guarani
     'THB': '฿', // Thai Baht
     'UAH': '₴', // Ukrainian Hryvnia
-    'VND': '₫', // Vietnamese Dong       
-    'BTC': 'Ƀ'    
+    'VND': '₫', // Vietnamese Dong
+    'BTC': 'Ƀ'
 };
 
 @Injectable()
 export class Currency {
-        
-    constructor(private config: Config, private injector: Injector) {        
+
+    constructor(private config: Config, private injector: Injector) {
         this.config.initialize('exchange','blockchain');
-        this.config.initialize('currency','EUR');       
+        this.config.initialize('currency','EUR');
     }
-    
+
     getAvailabeServices() : Array<{code:string,name:string}> {
         return EXCHANGE_SERVICES;
     }
-        
+
     getSelectedService() : Promise<string> {
         return this.config.get('exchange');
     }
-    
+
     getExchangeService() : Promise<CurrencyExchangeService> {
         return new Promise<CurrencyExchangeService>((resolve, reject) => {
             this.getSelectedService().then(exchange => {
@@ -52,36 +52,41 @@ export class Currency {
                 } else {
                     resolve(this.injector.get(BlockchainExchangeService));
                 }
-            });                
+            });
         });
     }
-    
+
     getSelectedCurrency() : Promise<any> {
         return this.config.get('currency');
     }
-    
-    getAvailableCurrencies() : Promise<any> {        
+
+    getSelectedCurrencyRate() : Promise<number> {
+        return this.config.get('rate').then(rate => {
+            return parseFloat(rate);
+        });
+    }
+
+    getAvailableCurrencies() : Promise<any> {
         return new Promise<any>((resolve, reject) => {
             this.getExchangeService().then(exchangeService => {
                 resolve(exchangeService.getAvailableCurrencies());
             });
-        });       
+        });
     }
-    
+
     setSelectedService(code:string) : Currency {
-        this.config.set('exchange', code)        
+        this.config.set('exchange', code)
         return this;
     }
-    
+
     setSelectedCurrency(code:string) : Currency {
         this.config.set('currency', code).then(() => {
             this.updateCurrencyRate();
         });
-            
         return this;
     }
-    
-    updateCurrencyRate() : Currency {                        
+
+    updateCurrencyRate() : Currency {
         Promise.all<any>([
             this.getExchangeService() ,
             this.getSelectedCurrency()
@@ -91,10 +96,10 @@ export class Currency {
             this.config.set('symbol', data.symbol);
             this.config.set('rate', data.rate.toString());
         });
-                
+
         return this;
     }
-    
+
     getCurrencySymbol(currency: string) : string {
         if (CURRENCY_SYMBOLS.hasOwnProperty(currency)) {
             return CURRENCY_SYMBOLS[currency];
@@ -102,14 +107,6 @@ export class Currency {
             return currency;
         }
     }
-    
-    convertToBitcoin(amount:number) : Promise<BitcoinUnit> {
-        return new Promise<BitcoinUnit>((resolve, reject) => {
-            this.config.get('rate').then(rate => {
-                resolve(BitcoinUnit.fromFiat(amount, rate));
-            });
-        });
-    }
-    
+
 }
 
