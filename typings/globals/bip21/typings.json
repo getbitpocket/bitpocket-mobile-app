@@ -1,0 +1,8 @@
+{
+  "resolution": "main",
+  "tree": {
+    "src": "https://raw.githubusercontent.com/stefanhuber/DefinitelyTyped/3ea8a6280f82118bd942cae312bc857ebeb56c1b/bip21/bip21.d.ts",
+    "raw": "github:stefanhuber/DefinitelyTyped/bip21/bip21.d.ts#3ea8a6280f82118bd942cae312bc857ebeb56c1b",
+    "typings": "https://raw.githubusercontent.com/stefanhuber/DefinitelyTyped/3ea8a6280f82118bd942cae312bc857ebeb56c1b/bip21/bip21.d.ts"
+  }
+}
