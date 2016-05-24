@@ -18,9 +18,12 @@ export class BitcoinUnit {
         this.satoshis = value;
     }
     
-    static getUnitSpecification(bitcoinUnit: string) : Array<number> {        
-        // fallback to satoshis...
-        if (!BITCOIN_UNITS.hasOwnProperty(bitcoinUnit)) {
+    static decimalsCount(bitcoinUnit) : number {
+        return BitcoinUnit.getUnitSpecification(bitcoinUnit)[1];
+    }
+    
+    static getUnitSpecification(bitcoinUnit: string) : Array<number> {
+        if (!BITCOIN_UNITS.hasOwnProperty(bitcoinUnit)) { // fallback to satoshis...
             bitcoinUnit = 'satoshis';
         }        
         return BITCOIN_UNITS[bitcoinUnit];        

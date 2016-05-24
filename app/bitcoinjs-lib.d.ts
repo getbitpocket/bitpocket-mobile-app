@@ -33,9 +33,14 @@ interface address {
     fromOutputScript (scriptPubKey: any, network?: any) : string;
 }
 
+interface HDNode {
+    
+}
+
 declare var bitcoin : {
     Transaction: Transaction ,
-    address: address
+    address: address ,
+    HDNode: HDNode
 };
 
 declare module 'bitcoinjs-lib' {

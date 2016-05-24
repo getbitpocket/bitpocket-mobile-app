@@ -1,3 +1,4 @@
+import {ChangeDetectorRef} from 'angular2/core';
 import {Page,NavController,Alert} from 'ionic-angular';
 import {BarcodeScanner} from 'ionic-native';
 import * as bip21 from 'bip21';
@@ -13,7 +14,7 @@ export class StaticAddressPage {
     address: string = "";
     active: boolean = false;
        
-    constructor(private config: Config, private nav:NavController) {
+    constructor(private config: Config, private nav:NavController, private changeDetector: ChangeDetectorRef) {
         Promise.all<string>([
             this.config.get('address-type') ,
             this.config.get('static-address')
@@ -40,8 +41,10 @@ export class StaticAddressPage {
         
         BarcodeScanner.scan().then((barcodeData) => {
             try {
-                    // TODO: check if this is a valid address
-                this.address = bip21.decode(barcodeData.text).address;                          
+                // TODO: check if this is a valid address
+                this.address = bip21.decode(barcodeData.text).address;     
+                this.addressChanged();
+                this.changeDetector.detectChanges();
             } catch(e) {
                 this.nav.present(alert);
             }  

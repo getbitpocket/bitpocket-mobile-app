@@ -28,6 +28,7 @@ export class GeneralPage {
             this.config.get('bitcoin-unit') ,
         ]).then(promised => {
             this.selectedFormat = promised[0];
+            this.selectedUnit = promised[1];
         });        
     }
     

@@ -4,6 +4,7 @@ import {PaymentPage} from '../payment/payment';
 import {Config} from '../../providers/config';
 import {Currency} from '../../providers/currency/currency';
 import {BitcoinUnit} from '../../providers/currency/bitcoin-unit';
+import * as bitcoin from 'bitcoinjs-lib';
 
 const POSITION_DIGITS = 'digits';
 const POSITION_DECIMALS = 'decimals';
@@ -40,7 +41,7 @@ export class AmountPage {
             this.currency    = settings[0];
             this.separator   = settings[1];
             this.bitcoinUnit = settings[2];
-            this.exchangedAmount = "0"+this.separator+"0000";
+            this.exchangedAmount = "0"+this.separator+"00";
             changeDetector.detectChanges();
         });    
     }
@@ -56,8 +57,8 @@ export class AmountPage {
             this.decimals = "0000";        
             this.position = POSITION_DIGITS;
             this.index = 0;
-        }
-        
+            this.updateExchangedAmount();
+        }   
     }
     
     backspaceInput() {
@@ -147,7 +148,8 @@ export class AmountPage {
         } else if (this.entryInFiat) {
             this.currencyService.getSelectedCurrencyRate().then(rate => {
                 let amount = BitcoinUnit.fromFiat(inputAmount,rate).to(this.bitcoinUnit);
-                this.exchangedAmount = amount.toFixed(0) + this.separator + amount.toFixed(4).substr(-4);
+                let decimalsCount = BitcoinUnit.decimalsCount(this.bitcoinUnit);
+                this.exchangedAmount = amount.toFixed(0) + this.separator + amount.toFixed(decimalsCount).substr(-decimalsCount);
                 this.changeDetector.detectChanges();
             });
         }
