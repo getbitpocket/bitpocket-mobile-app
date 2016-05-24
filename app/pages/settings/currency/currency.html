@@ -5,14 +5,14 @@
 <ion-content>
     <ion-list radio-group  [(ngModel)]="selectedExchange" (change)="exchangeChanged()">
         <ion-list-header>Bitcoin Exchange Services</ion-list-header>
-        <ion-item *ngFor="#service of exchangeServices">
+        <ion-item *ngFor="let service of exchangeServices">
             <ion-label>{{ service.name }}</ion-label>
             <ion-radio value="{{ service.code }}"></ion-radio>
         </ion-item>
     </ion-list>   
     <ion-list radio-group  [(ngModel)]="selectedCurrency" (change)="currencyChanged()">
         <ion-list-header>Available Currencies</ion-list-header>
-        <ion-item *ngFor="#currency of availableCurrencies">
+        <ion-item *ngFor="let currency of availableCurrencies">
             <ion-label>{{ currency.code }} ({{ currency.symbol }})</ion-label>
             <ion-radio value="{{ currency.code }}"></ion-radio>
         </ion-item>

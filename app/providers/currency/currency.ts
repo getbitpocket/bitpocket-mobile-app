@@ -108,6 +108,10 @@ export class Currency {
             return currency;
         }
     }
+    
+    formatNumber(value: number, separator: string, decimals: number = 2) : string {
+        return value.toFixed(decimals).replace(/\./,separator);
+    }
 
 }
 
