@@ -80,7 +80,7 @@ $colors: (
   light:      #f4f4f4,
   dark:       #222,
   favorite:   #69BB7B,
-  confirmed: rgba(106,109,122,1),
+  confirmed:  rgba(106,109,122,1),
   unconfirmed: rgba(106,109,122,0.5),
   menu-item: (
           base: $basic-design-color, //-> Background
@@ -115,14 +115,3 @@ $colors: (
           contrast: $basic-design-color, //-> Text
   )
 );
-
-<<<<<<< HEAD
-$button-blue: rgba(106,109,122,1);
-$button-white: rgba(255,255,255,1);
-$button-white-transparent: rgba(255,255,255,0.2);
-
-$fontUbuntu: 'Ubuntu Condensed', sans-serif;
-
-
-=======
->>>>>>> rolis-changes

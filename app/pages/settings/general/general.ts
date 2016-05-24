@@ -21,11 +21,7 @@ export class GeneralPage {
     
     selectedFormat: string;
     selectedUnit: string;
-<<<<<<< HEAD
-    
-=======
 
->>>>>>> rolis-changes
     constructor(private config: Config) {
         Promise.all<string>([
             this.config.get('currency-format') ,
@@ -33,15 +29,11 @@ export class GeneralPage {
         ]).then(promised => {
             this.selectedFormat = promised[0];
             this.selectedUnit = promised[1];
-<<<<<<< HEAD
-        });        
-=======
         });
     }
 
     unitChanged() {
         this.config.set('bitcoin-unit', this.selectedUnit);
->>>>>>> rolis-changes
     }
     
     formatChanged() {
@@ -49,9 +41,5 @@ export class GeneralPage {
         this.config.set('currency-format-t',CURRENCY_FORMATS[this.selectedFormat].t);
         this.config.set('currency-format-s',CURRENCY_FORMATS[this.selectedFormat].s);
     }
-    
-    unitChanged() {
-        this.config.set('bitcoin-unit', this.selectedUnit);
-    }
-    
+        
 }
