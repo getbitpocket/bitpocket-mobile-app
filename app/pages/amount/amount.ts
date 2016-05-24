@@ -11,6 +11,7 @@ const POSITION_DECIMALS = 'decimals';
 @Page({
     templateUrl : 'build/pages/amount/amount.html'
 })
+
 export class AmountPage {
 
     exchangedAmount:string; // either BTC or Fiat
@@ -56,6 +57,7 @@ export class AmountPage {
             this.decimals = "0000";
             this.position = POSITION_DIGITS;
             this.index = 0;
+            this.updateExchangedAmount();
         }
 
     }

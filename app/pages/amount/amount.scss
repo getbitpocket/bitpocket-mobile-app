@@ -17,58 +17,68 @@
     }
 
     .amount-input {
-        /* Every Device */
-        display: flex;
-        flex-wrap: wrap;
-        flex-direction: column;
-        justify-content: center;
-        color: $basic-color-white;
-        /* iPhone 5 - 5s Portrait */
-        @media only screen and (min-device-width: 320px) and (max-device-width: 359px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
-            height: 22%;
-            padding: 0 8%;
-        }
-        /* Galaxy S3, S5, Note II,  - Portrait 360 bis 374*/
-        @media only screen and (min-device-width: 360px) and (max-device-width: 374px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
-            height: 22%;
-            padding: 0 8%;
-        }
-        /* iPhone 6, 6s, 6Plus, Nexus 5X, Nexus 6P,  - Portrait 374 bis 767*/
-        @media only screen and (min-device-width: 375px) and (max-device-width: 767px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
-            height: 22%;
-            padding: 5% 10% 0 10%;
-        }
-        /* iPad mini, iPad and up */
-        height: 22%;
-        padding: 5% 10% 0 10%;
-
-        ion-row {
+        color: #FFF;
+        margin: 1rem 2rem;
+        font-size: $font-size-base;
+        line-height: $font-size-x-medium;
+        .amount-type {
             ion-label {
                 display: inline-block;
-                font-size: $font-size-medium;
-                line-height: $font-size-medium;
+                margin: 0 0 0 3px;
+            }
+            &.active {
+                ion-label {
+                    font-size: $font-size-medium;
+                    line-height: 3rem;
+                }
             }
         }
+        .readable-amount {
+            display: inline-block;
+            margin: 0 0 0 3px;
+            font-size: $font-size-base;
+            line-height: $font-size-x-medium;
+            text-align: right;
+            &.active {
+                /* iPad mini, iPad and up */
+                font-size: $font-size-x-large;
+                line-height: $font-size-x-large;
+                /* iPhone 6, 6s, 6Plus, Nexus 5X, Nexus 6P,  - Portrait 374 bis 767*/
+                @media only screen and (min-device-width: 375px) and (max-device-width: 767px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
+                    font-size: $font-size-large;
+                    line-height: $font-size-large;
+                }
+                /* Galaxy S3, S5, Note II,  - Portrait 360 bis 374*/
+                @media only screen and (min-device-width: 360px) and (max-device-width: 374px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
+                    font-size: $font-size-x-medium;
+                    line-height: $font-size-x-medium;
+                }
+                /* iPhone 5 - 5s Portrait */
+                @media only screen and (min-device-width: 320px) and (max-device-width: 359px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
+                    font-size: $font-size-medium;
+                    line-height: $font-size-medium;
+                }
+            }
+        }
+        .amount-input-form {
+            .number {
+                display:inline-block;
+                margin:0;
+                padding:0;
 
-    }
+                &.digits {
+                    text-align:right;
+                }
 
-    .amount-type {
-
-        &.active {
-            ion-label {
-
+                &.decimals {
+                }
             }
         }
     }
 
-    .readable-amount {
 
-        &.active {
 
-        }
-    }
-
-    .amount-input-form {
+    .xamount-input-form {
         text-align: right;
         font-size: $font-size-medium;
         line-height: $font-size-medium;
