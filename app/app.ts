@@ -1,6 +1,6 @@
 import 'es6-shim';
-import {App, Platform, IonicApp} from 'ionic-angular';
-import {Type} from '@angular/core';
+import {App, Platform, IonicApp, Nav, Menu} from 'ionic-angular';
+import {Type, ViewChild} from '@angular/core';
 
 // Pages
 import {AmountPage} from './pages/amount/amount';
@@ -37,14 +37,17 @@ import {ElectrumPaymentService} from './providers/payment/electrum';
     config: {} // http://ionicframework.com/docs/v2/api/config/Config/
 })
 export class BitpocketApp {
+    @ViewChild(Nav) nav: Nav;   
+    @ViewChild(Menu) menu: Menu; 
+    
     rootPage: Type = AmountPage;
-    menu:Array<{name:string,icon:string,page:any}> = [];
+    menuItems:Array<{name:string,icon:string,page:any}> = [];
 
     constructor(platform: Platform, private app:IonicApp, private config:Config, private currency:Currency, private dbHelper:DatabaseHelper, private history: History) {//, private currency:Currency) {
         
-        this.menu[0] = { name:'Payment' , icon:'keypad' , page:AmountPage };        
-        this.menu[1] = { name:'History', icon:'list', page:HistoryPage };
-        this.menu[2] = { name:'Settings', icon:'options', page:SettingsPage };
+        this.menuItems[0] = { name:'Payment' , icon:'keypad' , page:AmountPage };        
+        this.menuItems[1] = { name:'History', icon:'list', page:HistoryPage };
+        this.menuItems[2] = { name:'Settings', icon:'options', page:SettingsPage };
         //this.menu[3] = { name:'Payment-Try', icon:'options', page:PaymentPage };
 
         platform.ready().then(() => {            
@@ -86,7 +89,7 @@ export class BitpocketApp {
     */
     
     openPage(page:any) {
-        this.app.getComponent('menu').close();
-        this.app.getComponent('nav').setRoot(page);
+        this.menu.close();
+        this.nav.setRoot(page);
     }
 }

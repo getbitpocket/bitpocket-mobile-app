@@ -12,6 +12,7 @@ const POSITION_DECIMALS = 'decimals';
 @Page({
     templateUrl : 'build/pages/amount/amount.html'
 })
+
 export class AmountPage {
 
     exchangedAmount:string; // either BTC or Fiat    
@@ -46,7 +47,6 @@ export class AmountPage {
         });    
     }
 
-
     changeInputCurrency(inputCurrency: string) {
         this.entryInBTC  = !this.entryInBTC;
         this.entryInFiat = !this.entryInFiat;
@@ -55,14 +55,11 @@ export class AmountPage {
             this.resetAmount();
         } else {
             this.digits = "0";
-
             this.decimals = "0000";        
             this.position = POSITION_DIGITS;
             this.index = 0;
             this.updateExchangedAmount();
-        }  
-        
-        this.changeDetector.detectChanges();
+        }        
     }
 
     backspaceInput() {
