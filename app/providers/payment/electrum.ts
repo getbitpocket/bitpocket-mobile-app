@@ -24,7 +24,6 @@ export class ElectrumPaymentService implements payment.PaymentService {
     checkPayment(address: string, amount: BitcoinUnit) : Promise<{status: string, tx?: string}> {
 
         return new Promise((resolve, reject) => {
-
             let nD = new electrum.NetworkDiscovery();
             let requestId = Math.round(Math.random() * 10000000);
             let txRequestId = Math.round(Math.random() * 10000000);
@@ -65,11 +64,8 @@ export class ElectrumPaymentService implements payment.PaymentService {
                 } else {
                     reject({status: payment.PAYMENT_STATUS_NOT_RECEIVED});
                 }
-
             });
-
         });
-
     }
 
 }

@@ -1,10 +1,10 @@
 var gulp = require('gulp'),
+    glob = require('glob'),
     gulpWatch = require('gulp-watch'),
     del = require('del'),
     runSequence = require('run-sequence'),
     argv = process.argv,
-    ts = require('gulp-typescript'),
-    jasmine = require('gulp-jasmine');
+    KarmaServer = require('karma').Server;
 
 
 /**
@@ -50,7 +50,7 @@ gulp.task('build', ['clean'], function(done){
   runSequence(
     ['sass', 'html', 'fonts', 'scripts'],
     function(){
-      buildBrowserify().on('end', done);
+      buildBrowserify({ src: ['./app/app.ts', './typings/index.d.ts'] }).on('end', done);
     }
   );
 });
@@ -62,15 +62,21 @@ gulp.task('clean', function(){
   return del('www/build');
 });
 
-gulp.task('test-build', function() {    
-    var tsProject = ts.createProject('tsconfig.json');    
-    var tsResult = tsProject.src()
-		.pipe(ts(tsProject));
-	
-	return tsResult.js.pipe(gulp.dest('tests/build/app'));    
+gulp.task('test-build', function(done) {
+  del('tests');
+  copyScripts({ dest: 'tests' });
+    
+  glob('app/**/*.spec.ts', function(err, files) {
+    files.unshift('./app/app.ts','./typings/index.d.ts');  
+    buildBrowserify({ outputPath: 'tests/', src: files }).on('end', done);
+  });        
 });
 
-gulp.task('test', ['test-build'], function() {
-    return gulp.src('tests/**/*.spec.js')
-        .pipe(jasmine());     
+gulp.task('test', ['test-build'], function(done) {
+  new KarmaServer({
+    configFile: __dirname + '/karma.conf.js'
+  }, function() {
+    del('tests');
+    done();
+  }).start();
 });

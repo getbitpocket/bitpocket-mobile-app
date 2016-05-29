@@ -1,6 +1,6 @@
 /// <reference path="../cordova-sqlite-plugin.d.ts" />
 
-import {Injectable} from 'angular2/core';
+import {Injectable} from '@angular/core';
 // import {Platform} from 'ionic-angular';
 
 /*
