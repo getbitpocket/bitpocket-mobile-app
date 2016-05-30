@@ -31,20 +31,23 @@ export class ElectrumPaymentService implements payment.PaymentService {
 
             nD.init();
             nD.on('peers:discovered', () => {
-                nD.sendRandomRequest({
+                let request = {
                     id: requestId,
                     method: 'blockchain.address.get_mempool',
-                    params: [address]});
+                    params: [address]
+                };
+                console.log("send request", request);
+                nD.sendRandomRequest(request);
             });
 
             nD.on('peers:response', response => {
-                console.log(response);
+                console.log("response", response);
 
                 if (response.id == requestId && Array.isArray(response.result) && response.result.length > 0) {
                     txCount = response.result.length;
 
                     for (let tx of response.result) {
-                        if (typeof tx.tx_hash === 'string') {
+                        if (typeof tx.tx_hash === 'string') {                                                        
                             nD.sendRandomRequest({
                                 id : 'tid-' + txRequestId++ ,
                                 method: 'blockchain.transaction.get' ,
