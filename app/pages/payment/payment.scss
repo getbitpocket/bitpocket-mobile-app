@@ -71,7 +71,7 @@
 
     }
 
-    .history-btn {
+    .history-button {
         position: absolute;
         bottom: 5%;
         left: 50%;
@@ -81,4 +81,8 @@
         }
     }
 
+}
+
+.transaction-failed .history-button {
+    display:none;
 }

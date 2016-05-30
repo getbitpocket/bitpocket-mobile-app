@@ -6,7 +6,7 @@ import {Type, ViewChild} from '@angular/core';
 import {AmountPage} from './pages/amount/amount';
 import {SettingsPage} from './pages/settings/settings';
 import {HistoryPage} from './pages/history/history';
-//import {PaymentPage} from './pages/payment/payment';
+import {PaymentResultPage} from './pages/payment/payment-result';
 
 // Providers
 import {DatabaseHelper} from './providers/database-helper';
@@ -48,7 +48,7 @@ export class BitpocketApp {
         this.menuItems[0] = { name:'Payment' , icon:'keypad' , page:AmountPage };        
         this.menuItems[1] = { name:'History', icon:'list', page:HistoryPage };
         this.menuItems[2] = { name:'Settings', icon:'options', page:SettingsPage };
-        //this.menu[3] = { name:'Payment-Try', icon:'options', page:PaymentPage };
+        this.menuItems[3] = { name:'Payment-Try', icon:'options', page:PaymentResultPage };
 
         platform.ready().then(() => {            
             this.initApp();           
@@ -63,30 +63,9 @@ export class BitpocketApp {
     }
     
     initApp() {
-        this.dbHelper.initDb().then(() => {
-            
-            /*
-            this.history.addTransaction({
-                address : '2hh23' ,
-                txid : 'blabla' ,
-                bitcoinAmount : 0.12345678 ,
-                fiatAmount : 1234567.90 ,
-                currency : 'EUR'
-            });
-            */
-        });
+        this.dbHelper.initDb();
         this.updateCurrencyRate();
     }
-
-    /*
-    this.history.addTransaction({
-    address : '2hh23' ,
-    txid : 'blabla' ,
-    bitcoinAmount : 0.12345678 ,
-    fiatAmount : 1234567.90 ,
-    currency : 'EUR'
-    });
-    */
     
     openPage(page:any) {
         this.menu.close();
