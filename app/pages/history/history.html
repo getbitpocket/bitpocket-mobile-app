@@ -9,6 +9,68 @@
 </ion-navbar>
 
 <ion-content class="history">
+
+    <ion-card>
+
+        <ion-card-content>
+
+            <div class="amount-input history">
+
+                <ion-row>
+                    <ion-col class="amount-type" width-30>
+                        <ion-label>EUR</ion-label>
+                    </ion-col>
+
+                    <ion-col class="readable-amount" width-70>
+                        <ion-label>1521.80</ion-label>
+                    </ion-col>
+                </ion-row>
+
+                <ion-row>
+                    <ion-col class="amount-type" width-30>
+                        <ion-label>US</ion-label>
+                    </ion-col>
+
+                    <ion-col class="readable-amount" width-70>
+                        <ion-label>521.80</ion-label>
+                    </ion-col>
+                </ion-row>
+
+                <div class="mbtc-box">
+                    <ion-row>
+                        <ion-col class="amount-type" width-30>
+                            <ion-label>mBTC</ion-label>
+                        </ion-col>
+
+                        <ion-col class="readable-amount" width-70>
+                            <ion-label>1521.80</ion-label>
+                        </ion-col>
+                    </ion-row>
+                </div>
+
+                <div class="divider-box">
+                    <div class="divider black"></div>
+                </div>
+
+                <ion-row>
+                    <ion-col class="icon" width-30>
+                        <ion-icon name="ion-android-alarm-clock"></ion-icon>
+                    </ion-col>
+                    <ion-col class="amount-type" width-30>
+                        <ion-label>mBTC</ion-label>
+                    </ion-col>
+
+                    <ion-col class="readable-amount" width-70>
+                        <ion-label>111.3215</ion-label>
+                    </ion-col>
+                </ion-row>
+
+            </div>
+
+        </ion-card-content>
+
+    </ion-card>
+
     <ion-card *ngFor="let transaction of transactionList">
 
         <ion-card-header>

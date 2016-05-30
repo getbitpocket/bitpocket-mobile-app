@@ -4,7 +4,7 @@
     }
 }
 
-.amount, .payment {
+.amount, .payment, .payment-result, .history {
 
     height: 100%;
     width: 100%;
@@ -87,6 +87,9 @@
                 }
             }
         }
+        &.history {
+            color: #000;
+        }
     }
 
     .amount-numpad {
@@ -152,6 +155,9 @@
         height: 100px;
         font-size: $font-size-x-medium;
         border-radius: 100%;
+        &.button-number-backspaceinput {
+            font-size: $font-size-small;
+        }
     }
 }
 

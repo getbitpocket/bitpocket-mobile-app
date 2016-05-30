@@ -1,5 +1,5 @@
 <ion-navbar *navbar>
-    <ion-title>Payment request</ion-title>
+    <ion-title>Payment result</ion-title>
     <ion-buttons end>
         <button (click)="openModal()">
             <img class="logo" src="../../img/icon.png" alt="">
@@ -8,21 +8,30 @@
 </ion-navbar>
 
 
-<ion-content [ngClass]="resultClass">
+<ion-content [ngClass]="getResultClasses()">
     <div class="payment-result">
 
-        <div class="payment-readable-box">
-
+        <div class="amount-input payment">
             <ion-row>
-                <ion-col  class="payment-readable-amount-type first-line-height" offset-10 width-30><ion-label>{{ currency }}</ion-label></ion-col>
-                <ion-col  class="payment-readable-amount first-line-height" width-40 offset-20><ion-label>{{ amountCurrency }}</ion-label></ion-col>
+                <ion-col class="amount-type active" width-30>
+                    <ion-label>{{ currency }}</ion-label>
+                </ion-col>
+                <ion-col  class="readable-amount active" width-70>
+                    <div class="amount-input-form active">
+                        {{ fiatAmount }}
+                    </div>
+                </ion-col>
             </ion-row>
-
             <ion-row>
-                <ion-col class="payment-readable-amount-type second-line-height" offset-10 width-30><ion-label>mBTC</ion-label></ion-col>
-                <ion-col class="payment-readable-amount-btc second-line-height" width-40 offset-20><ion-label>{{ amountmBTC }}</ion-label></ion-col>
+                <ion-col class="amount-type" width-30>
+                    <ion-label>{{ bitcoinUnit }}</ion-label>
+                </ion-col>
+                <ion-col class="readable-amount" width-70>
+                    <div class="amount-input-form">
+                        {{ bitcoinAmount }}
+                    </div>
+                </ion-col>
             </ion-row>
-
         </div>
 
         <div class="divider-box">
@@ -36,9 +45,9 @@
             <div class="payment-result-text text-center">{{ resultText }}</div>
         </div>
 
-        <div class="history-btn">
+        <div class="history-button">
             <button show-history class="text-uppercase" (click)="showHistory()">Show details</button>
         </div>
 
-    </div>   
+    </div>
 </ion-content>
