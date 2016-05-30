@@ -47,7 +47,10 @@ describe('Database Helper', () => {
             .then(transactions => {
                 expect(transactions[0].address).toEqual('xyz');
                 expect(transactions[0].txid).toEqual('123');
+                expect(transactions[0].currency).toEqual('EUR');
                 expect(transactions[0].confirmations).toEqual(6);
+                expect(transactions[0].bitcoinAmount).toEqual(12.12345678);
+                expect(transactions[0].fiatAmount).toEqual(1200.12);
                 done();
             });
     });

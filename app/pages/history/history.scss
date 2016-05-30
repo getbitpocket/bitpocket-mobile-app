@@ -18,5 +18,7 @@
 }
 
 .history-amounts {
-    text-align:right;
+    font-size: $font-size-medium;
+    color: color($colors, success);
 }
+

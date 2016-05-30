@@ -12,10 +12,14 @@
     <div class="amount">
         <div class="amount-input">
             <ion-row>
-                <ion-col  class="amount-type" [ngClass]="{active:entryInFiat}" width-30>
-                    <ion-checkbox [(ngModel)]="entryInFiat" (click)="changeInputCurrency('Fiat')"></ion-checkbox>
+                <ion-col  class="checkbox" [ngClass]="{active:entryInFiat}" width-10>
+                <ion-checkbox checkbox-style [(ngModel)]="entryInFiat" (click)="changeInputCurrency('Fiat')"></ion-checkbox>
+                </ion-col>
+
+                <ion-col  class="amount-type" [ngClass]="{active:entryInFiat}" width-20>
                     <ion-label>{{ currency }}</ion-label>
                 </ion-col>
+
                 <ion-col  class="readable-amount" [ngClass]="{active:entryInFiat}" width-70>
                     <div class="amount-input-form" [ngClass]="{active:entryInFiat}">
                         <span *ngIf="entryInFiat">
@@ -27,11 +31,15 @@
             </ion-row>
 
             <ion-row>
-                <ion-col class="amount-type" [ngClass]="{active:entryInBTC}" width-30>
-                    <ion-checkbox [(ngModel)]="entryInBTC" (click)="changeInputCurrency('BTC')"></ion-checkbox>
+                <ion-col class="checkbox" [ngClass]="{active:entryInBTC}" width-10>
+                    <ion-checkbox checkbox-style [(ngModel)]="entryInBTC" (click)="changeInputCurrency('BTC')"></ion-checkbox>
+                </ion-col>
+
+                <ion-col class="amount-type" [ngClass]="{active:entryInBTC}" width-15>
                     <ion-label>{{ bitcoinUnit }}</ion-label>
                 </ion-col>
-                <ion-col class="readable-amount" [ngClass]="{active:entryInBTC}" width-70>
+
+                <ion-col class="readable-amount" [ngClass]="{active:entryInBTC}" width-75>
                     <div class="amount-input-form" [ngClass]="{active:entryInBTC}">
                         <span *ngIf="entryInBTC">
                             <span clear class="number digits">{{ digits }}</span><span class="separator">{{ separator }}</span><span clear class="number decimals">{{ decimals }}</span>

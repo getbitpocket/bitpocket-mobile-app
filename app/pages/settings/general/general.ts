@@ -1,3 +1,4 @@
+import {ChangeDetectorRef} from '@angular/core';
 import {Page,NavController,Alert} from 'ionic-angular';
 import {Config} from '../../../providers/config';
 
@@ -19,16 +20,17 @@ const CURRENCY_FORMATS = {
 })
 export class GeneralPage {
     
-    selectedFormat: string;
-    selectedUnit: string;
+    selectedFormat: string = 'us';
+    selectedUnit: string = 'mBTC';
 
-    constructor(private config: Config) {
+    constructor(private config: Config, private changeDetector: ChangeDetectorRef) {
         Promise.all<string>([
             this.config.get('currency-format') ,
             this.config.get('bitcoin-unit') ,
         ]).then(promised => {
             this.selectedFormat = promised[0];
             this.selectedUnit   = promised[1];
+            this.changeDetector.detectChanges();
         });
     }
 
