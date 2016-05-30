@@ -12,23 +12,20 @@ const ADDRESS_TYPE = 'master-public-key';
 export class MasterPublicKeyPage {
 
     masterPublicKey: string = "";
+    index: number = 1;
     active: boolean = false;
 
-    constructor(private config: Config, private nav:NavController, private changeDetector: ChangeDetectorRef) {
-        let ecPair = bitcoin.ECPair.fromPublicKeyBuffer(
-            new Buffer('xpub661MyMwAqRbcGRtebhJdb1sczRppHqk5tXDwmsaW6PCYZm6bNd1Agt3FVuHgW5PwNncBbnBsuxRxkZqGr8uaTMXzmt2kkh4Pebsu2NenNNo') ,
-            bitcoin.networks.bitcoin
-        );
-        
-        
-        Promise.all<string>([
+    constructor(private config: Config, private nav:NavController, private changeDetector: ChangeDetectorRef) {       
+        Promise.all<any>([
             this.config.get('address-type') ,
-            this.config.get('master-public-key')
+            this.config.get('master-public-key') ,
+            this.config.get('master-public-key-index')
         ]).then(promised => {
             if (promised[0] === ADDRESS_TYPE) {
                 this.active = true;
             }
             this.masterPublicKey = promised[1];
+            this.index = promised[2];
         });
     }
 
@@ -41,13 +38,17 @@ export class MasterPublicKeyPage {
     keyChanged() {
         this.config.set('master-public-key', this.masterPublicKey);
     }
+    
+    indexChanged() {
+        this.config.set('master-public-key-index', this.index);
+    }
 
     scan() {
         let alert:Alert;
 
         BarcodeScanner.scan().then((barcodeData) => {
-            try {
-                
+            try {                
+                this.masterPublicKey = bitcoin.HDNode.fromBase58(barcodeData.text).toBase58();                
                 this.keyChanged();
                 this.changeDetector.detectChanges();
             } catch(e) {
