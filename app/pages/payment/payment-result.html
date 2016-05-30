@@ -10,8 +10,8 @@
 
 <ion-content [ngClass]="getResultClasses()">
     <div class="payment-result">
-
-        <div class="amount-input payment">
+        
+        <div class="amount-input">
             <ion-row>
                 <ion-col class="amount-type active" width-30>
                     <ion-label>{{ currency }}</ion-label>
@@ -23,7 +23,7 @@
                 </ion-col>
             </ion-row>
             <ion-row>
-                <ion-col class="amount-type" width-30>
+                <ion-col class="amount-type" width-30>                    
                     <ion-label>{{ bitcoinUnit }}</ion-label>
                 </ion-col>
                 <ion-col class="readable-amount" width-70>
@@ -49,5 +49,5 @@
             <button show-history class="text-uppercase" (click)="showHistory()">Show details</button>
         </div>
 
-    </div>
+    </div>   
 </ion-content>

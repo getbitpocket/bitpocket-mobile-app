@@ -23,20 +23,20 @@ export class PaymentResultPage {
     resultText : string = "";
     success : boolean = false;
     transaction:Transaction;
-
+    
     currency:string;
     fiatAmount:string;
     bitcoinAmount:string;
     bitcoinUnit:string;
-
+    
     getResultClasses() {
         return this.resultClass;
     }
-
+    
     constructor(private currencyService: Currency, private config: Config, private params: NavParams, private nav: NavController, private changeDetector: ChangeDetectorRef) {
         this.success = (params.data.success === true);
         this.transaction = params.data.transaction;
-
+        
         if (PAYMENT_STATUS_MESSAGES[params.data.status]) {
             this.resultText = PAYMENT_STATUS_MESSAGES[params.data.status];
         } else {
@@ -52,7 +52,7 @@ export class PaymentResultPage {
             this.resultClass["transaction-failed" ]  = true;
             this.resultIcon = "close-circle";
         }
-
+        
         Promise.all<any>([
             this.config.get('bitcoin-unit') ,
             this.config.get('currency-format-s')
@@ -61,13 +61,13 @@ export class PaymentResultPage {
             this.currency = this.transaction.currency;
             this.bitcoinAmount = this.currencyService.formatNumber(BitcoinUnit.from(this.transaction.bitcoinAmount,'BTC').to(this.bitcoinUnit), promised[1]);
             this.fiatAmount = this.currencyService.formatNumber(this.transaction.fiatAmount, promised[1]);
-
+            
             this.changeDetector.detectChanges();
         })
-
+                
         setTimeout(() => {
             nav.setRoot(AmountPage);
-        }, 5000);
+        }, 5000);                           
     }
-
+    
 }

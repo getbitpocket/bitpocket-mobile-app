@@ -87,7 +87,7 @@
                 }
             }
         }
-        &.history {
+        &.history{
             color: #000;
         }
     }
@@ -155,9 +155,6 @@
         height: 100px;
         font-size: $font-size-x-medium;
         border-radius: 100%;
-        &.button-number-backspaceinput {
-            font-size: $font-size-small;
-        }
     }
 }
 
