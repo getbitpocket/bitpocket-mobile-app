@@ -4,7 +4,7 @@
     }
 }
 
-.amount, .payment, .payment-result {
+.amount, .payment, .payment-result, .history {
 
     height: 100%;
     width: 100%;
@@ -86,6 +86,9 @@
                 &.decimals {
                 }
             }
+        }
+        &.history{
+            color: #000;
         }
     }
 
