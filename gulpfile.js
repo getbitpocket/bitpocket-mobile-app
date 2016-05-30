@@ -73,10 +73,18 @@ gulp.task('test-build', function(done) {
 });
 
 gulp.task('test', ['test-build'], function(done) {
-  new KarmaServer({
+  var server = new KarmaServer({
     configFile: __dirname + '/karma.conf.js'
-  }, function() {
+  });
+  
+  server.on('run_complete', function (browsers, results){
+    if (results.failed) {
+      throw new Error('Karma: Tests Failed');
+    }
+    
     del('tests');
     done();
-  }).start();
+  });
+  
+  server.start();  
 });

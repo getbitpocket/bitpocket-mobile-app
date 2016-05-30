@@ -36,10 +36,24 @@ interface address {
 interface HDNode {
 }
 
+interface ECPair {
+    constructor(d:any, Q:any, options?:any)
+    
+    fromPublicKeyBuffer(buffer:any, network:any) : ECPair;
+    
+}
+
 declare var bitcoin : {
     Transaction: Transaction ,
     address: address ,
-    HDNode: HDNode
+    HDNode: HDNode ,
+    ECPair: ECPair ,
+    networks: {
+        bitcoin : {},
+        testnet : {},
+        litecoin: {},
+        dogecoin: {}
+    }
 };
 
 declare module 'bitcoinjs-lib' {
