@@ -1,6 +1,6 @@
 /// <reference path="../../bitcoinjs-lib.d.ts" />
 
-import {Injectable} from 'angular2/core';
+import {Injectable} from '@angular/core';
 import {BitcoinUnit} from '../currency/bitcoin-unit';
 import * as payment from './payment';
 import * as bitcoin from 'bitcoinjs-lib';
@@ -11,8 +11,8 @@ export class ElectrumPaymentService implements payment.PaymentService {
     checkTransaction(transaction: string, address: string, amount: BitcoinUnit) : any {
         let buffer = new Buffer(transaction, 'hex');
         let t = bitcoin.Transaction.fromBuffer(buffer);
-
-        for (let out of t.outs) {
+  
+        for (let out of t.outs) {            
             if (address === bitcoin.address.fromOutputScript(out.script) && amount.to('satoshis') <= out.value) {
                 return t.getId();
             }
@@ -24,7 +24,6 @@ export class ElectrumPaymentService implements payment.PaymentService {
     checkPayment(address: string, amount: BitcoinUnit) : Promise<{status: string, tx?: string}> {
 
         return new Promise((resolve, reject) => {
-
             let nD = new electrum.NetworkDiscovery();
             let requestId = Math.round(Math.random() * 10000000);
             let txRequestId = Math.round(Math.random() * 10000000);
@@ -65,11 +64,8 @@ export class ElectrumPaymentService implements payment.PaymentService {
                 } else {
                     reject({status: payment.PAYMENT_STATUS_NOT_RECEIVED});
                 }
-
             });
-
         });
-
     }
 
 }

@@ -1,10 +1,10 @@
-import {Injectable} from 'angular2/core';
+import {Injectable} from '@angular/core';
 import {DatabaseHelper} from '../database-helper';
 import {Transaction} from '../../api/transaction';
 
-const SQL_ADD_TRANSACTION = "INSERT INTO tx (timestamp,txid,currency,address,bitcoinAmount,fiatAmount,confirmations) VALUES (?,?,?,?,?,?,?);";
-const SQL_UPDATE_CONFIRMATIONS = "UPDATE tx SET confirmations = ? WHERE txid = ?";
-const SQL_QUERY_TRANSACTIONS = "SELECT * FROM tx ORDER BY timestamp DESC;";
+const SQL_ADD_TRANSACTION      = "INSERT INTO tx (timestamp,txid,currency,address,bitcoinAmount,fiatAmount,confirmations) VALUES (?,?,?,?,?,?,?);";
+const SQL_UPDATE_CONFIRMATIONS = "UPDATE tx SET confirmations = ? WHERE txid = ?;";
+const SQL_QUERY_TRANSACTIONS   = "SELECT * FROM tx ORDER BY timestamp DESC;";
 
 @Injectable()
 export class History {
@@ -34,18 +34,26 @@ export class History {
                 }
                 
                 resolve(transactions);
+            }).catch(error => {
+                reject(error);
             });           
         });
     }
     
-    updateConfirmations(txid: string, confirmations: number) {
-        this.dbHelper.executeSql(SQL_UPDATE_CONFIRMATIONS,[
-            confirmations ,
-            txid
-        ]);
+    updateConfirmations(txid: string, confirmations: number) : Promise<boolean> {
+        return new Promise<boolean>((resolve, reject) => {        
+            this.dbHelper.executeSql(SQL_UPDATE_CONFIRMATIONS,[
+                confirmations ,
+                txid
+            ]).then(() => {
+                resolve(true);
+            }).catch(() => {
+                reject(false);
+            });        
+        });
     }
     
-    addTransaction(transaction: Transaction) {
+    addTransaction(transaction: Transaction) : Promise<boolean> {
         let inputs = [];
         inputs.push((new Date()).getTime());
         inputs.push(transaction.txid);
@@ -55,7 +63,16 @@ export class History {
         inputs.push(transaction.fiatAmount);
         inputs.push(0);
         
-        this.dbHelper.executeSql(SQL_ADD_TRANSACTION, inputs);
+        return new Promise<boolean>((resolve, reject) => {
+            this.dbHelper
+            .executeSql(SQL_ADD_TRANSACTION, inputs)
+            .then(() => {
+                resolve(true);
+            })
+            .catch(() => {
+                reject(false);
+            });
+        });
     }
     
 }

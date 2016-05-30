@@ -3,7 +3,8 @@
         overflow-y: hidden;
     }
 }
-.amount {
+
+.amount, .payment {
 
     height: 100%;
     width: 100%;
@@ -113,7 +114,6 @@
             height: 70%;
             padding: 0 3.5rem;
         }
-
     }
 
     .amount-numpad-primary-button {

@@ -1,0 +1,8 @@
+{
+  "resolution": "main",
+  "tree": {
+    "src": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/da919fe791a4deb9eea45684a8daf035f9aafe8a/qrcode-generator/qrcode-generator.d.ts",
+    "raw": "registry:dt/qrcode-generator#0.0.0+20160412152159",
+    "typings": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/da919fe791a4deb9eea45684a8daf035f9aafe8a/qrcode-generator/qrcode-generator.d.ts"
+  }
+}

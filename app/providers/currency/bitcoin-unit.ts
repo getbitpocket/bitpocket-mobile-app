@@ -6,7 +6,6 @@ const BITCOIN_UNITS = {
 };
 
 export class BitcoinUnit {
-
     // internal representation is in satoshis
     private satoshis: number = 0;
 
@@ -17,33 +16,33 @@ export class BitcoinUnit {
     constructor(value: number) {
         this.satoshis = value;
     }
-
+    
     static decimalsCount(bitcoinUnit) : number {
         return BitcoinUnit.getUnitSpecification(bitcoinUnit)[1];
     }
-
+    
     static getUnitSpecification(bitcoinUnit: string) : Array<number> {
         if (!BITCOIN_UNITS.hasOwnProperty(bitcoinUnit)) { // fallback to satoshis...
             bitcoinUnit = 'satoshis';
-        }
-        return BITCOIN_UNITS[bitcoinUnit];
+        }        
+        return BITCOIN_UNITS[bitcoinUnit];        
     }
-
+    
     static from(value: number, bitcoinUnit: string = 'satoshis') : BitcoinUnit {
-        let unitSpec = BitcoinUnit.getUnitSpecification(bitcoinUnit);
+        let unitSpec = BitcoinUnit.getUnitSpecification(bitcoinUnit);        
         return new BitcoinUnit( parseInt((value * unitSpec[0]).toFixed(0)) );
     }
-
+   
     static fromFiat(fiatValue: number, exchangeRate: number) : BitcoinUnit {
-        let valueInBTC:number = fiatValue / exchangeRate;
+        let valueInBTC:number = fiatValue / exchangeRate;        
         return BitcoinUnit.from(valueInBTC, 'BTC');
     }
-
-    to(bitcoinUnit: string) : number {
-        let unitSpec = BitcoinUnit.getUnitSpecification(bitcoinUnit);
+    
+    to(bitcoinUnit: string) : number {        
+        let unitSpec = BitcoinUnit.getUnitSpecification(bitcoinUnit);       
         return parseFloat( (this.satoshis / unitSpec[0]).toFixed(unitSpec[1]) );
     }
-
+    
     toFiat(exchangeRate: number, decimals: number = 2) : number {
         let btcValue = this.to('BTC');
         return parseFloat((btcValue * exchangeRate).toFixed(decimals));

@@ -9,19 +9,28 @@
 
 <ion-content>
     <div class="payment">
-
-        <ion-list>
-            <ion-item>
-                <div class="payment-readable-amount">
-                    <p>{{ readableAmount }}</p>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div class="payment-readable-amount-btc">
-                    <p>{{ readableAmount }}</p>
-                </div>
-            </ion-item>
-        </ion-list>
+        <div class="amount-input">
+            <ion-row>
+                <ion-col class="amount-type active" width-30>
+                    <ion-label>{{ currency }}</ion-label>
+                </ion-col>
+                <ion-col  class="readable-amount active" width-70>
+                    <div class="amount-input-form active">
+                        {{ fiatAmount }}
+                    </div>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col class="amount-type" width-30>                    
+                    <ion-label>{{ bitcoinUnit }}</ion-label>
+                </ion-col>
+                <ion-col class="readable-amount" width-70>
+                    <div class="amount-input-form">
+                        {{ bitcoinAmount }}
+                    </div>
+                </ion-col>
+            </ion-row>
+        </div>
 
         <div class="divider-box">
             <div class="divider"></div>
@@ -32,11 +41,6 @@
         <div class="payment-info">
             Waiting for Payment
         </div>
-
-        <!--div class="payment-info">
-            <p class="payment-text">Waiting for Payment</p>        
-            <ion-spinner name="dots"></ion-spinner>        
-        </div-->
 
     </div>
 </ion-content>

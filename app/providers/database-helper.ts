@@ -1,6 +1,6 @@
 /// <reference path="../cordova-sqlite-plugin.d.ts" />
 
-import {Injectable} from 'angular2/core';
+import {Injectable} from '@angular/core';
 // import {Platform} from 'ionic-angular';
 
 /*
@@ -31,7 +31,7 @@ export class DatabaseHelper {
         } else {
             this.db = window.openDatabase(dbOptions.dbName, dbOptions.version, dbOptions.comment, dbOptions.sizeEstimation);
         }        
-        
+
         return new Promise<boolean>((resolve,reject) => {
             this.db.transaction(tx => {
                 let sqlInit = "CREATE TABLE IF NOT EXISTS tx ( ";
@@ -42,7 +42,7 @@ export class DatabaseHelper {
                 sqlInit += "bitcoinAmount REAL, ";
                 sqlInit += "fiatAmount REAL, ";
                 sqlInit += "confirmations INT);";        
-                        
+                               
                 tx.executeSql(sqlInit,null,() => {
                     this.ready = true;
                     resolve(true);

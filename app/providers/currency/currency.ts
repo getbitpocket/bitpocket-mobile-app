@@ -1,4 +1,4 @@
-import {Injectable, Injector} from 'angular2/core';
+import {Injectable, Injector} from '@angular/core';
 import {Config} from '../config';
 import {CurrencyExchangeService} from '../../api/currency-exchange-service';
 import {BlockchainExchangeService} from './blockchain';
@@ -82,7 +82,8 @@ export class Currency {
     setSelectedCurrency(code:string) : Currency {
         this.config.set('currency', code).then(() => {
             this.updateCurrencyRate();
-        });
+        });            
+
         return this;
     }
 
@@ -106,6 +107,10 @@ export class Currency {
         } else {
             return currency;
         }
+    }
+    
+    formatNumber(value: number, separator: string, decimals: number = 2) : string {
+        return value.toFixed(decimals).replace(/\./,separator);
     }
 
 }

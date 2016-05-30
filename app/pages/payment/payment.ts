@@ -1,8 +1,11 @@
+import {ChangeDetectorRef} from '@angular/core';
 import {Page,NavParams,NavController} from 'ionic-angular';
 import {Address} from '../../providers/address';
 import * as payment from '../../providers/payment/payment';
 import {BitcoinUnit} from '../../providers/currency/bitcoin-unit';
 import {PaymentResultPage} from './payment-result';
+import {Config} from '../../providers/config';
+import {Currency} from '../../providers/currency/currency';
 import * as bip21 from 'bip21';
 import qrcode = require('qrcode-generator');
 
@@ -14,8 +17,11 @@ export class PaymentPage {
     qrImage: any;
     
     amount: BitcoinUnit;
-    fiatAmount : number;
-    currency : string;
+    
+    fiatAmount: string;
+    bitcoinAmount: string;    
+    currency: string;
+    bitcoinUnit: string;
     
     address: string;
     readableAmount: string;
@@ -26,23 +32,34 @@ export class PaymentPage {
     serviceErrorCounts: number = 0;
     maxServiceErrors: number = 4;
     
-    constructor(private addressService: Address, private paymentService: payment.Payment, private params: NavParams, private navigation:NavController) {                
+    constructor(private addressService: Address, private paymentService: payment.Payment, private currencyService: Currency, private config: Config, private params: NavParams, private navigation:NavController, private changeDetector:ChangeDetectorRef) {                
+       
         this.amount = params.data.bitcoinAmount;
-        this.readableAmount = params.data.readableFiatAmount;        
-        this.addressService.getAddress().then((address) => {
-                        
-            let bip21uri = bip21.encode(address,{
+                      
+        Promise.all<any>([
+            this.config.get('currency') ,
+            this.config.get('currency-format-s') ,
+            this.config.get('bitcoin-unit') ,            
+            this.addressService.getAddress() ,
+            this.currencyService.getSelectedCurrencyRate()
+        ]).then(promised => {
+            this.currency    = promised[0];            
+            this.bitcoinUnit = promised[2];
+            this.fiatAmount  = this.currencyService.formatNumber(this.amount.toFiat(promised[4],2), promised[1]);
+            this.bitcoinAmount = this.amount.to(this.bitcoinUnit).toString();
+            
+            let bip21uri = bip21.encode(promised[3],{
                 amount : this.amount.to('BTC') ,
                 label : 'Test Payment'
             });
-
+                           
             let qr:any = qrcode(6,'M');
             qr.addData(bip21uri);
             qr.make();
-            this.qrImage = qr.createImgTag(5,5);        
+            this.qrImage = qr.createImgTag(5,5); 
             
-            this.checkPayment();
-        });      
+            this.changeDetector.detectChanges();
+        });          
     }
     
     paymentError(status: string) {
