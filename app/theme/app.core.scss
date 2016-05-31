@@ -13,8 +13,12 @@
 @import "../pages/payment/payment.scss";
 @import "../pages/history/history.scss";
 
-//@import url(https://fonts.googleapis.com/css?family=Ubuntu+Condensed);
-//@import url("../../fonts/UbuntuCondensed-Regular.ttf");
+@font-face {
+  font-family: "Ubuntu";
+  font-style: normal;
+  font-weight: 300;
+  src: url("#{$font-path}/Ubuntu-R.ttf") format("truetype");
+}
 
 html, body {
   font-family: $font-ubuntu;

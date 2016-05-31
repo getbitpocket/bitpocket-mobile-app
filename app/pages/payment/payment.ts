@@ -49,7 +49,7 @@ export class PaymentPage {
             this.bitcoinUnit   = promised[2];
             this.address       = promised[3];
             this.currencyRate  = promised[4];
-            
+
             this.fiatAmount    = this.currencyService.formatNumber(this.amount.toFiat(promised[4],2), promised[1]);
             this.bitcoinAmount = this.amount.to(this.bitcoinUnit).toString();
             

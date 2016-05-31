@@ -4,14 +4,22 @@
 
 <ion-content>
     <ion-list>
+        
         <ion-item dark>
             <ion-label floating>Master Public Key</ion-label>
             <ion-input (change)="keyChanged()" type="text" [(ngModel)]="masterPublicKey"></ion-input>
             <button clear item-right (click)="scan()"><ion-icon name="qr-scanner"></ion-icon></button>
         </ion-item>
+        
+        <ion-item dark>
+            <ion-label floating>Next Address Index</ion-label>
+            <ion-input (change)="indexChanged()" type="text" [(ngModel)]="index"></ion-input>
+        </ion-item>
+        
         <ion-item dark>
             <ion-label>Activate</ion-label>
             <ion-toggle (change)="activationChanged()" [checked]="active"></ion-toggle>
         </ion-item>
+        
     </ion-list>
 </ion-content>

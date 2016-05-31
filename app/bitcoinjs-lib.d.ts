@@ -34,6 +34,7 @@ interface address {
 }
 
 interface HDNode {
+    fromBase58(base58:string);
 }
 
 interface ECPair {
