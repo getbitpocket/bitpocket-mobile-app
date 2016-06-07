@@ -76,49 +76,50 @@ $card-md-text-color:        $basic-design-color;
 $card-md-title-text-color:  $basic-design-color;
 
 $colors: (
-  primary:    #333,
-  secondary:  #6A6D7A,
-  danger:     #f53d3d,
-  success:    #008000,
-  light:      #f4f4f4,
-  dark:       #222,
-  favorite:   #69BB7B,
-  confirmed:  rgba(106,109,122,1),
-  unconfirmed: rgba(106,109,122,0.5),
+  primary:      #333,
+  secondary:    #6A6D7A,
+  danger:       #f53d3d,
+  success:      #008000,
+  light:        #f4f4f4,
+  dark:         #222,
+  white:        #FFF,
+  favorite:     #69BB7B,
+  confirmed:    rgba(106,109,122,1),
+  unconfirmed:  rgba(106,109,122,0.5),
   menu-item: (
-          base: $basic-design-color, //-> Background
-          contrast: $basic-design-color //-> Text
+          base:     $basic-design-color,                         //-> Background
+          contrast: $basic-design-color,                         //-> Text
   ),
   menutoggle: (
-          base: $basic-design-color, //-> Background
-          contrast: $basic-design-color //-> Text
+          base:     $basic-design-color,                         //-> Background
+          contrast: $basic-design-color,                         //-> Text
   ),
   number: (
-          base: $basic-design-color, //-> Background
-          contrast: $basic-color-white //-> Text
+          base:     $basic-design-color,                         //-> Background
+          contrast: $basic-color-white,                          //-> Text
   ),
   number-decimals: (
-          base: $basic-background-color-transparency, //-> Background
-          contrast: $basic-color-white //-> Text
+          base:     $basic-background-color-transparency,        //-> Background
+          contrast: $basic-color-white,                          //-> Text
   ),
   number-backspaceinput: (
-          base: $basic-background-color-transparency, //-> Background
-          contrast: $basic-color-white //-> Text
+          base:     $basic-background-color-transparency,         //-> Background
+          contrast: $basic-color-white,                           //-> Text
   ),
   numbpad-reset: (
-          base: $basic-background-color-transparency, //-> Background
-          contrast: $basic-color-white, //-> Text
+          base:     $basic-background-color-transparency,         //-> Background
+          contrast: $basic-color-white,                           //-> Text
   ),
   numbpad-request: (
-          base: $basic-color-white, //-> Background
-          contrast: $basic-design-color, //-> Text
+          base:     $basic-color-white,                           //-> Background
+          contrast: $basic-design-color,                          //-> Text
   ),
   show-history: (
-          base: $basic-color-white, //-> Background
-          contrast: $basic-design-color, //-> Text
+          base:     $basic-color-white,                           //-> Background
+          contrast: $basic-design-color,                          //-> Text
   ),
   checkbox-style: (
-          base: $basic-color-white, //-> Background
-          contrast: $basic-design-color, //-> Text
+          base:     $basic-color-white,                           //-> Background
+          contrast: $basic-design-color,                          //-> Text
   )
 );

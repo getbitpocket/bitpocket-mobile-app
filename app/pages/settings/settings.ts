@@ -14,7 +14,7 @@ export class SettingsPage {
     settings:Array<{name:string,description:string,page:any}> = [];
       
     constructor(private navigation:NavController) {
-        this.settings[0] = {name:'General Settings',description:'Formatting',page:GeneralPage};
+        this.settings[0] = {name:'General Settings',description:'Formatting, Explorer',page:GeneralPage};
         this.settings[1] = {name:'Currency',description:'Select the currency you want to specify payment amounts',page:CurrencyPage};
         this.settings[2] = {name:'Static Address',description:'Static address to receive payments',page:StaticAddressPage};
         this.settings[3] = {name:'Master Public Key',description:'derive new address for each payment',page:MasterPublicKeyPage};

@@ -2,8 +2,8 @@
     <button menuToggle="left"><ion-icon name="menu"></ion-icon></button>
     <ion-title>Transaction History</ion-title>
     <ion-buttons end>
-        <button (click)="openModal()">
-            <img class="logo" src="../../img/icon.png" alt="">
+        <button (click)="showHome()">
+            <div class="logo"></div>
         </button>
     </ion-buttons>
 </ion-navbar>
@@ -16,23 +16,13 @@
 
             <div class="amount-input history">
 
-                <ion-row>
+                <ion-row *ngFor="let usedCurrency of usedCurrencyList">
                     <ion-col class="amount-type" width-30>
-                        <ion-label>EUR</ion-label>
+                        <ion-label>{{usedCurrency.amount}}</ion-label>
                     </ion-col>
 
                     <ion-col class="readable-amount" width-70>
-                        <ion-label>1521.80</ion-label>
-                    </ion-col>
-                </ion-row>
-
-                <ion-row>
-                    <ion-col class="amount-type" width-30>
-                        <ion-label>US</ion-label>
-                    </ion-col>
-
-                    <ion-col class="readable-amount" width-70>
-                        <ion-label>521.80</ion-label>
+                        <ion-label>{{usedCurrency.currency}}</ion-label>
                     </ion-col>
                 </ion-row>
 
@@ -43,7 +33,7 @@
                         </ion-col>
 
                         <ion-col class="readable-amount" width-70>
-                            <ion-label>1521.80</ion-label>
+                            <ion-label>{{sumBitcoinAmount}}</ion-label>
                         </ion-col>
                     </ion-row>
                 </div>
@@ -53,15 +43,15 @@
                 </div>
 
                 <ion-row>
-                    <ion-col class="icon" width-30>
-                        <ion-icon name="ion-android-alarm-clock"></ion-icon>
+                    <ion-col class="icon" width-20>
+                        <ion-icon name="checkmark-circle" class="unconfirmed" item-left></ion-icon>
                     </ion-col>
-                    <ion-col class="amount-type" width-30>
+                    <ion-col class="amount-type" width-20>
                         <ion-label>mBTC</ion-label>
                     </ion-col>
 
-                    <ion-col class="readable-amount" width-70>
-                        <ion-label>111.3215</ion-label>
+                    <ion-col class="readable-amount" width-60>
+                        <ion-label>{{sumUnconfirmendTransactionBitcoinAmount}}</ion-label>
                     </ion-col>
                 </ion-row>
 
@@ -71,20 +61,40 @@
 
     </ion-card>
 
-    <ion-card *ngFor="let transaction of transactionList">
+    <div [hidden]="transactions">
+         <ion-label white text-center padding>no entries were found</ion-label>
+    </div>
 
-        <ion-card-header>
-            <ion-icon [class.unconfirmed]="transaction.confirmations < 6" [class.confirmed]="transaction.confirmations >= 6" item-left ios="ios-checkmark-circle" md="ios-checkmark-circle"></ion-icon>
-            {{ transaction.timestamp | date }}
-        </ion-card-header>
+    <div [hidden]="!transactions">
 
-        <ion-card-content>
-            <div class="history-amounts" text-center>
-                <div class="success">{{ transaction.fiatAmount | bitpocketCurrency:currencyFormatSeparator:currencyFormatThousandsPoint:2:transaction.symbol }}</div>
-                <p>{{ transaction.bitcoinAmount | bitpocketCurrency:currencyFormatSeparator:currencyFormatThousandsPoint }}</p>
-            </div>
-        </ion-card-content>
+        <ion-card *ngFor="let transaction of transactionList">
 
-    </ion-card>
+            <ion-item>
+                <ion-icon [class.unconfirmed]="transaction.confirmations < 6" [class.confirmed]="transaction.confirmations >= 6" ios="ios-checkmark-circle" md="ios-checkmark-circle" item-left></ion-icon>
+                <h2 item-left>{{ transaction.timestamp | date }}</h2>
+            </ion-item>
+
+            <ion-card-content>
+                <div class="history-amounts" text-center>
+                    <div class="success">{{ transaction.fiatAmount | bitpocketCurrency:currencyFormatSeparator:currencyFormatThousandsPoint:2:transaction.symbol }}</div>
+                    <p>{{ transaction.bitcoinAmount | bitpocketCurrency:currencyFormatSeparator:currencyFormatThousandsPoint }}</p>
+                </div>
+            </ion-card-content>
+
+            <ion-item>
+                <button primary clear item-right>
+                    <ion-icon name="trash" ></ion-icon>
+                    <div>Delete Item</div>
+                </button>
+                <button primary clear item-right>
+                    <ion-icon name="search" ></ion-icon>
+                    <div>Show details</div>
+                </button>
+            </ion-item>
+
+        </ion-card>
+    </div>
+
+
 
 </ion-content>

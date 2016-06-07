@@ -32,22 +32,22 @@
             padding: 0;
         }
 
-        .checkbox, .amount-type, .readable-amount {
+        .checkbox, .amount-type, .readable-amount, .icon-pos {
             line-height: $font-size-x-large;
             font-size: $font-size-x-small;
             -webkit-transition: all 200ms ease-in-out;
             -moz-transition: all 200ms ease-in-out;
             -o-transition: all 200ms ease-in-out;
             transition: all 200ms ease-in-out;
+            ion-label {
+                margin: 0 0 0 3px;
+            }
             &.active {
                 line-height: $font-size-x-large;
             }
         }
 
         .amount-type {
-            ion-label {
-                margin: 0 0 0 3px;
-            }
             &.active {
 
             }
@@ -88,7 +88,8 @@
             }
         }
         &.history{
-            color: #000;
+            color: $basic-design-color;
+            margin: 0;
         }
     }
 
@@ -117,10 +118,13 @@
             height: 70%;
             padding: 0 3.5rem;
         }
+        .button-number-backspaceinput {
+            font-size: $font-size-x-small;
+        }
     }
 
     .amount-numpad-primary-button {
-        font-size: $font-size-small;
+        font-size: $font-size-base;
         border-radius: $button-border-radius;
         margin: 2%;
         flex: 1 1 45%;

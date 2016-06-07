@@ -1,0 +1,47 @@
+.onboarding {
+  height: 100%;
+  width: 100%;
+  .icon {
+    margin: 6rem 0 4rem 0;
+    display: block;
+    img {
+      height: 5rem;
+    }
+  }
+  .title {
+    color: $basic-color-white;
+    font-size: $font-size-x-medium;
+    font-weight: 300;
+    display: block;
+  }
+  .settings {
+    display: block;
+  }
+
+  .savestart-button {
+
+  }
+
+  .savestart-button {
+    display: block;
+    button {
+      width: 100%;
+      line-height: $font-size-x-large;
+      height: $font-size-x-large;
+      border-radius: $button-border-radius;
+    }
+  }
+
+  .no-internet {
+
+    img {
+      padding: 10rem;
+    }
+    p {
+      color: $basic-color-white;
+      font-size: $font-size-small;
+      text-transform: uppercase;
+    }
+  }
+}
+

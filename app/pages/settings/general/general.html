@@ -31,5 +31,21 @@
             <ion-radio [checked]="selectedUnit === 'bits'" value="bits"></ion-radio>
         </ion-item>
     </ion-list>
+
+    <ion-list radio-group [(ngModel)]="selectedExplorer" (change)="explorerChanged()">
+        <ion-list-header>Blockchain Explorer</ion-list-header>
+        <ion-item>
+            <ion-label>blockchain.info</ion-label>
+            <ion-radio [checked]="selectedUnit === 'blockchaininfo'" value="blockchaininfo"></ion-radio>
+        </ion-item>
+        <ion-item>
+            <ion-label>blockr.io</ion-label>
+            <ion-radio [checked]="selectedUnit === 'blockrio'" value="blockrio"></ion-radio>
+        </ion-item>
+        <ion-item>
+            <ion-label>blockexplorer.com</ion-label>
+            <ion-radio [checked]="selectedUnit === 'blockexplorercom'" value="blockexplorercom"></ion-radio>
+        </ion-item>
+    </ion-list>
     
 </ion-content>

@@ -26,6 +26,7 @@ export class MasterPublicKeyPage {
             }
             this.masterPublicKey = promised[1];
             this.index = promised[2];
+            console.log("LOG: "+promised[0]+" "+promised[1]+" "+promised[2]);
         });
     }
 
