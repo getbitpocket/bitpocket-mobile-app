@@ -12,27 +12,97 @@
 @import "../pages/amount/amount.scss";
 @import "../pages/payment/payment.scss";
 @import "../pages/history/history.scss";
+@import "../pages/onboarding/onboarding.scss";
 
 @font-face {
   font-family: "Ubuntu";
   font-style: normal;
-  font-weight: 300;
+  font-weight: normal;
   src: url("#{$font-path}/Ubuntu-R.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Ubuntu";
+  font-style: normal;
+  font-weight: 300;
+  src: url("#{$font-path}/Ubuntu-L.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Ubuntu";
+  font-style: normal;
+  font-weight: 500;
+  src: url("#{$font-path}/Ubuntu-M.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Ubuntu";
+  font-style: normal;
+  font-weight: 700;
+  src: url("#{$font-path}/Ubuntu-B.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Ubuntu Condensed";
+  font-style: normal;
+  font-weight: normal;
+  src: url("#{$font-path}/Ubuntu-C.ttf") format("truetype");
 }
 
 html, body {
   font-family: $font-ubuntu;
 }
 
+ion-menu {
+  .menu-top {
+    background: #EBEBEB;//#dedede;
+    margin-bottom:-2px;
+    text-align:center;
+    img {
+      display:inline-block;
+    }
+  }
+}
+
+#menu {
+  ion-list {
+    height: 100%;
+  }
+  ion-title {
+    min-width: 100%;
+    min-height: 25%;
+    background: url(../../img/bitpocket_menue_header_640x347.jpg) no-repeat center center;
+    background-size: cover;
+  }
+}
+
+.menu-header {
+  background-color: #434954;
+  padding: 16px;
+  width: 100%;
+  min-height: 150px;
+  text-align: center;
+}
+
+.menu-header img {
+  max-width: 200px;
+  min-height: 115px;
+  margin-left: -15px;
+  padding: 25px 0 20px 0;
+}
+
+
+ion-navbar {
+  .logo {
+    min-width: 2.0rem;
+    min-height: 2.0rem;
+    background: url(../../img/bitpocket_appicon_1024x1024.png) no-repeat center center;
+    background-size: cover;
+  }
+}
+
 ion-content {
-  background: url(../../img/background.png) no-repeat center center fixed;
+  background: url(../../img/background.png) no-repeat center center;
   background-size: cover;
 }
 
-.menu-image {
-  min-width: 100%;
-  min-height: 100%;
-}
+
 
 .divider-box {
   margin: 3% 0 8% 0;
@@ -48,9 +118,4 @@ ion-content {
       background-image: linear-gradient(to right, rgba(0,0,0, 0), rgba(0,0,0, 0.75), rgba(0,0,0, 0))
     }
   }
-}
-
-.logo {
-  width: 22px;
-  height: 22px;
 }

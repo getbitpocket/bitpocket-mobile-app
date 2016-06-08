@@ -101,6 +101,10 @@ export class AmountPage {
     }
 
     numberInput(input:string) {
+        let currentLenght = this.decimals.length + this.digits.length + 1;
+        if(currentLenght >= 8){
+            return null;
+        }
         if (this.position === POSITION_DIGITS) {
             this.digitInput(input.toString());
         } else if (this.position === POSITION_DECIMALS) {

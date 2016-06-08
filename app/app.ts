@@ -1,12 +1,14 @@
 import 'es6-shim';
 import {App, Platform, IonicApp, Nav, Menu} from 'ionic-angular';
 import {Type, ViewChild} from '@angular/core';
+import {StatusBar, Splashscreen, Network, Connection} from 'ionic-native';
 
 // Pages
 import {AmountPage} from './pages/amount/amount';
 import {SettingsPage} from './pages/settings/settings';
 import {HistoryPage} from './pages/history/history';
-import {PaymentResultPage} from './pages/payment/payment-result';
+import {AddressesPage} from './pages/onboarding/addresses';
+import {OfflinePage} from './pages/onboarding/offline';
 
 // Providers
 import {DatabaseHelper} from './providers/database-helper';
@@ -48,10 +50,27 @@ export class BitpocketApp {
         this.menuItems[0] = { name:'Payment' , icon:'keypad' , page:AmountPage };        
         this.menuItems[1] = { name:'History', icon:'list', page:HistoryPage };
         this.menuItems[2] = { name:'Settings', icon:'options', page:SettingsPage };
-        this.menuItems[3] = { name:'Payment-Try', icon:'options', page:PaymentResultPage };
+        
+        platform.ready().then(() => {
+            // watch network for a disconnect
+            let disconnectSubscription = Network.onDisconnect().subscribe(() => {
+                console.log('network was disconnected :-( ')
+                this.nav.push(OfflinePage);
+            });
 
-        platform.ready().then(() => {            
-            this.initApp();           
+            // stop disconnect watch
+            //disconnectSubscription.unsubscribe();
+
+            // watch network for a connection
+            let connectSubscription = Network.onConnect().subscribe(() => {
+                console.log('network connected!');
+                StatusBar.styleDefault();
+                Splashscreen.hide();
+                this.initApp();
+            });
+
+            // stop connect watch
+            //connectSubscription.unsubscribe();
         });
     }
     
@@ -63,8 +82,20 @@ export class BitpocketApp {
     }
     
     initApp() {
-        this.dbHelper.initDb();
+        this.dbHelper.initDb(); // .then check db success init --- DODO
         this.updateCurrencyRate();
+
+        Promise.all<string>([
+            this.config.get('address-type') ,
+            this.config.get('static-address'),
+            this.config.get('master-public-key')
+        ]).then(promised => {
+            console.log(promised[0] + " " + promised[1] + " " + promised[2]);
+            if (promised[1] === undefined && promised[2] === undefined) {
+                this.nav.push(AddressesPage);
+            }
+        });
+
     }
     
     openPage(page:any) {
