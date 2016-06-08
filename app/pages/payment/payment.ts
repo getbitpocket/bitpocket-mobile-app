@@ -31,7 +31,7 @@ export class PaymentPage {
     
     waitingTime: number = 0;
     checkInterval: number = 4000;
-    timeout: number = 1000 * 20; // one minute, should be configurable
+    timeout: number = 1000 * 60; // one minute, should be configurable
     serviceErrorCounts: number = 0;
     maxServiceErrors: number = 4;
     
