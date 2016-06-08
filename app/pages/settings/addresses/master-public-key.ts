@@ -1,12 +1,12 @@
-import {ChangeDetectorRef} from '@angular/core';
-import {Page,NavController,Alert} from 'ionic-angular';
+import {Component, ChangeDetectorRef} from '@angular/core';
+import {NavController,Alert} from 'ionic-angular';
 import {BarcodeScanner} from 'ionic-native';
 import {Config} from '../../../providers/config';
 import * as bitcoin from 'bitcoinjs-lib';
 
 const ADDRESS_TYPE = 'master-public-key';
 
-@Page({
+@Component({
     templateUrl : 'build/pages/settings/addresses/master-public-key.html'
 })
 export class MasterPublicKeyPage {

@@ -1,6 +1,6 @@
 import 'es6-shim';
-import {App, Platform, IonicApp, Nav, Menu} from 'ionic-angular';
-import {Type, ViewChild} from '@angular/core';
+import {ionicBootstrap, Platform, App, Nav, Menu} from 'ionic-angular';
+import {Component, Type, ViewChild} from '@angular/core';
 import {StatusBar, Splashscreen, Network, Connection} from 'ionic-native';
 
 // Pages
@@ -24,28 +24,17 @@ import {BlockchainExchangeService} from './providers/currency/blockchain';
 // Payment Services
 import {ElectrumPaymentService} from './providers/payment/electrum';
 
-@App({
-    templateUrl : 'build/app.html',
-    providers: [
-        History,
-        Currency,
-        Address,
-        Payment,
-        Config ,
-        DatabaseHelper ,
-        BlockchainExchangeService ,
-        ElectrumPaymentService
-    ],
-    config: {} // http://ionicframework.com/docs/v2/api/config/Config/
+@Component({
+    templateUrl : 'build/app.html'    
 })
-export class BitpocketApp {
+export class BitPocketApp {
     @ViewChild(Nav) nav: Nav;   
     @ViewChild(Menu) menu: Menu; 
     
     rootPage: Type = AmountPage;
     menuItems:Array<{name:string,icon:string,page:any}> = [];
 
-    constructor(platform: Platform, private app:IonicApp, private config:Config, private currency:Currency, private dbHelper:DatabaseHelper, private history: History) {//, private currency:Currency) {
+    constructor(platform: Platform, private app:App, private config:Config, private currency:Currency, private dbHelper:DatabaseHelper, private history: History) {//, private currency:Currency) {
         
         this.menuItems[0] = { name:'Payment' , icon:'keypad' , page:AmountPage };        
         this.menuItems[1] = { name:'History', icon:'list', page:HistoryPage };
@@ -103,3 +92,17 @@ export class BitpocketApp {
         this.nav.setRoot(page);
     }
 }
+
+ionicBootstrap(
+    BitPocketApp,
+    [ // providers
+        History,
+        Currency,
+        Address,
+        Payment,
+        Config ,
+        DatabaseHelper ,
+        BlockchainExchangeService ,
+        ElectrumPaymentService
+    ],
+    {}); // http://ionicframework.com/docs/v2/api/config/Config/

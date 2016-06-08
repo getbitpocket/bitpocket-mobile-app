@@ -1,4 +1,5 @@
-import {Page,NavController} from 'ionic-angular';
+import {Component} from '@angular/core';
+import {NavController} from 'ionic-angular';
 
 // pages
 import {CurrencyPage} from './currency/currency';
@@ -6,7 +7,7 @@ import {StaticAddressPage} from './addresses/static-address';
 import {MasterPublicKeyPage} from './addresses/master-public-key';
 import {GeneralPage} from './general/general';
 
-@Page({
+@Component({
     templateUrl : 'build/pages/settings/settings.html'
 })
 export class SettingsPage {

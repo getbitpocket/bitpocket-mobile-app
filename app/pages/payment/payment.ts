@@ -1,5 +1,5 @@
-import {ChangeDetectorRef} from '@angular/core';
-import {Page,NavParams,NavController} from 'ionic-angular';
+import {Component, ChangeDetectorRef} from '@angular/core';
+import {NavParams,NavController} from 'ionic-angular';
 import {Address} from '../../providers/address';
 import * as payment from '../../providers/payment/payment';
 import {History} from '../../providers/history/history';
@@ -11,7 +11,7 @@ import * as bip21 from 'bip21';
 import {Transaction} from '../../api/transaction';
 import qrcode = require('qrcode-generator');
 
-@Page({
+@Component({
     templateUrl : 'build/pages/payment/payment.html'
 })
 export class PaymentPage {

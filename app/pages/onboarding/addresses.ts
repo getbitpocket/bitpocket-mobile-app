@@ -1,4 +1,4 @@
-import {ChangeDetectorRef} from '@angular/core';
+import {Component, ChangeDetectorRef} from '@angular/core';
 import {Page,NavController,Alert} from 'ionic-angular';
 import {BarcodeScanner} from 'ionic-native';
 import {Config} from '../../providers/config';
@@ -7,7 +7,7 @@ import * as bitcoin from 'bitcoinjs-lib';
 const ADDRESS_TYPE_MASTER = 'master-public-key';
 const ADDRESS_TYPE_STATIC = 'static'
 
-@Page({
+@Component({
     templateUrl : 'build/pages/onboarding/addresses.html'
 })
 export class AddressesPage {

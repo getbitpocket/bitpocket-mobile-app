@@ -1,12 +1,12 @@
-import {ChangeDetectorRef} from '@angular/core';
-import {Page,NavController,Alert} from 'ionic-angular';
+import {Component, ChangeDetectorRef} from '@angular/core';
+import {NavController, Alert} from 'ionic-angular';
 import {BarcodeScanner} from 'ionic-native';
 import * as bip21 from 'bip21';
 import {Config} from '../../../providers/config';
 
 const ADDRESS_TYPE = 'static';
 
-@Page({
+@Component({
     templateUrl : 'build/pages/settings/addresses/static-address.html'
 })
 export class StaticAddressPage {

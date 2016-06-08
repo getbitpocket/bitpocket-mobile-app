@@ -1,4 +1,5 @@
-import {Page,NavParams,NavController} from 'ionic-angular';
+import {Component} from '@angular/core';
+import {NavParams,NavController} from 'ionic-angular';
 import {History} from '../../providers/history/history';
 import {Currency} from '../../providers/currency/currency';
 import {Config} from '../../providers/config';
@@ -6,7 +7,7 @@ import {BitcoinUnit} from '../../providers/currency/bitcoin-unit';
 import {Transaction} from '../../api/transaction';
 import {CurrencyPipe} from '../../pipes/currency';
 
-@Page({
+@Component({
     templateUrl : 'build/pages/history/history.html' ,
     pipes : [CurrencyPipe]   
 })

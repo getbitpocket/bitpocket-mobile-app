@@ -1,9 +1,10 @@
+import {Component} from '@angular/core';
 import {Page} from 'ionic-angular';
 import {Currency} from '../../../providers/currency/currency';
 
 // services
 
-@Page({
+@Component({
     templateUrl : 'build/pages/settings/currency/currency.html'
 })
 export class CurrencyPage {     

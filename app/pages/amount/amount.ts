@@ -1,5 +1,5 @@
-import {ChangeDetectorRef} from '@angular/core';
-import {Page,NavController, Platform} from 'ionic-angular';
+import {Component, ChangeDetectorRef} from '@angular/core';
+import {NavController, Platform} from 'ionic-angular';
 import {PaymentPage} from '../payment/payment';
 import {Config} from '../../providers/config';
 import {Currency} from '../../providers/currency/currency';
@@ -9,7 +9,7 @@ import * as bitcoin from 'bitcoinjs-lib';
 const POSITION_DIGITS = 'digits';
 const POSITION_DECIMALS = 'decimals';
 
-@Page({
+@Component({
     templateUrl : 'build/pages/amount/amount.html'
 })
 

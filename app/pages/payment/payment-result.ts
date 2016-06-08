@@ -1,4 +1,4 @@
-import {ChangeDetectorRef} from '@angular/core';
+import {Component, ChangeDetectorRef} from '@angular/core';
 import {Page,NavParams,NavController} from 'ionic-angular';
 import {AmountPage} from '../amount/amount';
 import {Transaction} from '../../api/transaction';
@@ -14,7 +14,7 @@ PAYMENT_STATUS_MESSAGES[payment.PAYMENT_STATUS_SERVICE_ERROR] = 'Bitcoin Network
 PAYMENT_STATUS_MESSAGES[payment.PAYMENT_STATUS_NOT_RECEIVED] = 'Payment not received';
 PAYMENT_STATUS_MESSAGES[payment.PAYMENT_STATUS_ERROR] = 'Payment error';
 
-@Page({
+@Component({
     templateUrl : 'build/pages/payment/payment-result.html'
 })
 export class PaymentResultPage {
