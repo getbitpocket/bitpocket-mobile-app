@@ -31,8 +31,8 @@ export class GeneralPage {
             this.config.get('blockchain-explorer') ,
         ]).then(promised => {
             this.selectedFormat = promised[0];
-            this.selectedUnit   = promised[1];
-            this.selectedExplorer   = promised[2];
+            this.selectedUnit = promised[1];
+            this.selectedExplorer = promised[2];
             this.changeDetector.detectChanges();
         });
     }

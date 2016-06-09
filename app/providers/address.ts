@@ -5,7 +5,10 @@ import * as bitcoin from 'bitcoinjs-lib';
 @Injectable()
 export class Address {
     
-    constructor(private config: Config) {}
+    static REGEX_BITCOIN_ADDRESS = /^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$/;
+    static REGEX_XPUB_KEY = /^xpub[a-km-zA-HJ-NP-Z1-9]{100,108}$/;
+
+    constructor(private config: Config) {}    
     
     getAddress() : Promise<string> {
         return new Promise<string>((resolve, reject) => {

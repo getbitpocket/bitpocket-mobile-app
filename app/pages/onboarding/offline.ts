@@ -14,10 +14,5 @@ export class OfflinePage {
     constructor(private menu:MenuController) {
         this.text.no_internet = "No Internet Connection";
         this.menu.enable(false);
-        /*
-        if (this.language.hasText('no_internet')) {
-            this.text.no_internet = this.language.getText('no_internet');
-        }
-        */
     }
 }

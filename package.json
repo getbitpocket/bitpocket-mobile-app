@@ -38,6 +38,11 @@
   },
   "name": "bitpocket-mobile",
   "description": "bitpocket-mobile: An Ionic project",
+  "license": "Apache-2.0",
+  "repository": {
+    "type" : "git" ,
+    "url": "https://github.com/getbitpocket/bitpocket-mobile-app.git"
+  },
   "cordovaPlugins": [
     "phonegap-plugin-barcodescanner",
     "cordova-plugin-network-information",

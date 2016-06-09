@@ -11,24 +11,22 @@
             <ion-list>
 
                 <ion-item>
-                    <ion-label>Select address type</ion-label>
-                    <ion-select [(ngModel)]="addresstype" (change)="setaddresstype()">
-                        <ion-option value="static">Static address</ion-option>
-                        <ion-option value="master">Master Public Key</ion-option>
+                    <ion-label>Address Type</ion-label>
+                    <ion-select [(ngModel)]="addressType">
+                        <ion-option value="static">Static Address</ion-option>
+                        <ion-option value="master-public-key">Master Public Key</ion-option>
                     </ion-select>
                 </ion-item>
 
-                <ion-item [hidden]="!showInput">
-                    <ion-input (change)="keyChanged()" type="text"  placeholder="{{addresstypename}}" [(ngModel)]="masterPublicKey"></ion-input>
+                <ion-item *ngIf="addressType">
+                    <ion-input (change)="keyChanged()" type="text"  placeholder="{{addresstypename}}" [(ngModel)]="addressInput"></ion-input>
                     <button clear item-right (click)="scan()"><ion-icon name="qr-scanner"></ion-icon></button>
                 </ion-item>
 
-
-
             </ion-list>
         </ion-row>
-        <ion-row class="savestart-button" disabled={{buttonDisabled}} padding text-center>
-            <button show-history class="text-uppercase" (click)="saveStart()">
+        <ion-row class="savestart-button" padding text-center>
+            <button show-history class="text-uppercase" (click)="start()">
                 Continue
                 <ion-icon name="arrow-forward"></ion-icon>
             </button>

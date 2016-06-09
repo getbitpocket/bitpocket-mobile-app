@@ -31,7 +31,7 @@ export class BitPocketApp {
     @ViewChild(Nav) nav: Nav;   
     @ViewChild(Menu) menu: Menu; 
     
-    rootPage: Type = AmountPage;
+    rootPage: Type;
     menuItems:Array<{name:string,icon:string,page:any}> = [];
 
     constructor(platform: Platform, private app:App, private config:Config, private currency:Currency, private dbHelper:DatabaseHelper, private history: History) {//, private currency:Currency) {
@@ -41,50 +41,63 @@ export class BitPocketApp {
         this.menuItems[2] = { name:'Settings', icon:'options', page:SettingsPage };
         
         platform.ready().then(() => {
-            // watch network for a disconnect
-            let disconnectSubscription = Network.onDisconnect().subscribe(() => {
-                console.log('network was disconnected :-( ')
-                this.nav.push(OfflinePage);
-            });
+            StatusBar.styleDefault();
+            this.initApp();
 
-            // stop disconnect watch
-            //disconnectSubscription.unsubscribe();
+            // watch network for a disconnect
+            Network.onDisconnect().subscribe(() => {
+                this.nav.setRoot(OfflinePage);
+            });
 
             // watch network for a connection
-            let connectSubscription = Network.onConnect().subscribe(() => {
-                console.log('network connected!');
-                StatusBar.styleDefault();
-                Splashscreen.hide();
-                this.initApp();
+            Network.onConnect().subscribe(() => {
+                this.initNavState();
             });
-
-            // stop connect watch
-            //connectSubscription.unsubscribe();
         });
     }
+
+    isOnline() {
+        if (Network.connection != Connection.NONE) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     
-    updateCurrencyRate() {
-        this.currency.updateCurrencyRate();        
+    triggerUpdateTask() {
+        if (this.isOnline()) {
+            this.currency.updateCurrencyRate();
+        }        
+
         setTimeout(() => {
-            this.updateCurrencyRate();
+            this.triggerUpdateTask();
         },1000 * 60 * 5);
+    }
+
+    initNavState() {
+        if (this.isOnline()) {
+            Promise.all<any>([
+                this.config.isSet('address-type') ,
+                this.config.isSet('static-address') ,
+                this.config.isSet('master-public-key') ,
+            ]).then(promised => {        
+                if (promised[0] && (promised[1] || promised[2])) {
+                    this.nav.setRoot(AmountPage);
+                } else {
+                    this.nav.setRoot(AddressesPage);
+                }
+                Splashscreen.hide();
+            });
+        } else {
+            this.nav.setRoot(OfflinePage);
+            Splashscreen.hide();
+        }
     }
     
     initApp() {
-        this.dbHelper.initDb(); // .then check db success init --- DODO
-        this.updateCurrencyRate();
-
-        Promise.all<string>([
-            this.config.get('address-type') ,
-            this.config.get('static-address'),
-            this.config.get('master-public-key')
-        ]).then(promised => {
-            console.log(promised[0] + " " + promised[1] + " " + promised[2]);
-            if (promised[1] === undefined && promised[2] === undefined) {
-                this.nav.push(AddressesPage);
-            }
-        });
-
+        this.dbHelper.initDb();
+        this.triggerUpdateTask();
+        this.initNavState();        
     }
     
     openPage(page:any) {
@@ -105,4 +118,5 @@ ionicBootstrap(
         BlockchainExchangeService ,
         ElectrumPaymentService
     ],
-    {}); // http://ionicframework.com/docs/v2/api/config/Config/
+    {}
+); // http://ionicframework.com/docs/v2/api/config/Config/

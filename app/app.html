@@ -2,12 +2,8 @@
 
     <div class="menu-top"><img src="img/bitpocket_menue_header_640x347.jpg"></div>
 
-    <ion-content class="outer-content">
-        
+    <ion-content class="outer-content">        
         <ion-list no-lines>
-            <!--div class="menu-header">
-                <img src="img/bitpocket_menue_header_640x347.jpg">
-            </div!-->
             <button ion-item *ngFor="let menuItem of menuItems" (click)="openPage(menuItem.page)">
                 <ion-icon name="{{menuItem.icon}}" item-left></ion-icon>
                 {{menuItem.name}}
