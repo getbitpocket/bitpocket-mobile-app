@@ -2,6 +2,8 @@
 
 # BitPocket Mobile App
 
+[![Join the chat at https://gitter.im/getbitpocket/bitpocket-mobile-app](https://badges.gitter.im/getbitpocket/bitpocket-mobile-app.svg)](https://gitter.im/getbitpocket/bitpocket-mobile-app?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 ## Getting started
 
 BitPocket is an App based on the Ionic/Cordova Frameworks. Therefore a couple of node modules are required to get started. In order to setup your environment the following global node modules need to be installed: `npm i gulp cordova ionic@beta -g`
