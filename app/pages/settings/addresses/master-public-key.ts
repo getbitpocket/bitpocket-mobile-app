@@ -26,12 +26,11 @@ export class MasterPublicKeyPage {
             }
             this.masterPublicKey = promised[1];
             this.index = promised[2];
-            console.log("LOG: "+promised[0]+" "+promised[1]+" "+promised[2]);
         });
     }
 
     activationChanged() {
-        if (!this.active) {
+        if (this.active) {
             this.config.set('address-type', ADDRESS_TYPE);
         }
     }

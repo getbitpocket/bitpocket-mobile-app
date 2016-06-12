@@ -1,7 +1,7 @@
 import {Component, ChangeDetectorRef} from '@angular/core';
 import {NavParams,NavController} from 'ionic-angular';
 import {Address} from '../../providers/address';
-import * as payment from '../../providers/payment/payment';
+import {Payment} from '../../providers/payment/payment';
 import {History} from '../../providers/history/history';
 import {BitcoinUnit} from '../../providers/currency/bitcoin-unit';
 import {PaymentResultPage} from './payment-result';
@@ -9,6 +9,7 @@ import {Config} from '../../providers/config';
 import {Currency} from '../../providers/currency/currency';
 import * as bip21 from 'bip21';
 import {Transaction} from '../../api/transaction';
+import * as payment from '../../api/payment-service';
 import qrcode = require('qrcode-generator');
 
 @Component({
@@ -28,14 +29,8 @@ export class PaymentPage {
     
     address: string;
     readableAmount: string;
-    
-    waitingTime: number = 0;
-    checkInterval: number = 4000;
-    timeout: number = 1000 * 60; // one minute, should be configurable
-    serviceErrorCounts: number = 0;
-    maxServiceErrors: number = 4;
-    
-    constructor(private addressService: Address, private historyService: History, private paymentService: payment.Payment, private currencyService: Currency, private config: Config, private params: NavParams, private navigation:NavController, private changeDetector:ChangeDetectorRef) {              
+
+    constructor(private addressService: Address, private historyService: History, private paymentService: Payment, private currencyService: Currency, private config: Config, private params: NavParams, private navigation:NavController, private changeDetector:ChangeDetectorRef) {              
         this.amount = params.data.bitcoinAmount;
                       
         Promise.all<any>([
@@ -64,8 +59,25 @@ export class PaymentPage {
             this.qrImage = qr.createImgTag(5,5); 
             
             this.changeDetector.detectChanges();
-            this.checkPayment();
+            this.initPaymentCheck();
         });          
+    }
+
+    initPaymentCheck() {
+        let paymentRequest = {
+            address : this.address ,
+            bitcoinAmount : this.amount.to('BTC') ,
+            fiatAmount : this.amount.toFiat(this.currencyRate) ,
+            currency : this.currency
+        };
+
+        this.paymentService.startPaymentStatusCheck(paymentRequest)
+            .on('payment-status:'+payment.PAYMENT_STATUS_RECEIVED, (transaction) => {
+                this.paymentReceived(transaction);
+            })
+            .on('payment-status:'+payment.PAYMENT_STATUS_TIMEOUT, (paymentRequest) => {
+                this.paymentError(payment.PAYMENT_STATUS_TIMEOUT, paymentRequest);
+            });        
     }
     
     paymentError(status: string, transaction: Transaction) {
@@ -76,52 +88,16 @@ export class PaymentPage {
         });
     }
     
-    paymentReceived(tx: string, transaction: Transaction) {
+    paymentReceived(transaction: Transaction) {
         this.navigation.setRoot(PaymentResultPage, {
             status: payment.PAYMENT_STATUS_RECEIVED ,
             success: true ,
             transaction: transaction
         });
     }
-        
-    checkPayment() {      
-        let paymentRequest = {
-            txid : '',
-            address : this.address ,
-            bitcoinAmount : this.amount.to('BTC') ,
-            fiatAmount : this.amount.toFiat(this.currencyRate) ,
-            currency : this.currency
-        };
-        
-        setTimeout(() => {
-            this.waitingTime += this.checkInterval;
-            
-            if (this.waitingTime > this.timeout) {
-                this.paymentError(payment.PAYMENT_STATUS_TIMEOUT, paymentRequest);
-            } else {
-                this.paymentService
-                .checkPayment(this.address,this.amount)
-                .then((result) => {                    
-                    if (result.status === payment.PAYMENT_STATUS_RECEIVED && result.tx != '') {   
-                        paymentRequest.txid = result.tx;                     
-                        this.historyService.addTransaction(paymentRequest);                        
-                        this.paymentReceived(result.tx, paymentRequest);
-                    } else {
-                        this.paymentError(payment.PAYMENT_STATUS_ERROR, paymentRequest);
-                    }                    
-                })
-                .catch((result) => {                    
-                    if (result.status === payment.PAYMENT_STATUS_NOT_RECEIVED) {
-                        this.checkPayment();
-                    } else if (result.status === payment.PAYMENT_STATUS_SERVICE_ERROR && this.serviceErrorCounts <= this.maxServiceErrors ) {
-                        this.checkPayment();
-                    } else {
-                        this.paymentError(result.status, paymentRequest);
-                    }                    
-                });
-            }
-            
-        }, this.checkInterval);        
-    }
+
+    ionViewWillLeave() {
+        this.paymentService.stopPaymentStatusCheck();
+    }    
     
 }

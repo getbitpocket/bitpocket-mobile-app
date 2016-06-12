@@ -1,6 +1,18 @@
 import {describe, it, expect} from '@angular/core/testing';
 import {ElectrumPaymentService} from './electrum';
 import {BitcoinUnit} from './../currency/bitcoin-unit';
+import {Transaction} from '../../api/transaction';
+
+function createDummy(txid: string) : Transaction {
+    return {
+        txid : txid ,
+        address : 'blabla' ,
+        currency : 'EUR' ,
+        fiatAmount : 10 ,
+        bitcoinAmount : 11 ,
+        confirmations : 100
+    };
+};
 
 describe('Electrum Payment Service', () => {
     
@@ -27,6 +39,42 @@ describe('Electrum Payment Service', () => {
     it('check non existing address', () => {
         let btcAmount = BitcoinUnit.from(1.3, 'BTC');        
         expect(paymentService.checkTransaction(txHex1, address2, btcAmount)).toBe(false);
+    });
+
+    it('find transaction index', () => {
+        let dummyTransactions = [
+            createDummy('1230') ,
+            createDummy('1231') ,
+            createDummy('1232') ,
+            createDummy('1233') ,
+            createDummy('1234')
+        ];
+
+        expect(paymentService.findTransactionIndex('1233',dummyTransactions)).toEqual(3);
+        expect(paymentService.findTransactionIndex('1333',dummyTransactions)).toEqual(-1);
+    });
+
+    it('update transaction data', () => {
+        let dummyTransactions = [
+            createDummy('1230') ,
+            createDummy('1231') ,
+            createDummy('1232') ,
+            createDummy('1233') ,
+            createDummy('1234')
+        ];
+
+        let transactions = paymentService.updateTransactionData([
+            { tx_hash : '1132', height : 400 } ,
+            { tx_hash : '1232', height : 600 } ,
+            { tx_hash : '1333', height : 1000 }
+        ],dummyTransactions,1100);
+
+        expect(transactions[0].confirmations).toEqual(100);
+        expect(transactions[1].confirmations).toEqual(100);
+        expect(transactions[2].confirmations).toEqual(500);        
+        expect(transactions[3].confirmations).toEqual(100);
+        expect(transactions[4].confirmations).toEqual(100);       
+
     });
     
 });

@@ -2,10 +2,12 @@
 
 import {Injectable} from '@angular/core';
 import {BitcoinUnit} from '../currency/bitcoin-unit';
-import * as payment from './payment';
+import {Transaction} from '../../api/transaction';
+import * as payment from '../../api/payment-service';
 import * as bitcoin from 'bitcoinjs-lib';
 import {Buffer} from 'buffer';
 
+@Injectable()
 export class ElectrumPaymentService implements payment.PaymentService {
 
     checkTransaction(transaction: string, address: string, amount: BitcoinUnit) : any {
@@ -21,13 +23,41 @@ export class ElectrumPaymentService implements payment.PaymentService {
         return false;
     }
 
-    checkPayment(address: string, amount: BitcoinUnit) : Promise<{status: string, tx?: string}> {
+    generateRandomId() : number {
+        return Math.round(Math.random() * 10000000);
+    }
 
+    findTransactionIndex(txid: string, transactions: Array<Transaction>) : number{
+        let index = -1;
+
+        for (let i = 0; i < transactions.length; i++) {
+            if (transactions[i].txid === txid) {
+                return i;
+            }
+        }
+
+        return index;
+    }
+
+    updateTransactionData(response:Array<{tx_hash:string, height:number}>, transactions:Array<Transaction>, blockHeight: number) : Array<Transaction> {
+        for (let tx of response) {
+            let index = this.findTransactionIndex(tx.tx_hash, transactions);
+            if (index >= 0) {
+                transactions[index].confirmations = blockHeight - tx.height;
+            }
+        }
+
+        return transactions;
+    }
+
+    findTransactions(address: string, amount: BitcoinUnit) : Promise<Array<string>> {
         return new Promise((resolve, reject) => {
-            let nD = new electrum.NetworkDiscovery();
-            let requestId = Math.round(Math.random() * 10000000);
-            let txRequestId = Math.round(Math.random() * 10000000);
-            let txCount = 0, txResultCount = 0;
+            let nD            = new electrum.NetworkDiscovery(),
+            	requestId     = this.generateRandomId(),
+            	txRequestId   = this.generateRandomId(),
+            	txCount       = 0,
+                txResultCount = 0,
+                txids         = [];
 
             nD.init();
             nD.on('peers:discovered', () => {
@@ -36,16 +66,15 @@ export class ElectrumPaymentService implements payment.PaymentService {
                     method: 'blockchain.address.get_mempool',
                     params: [address]
                 };
-                console.log("send request", request);
                 nD.sendRandomRequest(request);
             });
-
+                
             nD.on('peers:response', response => {
-                console.log("response", response);
-
                 if (response.id == requestId && Array.isArray(response.result) && response.result.length > 0) {
                     txCount = response.result.length;
 
+                    // send a request for each found transaction
+                    // in mempool, to the given address                    
                     for (let tx of response.result) {
                         if (typeof tx.tx_hash === 'string') {                                                        
                             nD.sendRandomRequest({
@@ -59,16 +88,57 @@ export class ElectrumPaymentService implements payment.PaymentService {
                     txResultCount++;
                     let txid = this.checkTransaction(response.result, address, amount);
 
-                    if (txid !== false) {
-                        resolve({status: payment.PAYMENT_STATUS_RECEIVED, tx: txid});
-                    } else if (txCount <= txResultCount) {
-                        reject({status: payment.PAYMENT_STATUS_NOT_RECEIVED});
+                    if (txid) {
+                        txids.push(txid);
                     }
-                } else {
-                    reject({status: payment.PAYMENT_STATUS_NOT_RECEIVED});
+                }
+
+                if (txResultCount >= txCount && txids.length > 0) {
+                    resolve(txids);
+                } else if (txResultCount >= txCount) {
+                    reject(txids);
                 }
             });
         });
     }
 
+    updateConfirmations(transactions: Array<Transaction>) : Promise<Array<Transaction>> {
+        return new Promise<Array<Transaction>>((resolve, reject) => {
+            let nD = new electrum.NetworkDiscovery(),
+                blockRequestId = this.generateRandomId(),
+                historyRequestId = this.generateRandomId(),
+                retrievedBlockHeight = 0,
+                addresses = [];
+
+            for(let i = 0; i < transactions.length; i++) {
+                addresses.push(transactions[i].address);
+            }
+
+            nD.init();
+            
+            nD.on('peers:discovered', () => {                
+                nD.sendRandomRequest({
+                    id: blockRequestId,
+                    method: 'blockchain.numblocks.subscribe',
+                    params: []
+                });
+            });
+
+            nD.on('peers:response', response => {
+                if (response.id == blockRequestId) {
+                    retrievedBlockHeight = response.result;
+
+                    nD.sendRandomRequest({
+                        id: historyRequestId ,
+                        method : 'blockchain.address.get_history' ,
+                        params : addresses
+                    });
+                } else if (response.id == historyRequestId) {
+
+                    resolve(transactions);
+                }
+            });
+
+        });
+    }
 }

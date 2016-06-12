@@ -4,7 +4,7 @@ import {AmountPage} from '../amount/amount';
 import {Transaction} from '../../api/transaction';
 import {Config} from '../../providers/config';
 import {Currency} from '../../providers/currency/currency';
-import * as payment from '../../providers/payment/payment';
+import * as payment from '../../api/payment-service';
 import {BitcoinUnit} from '../../providers/currency/bitcoin-unit';
 
 let PAYMENT_STATUS_MESSAGES = {};

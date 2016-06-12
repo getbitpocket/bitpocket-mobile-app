@@ -1,6 +1,7 @@
 import {Component, ChangeDetectorRef} from '@angular/core';
 import {Page,NavController,Alert} from 'ionic-angular';
 import {BarcodeScanner} from 'ionic-native';
+import {Address} from '../../providers/address';
 import {Config} from '../../providers/config';
 import {AmountPage} from '../amount/amount';
 import * as bitcoin from 'bitcoinjs-lib';
@@ -23,6 +24,17 @@ export class AddressesPage {
     }
 
     start() {
+        if (!Address.checkAddressInput(this.addressInput, this.addressType)) {
+            let alert = Alert.create({
+                title: 'Invalid Innput',
+                subTitle: 'Please recheck your inputs!',
+                buttons: ['Ok']
+            });
+
+            this.nav.present(alert);
+            return;
+        }
+
         if (this.addressType === 'static') {                    
             this.config.set(Config.CONFIG_KEY_ADDRESS_TYPE, this.addressType);
             this.config.set(Config.CONFIG_KEY_STATIC_ADDRESS, this.addressInput);

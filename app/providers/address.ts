@@ -10,6 +10,22 @@ export class Address {
 
     constructor(private config: Config) {}    
     
+    static checkAddressInput(addressInput: string, addressType: string) : boolean {
+        try {
+            if (addressType === 'static' && Address.REGEX_BITCOIN_ADDRESS.test(addressInput)) {                    
+                return true;
+            } else if (addressType === 'master-public-key' &&
+                Address.REGEX_XPUB_KEY.test(addressInput) &&
+                bitcoin.HDNode.fromBase58(addressInput).toBase58() === addressInput) {
+                return true;
+            }
+        } catch(e) {
+            return false
+        }
+
+        return false;
+    }
+
     getAddress() : Promise<string> {
         return new Promise<string>((resolve, reject) => {
             Promise.all<any>([

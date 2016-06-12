@@ -23,13 +23,16 @@ export class StaticAddressPage {
                 this.active = true;
             }
             this.address = promised[1];
+            this.changeDetector.detectChanges();
         });
     }
 
     activationChanged() {
+        this.active = !this.active;
+        
         if (!this.active) {
-            this.config.set('address-type', ADDRESS_TYPE);
-        }
+            this.config.set('address-type', ADDRESS_TYPE);  
+        }              
     }
 
     addressChanged() {
