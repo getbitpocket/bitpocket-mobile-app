@@ -1,10 +1,10 @@
-import {ChangeDetectorRef} from '@angular/core';
+import {Component, ChangeDetectorRef} from '@angular/core';
 import {Page,NavParams,NavController} from 'ionic-angular';
 import {AmountPage} from '../amount/amount';
 import {Transaction} from '../../api/transaction';
 import {Config} from '../../providers/config';
 import {Currency} from '../../providers/currency/currency';
-import * as payment from '../../providers/payment/payment';
+import * as payment from '../../api/payment-service';
 import {BitcoinUnit} from '../../providers/currency/bitcoin-unit';
 
 let PAYMENT_STATUS_MESSAGES = {};
@@ -14,7 +14,7 @@ PAYMENT_STATUS_MESSAGES[payment.PAYMENT_STATUS_SERVICE_ERROR] = 'Bitcoin Network
 PAYMENT_STATUS_MESSAGES[payment.PAYMENT_STATUS_NOT_RECEIVED] = 'Payment not received';
 PAYMENT_STATUS_MESSAGES[payment.PAYMENT_STATUS_ERROR] = 'Payment error';
 
-@Page({
+@Component({
     templateUrl : 'build/pages/payment/payment-result.html'
 })
 export class PaymentResultPage {
@@ -67,7 +67,7 @@ export class PaymentResultPage {
                 
         setTimeout(() => {
             nav.setRoot(AmountPage);
-        }, 5000);                           
+        }, 8000);                           
     }
     
 }

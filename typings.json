@@ -6,15 +6,12 @@
     "cordova": "registry:dt/cordova#0.0.0+20160316155526",
     "cordova/plugins/camera": "registry:dt/cordova/plugins/camera#0.0.0+20160316155526",
     "cordova/plugins/websql": "registry:dt/cordova/plugins/websql#0.0.0+20160316155526",
-    "electrum-network-plugin": "github:getbitpocket/electrum-network-plugin/index.d.ts#c8c8bf1b29910f3f6336f979414bbd6118f89bb9",
+    "electrum-network-plugin": "github:getbitpocket/electrum-network-plugin/index.d.ts#65bc4ccffb04400cd5303140abdecffa056f5426",
     "es6-shim": "github:DefinitelyTyped/DefinitelyTyped/es6-shim/es6-shim.d.ts#4de74cb527395c13ba20b438c3a7a419ad931f1c",
     "node": "registry:dt/node#4.0.0+20160330064709",
     "qrcode-generator": "registry:dt/qrcode-generator#0.0.0+20160412152159"
   },
   "globalDevDependencies": {
     "jasmine": "registry:dt/jasmine#2.2.0+20160505161446"
-  },
-  "ambientDependencies": {
-    "cordova": "registry:dt/cordova#0.0.0+20160510234918"
   }
 }

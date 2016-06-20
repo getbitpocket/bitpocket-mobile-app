@@ -1,12 +1,12 @@
-import {ChangeDetectorRef} from '@angular/core';
-import {Page,NavController,Alert} from 'ionic-angular';
+import {Component, ChangeDetectorRef} from '@angular/core';
+import {NavController, Alert} from 'ionic-angular';
 import {BarcodeScanner} from 'ionic-native';
 import * as bip21 from 'bip21';
 import {Config} from '../../../providers/config';
 
 const ADDRESS_TYPE = 'static';
 
-@Page({
+@Component({
     templateUrl : 'build/pages/settings/addresses/static-address.html'
 })
 export class StaticAddressPage {
@@ -23,13 +23,16 @@ export class StaticAddressPage {
                 this.active = true;
             }
             this.address = promised[1];
+            this.changeDetector.detectChanges();
         });
     }
 
     activationChanged() {
+        this.active = !this.active;
+        
         if (!this.active) {
-            this.config.set('address-type', ADDRESS_TYPE);
-        }
+            this.config.set('address-type', ADDRESS_TYPE);  
+        }              
     }
 
     addressChanged() {

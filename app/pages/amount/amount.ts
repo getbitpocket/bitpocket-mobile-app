@@ -1,5 +1,5 @@
-import {ChangeDetectorRef} from '@angular/core';
-import {Page,NavController, Platform} from 'ionic-angular';
+import {Component, ChangeDetectorRef} from '@angular/core';
+import {NavController, Platform} from 'ionic-angular';
 import {PaymentPage} from '../payment/payment';
 import {Config} from '../../providers/config';
 import {Currency} from '../../providers/currency/currency';
@@ -9,7 +9,7 @@ import * as bitcoin from 'bitcoinjs-lib';
 const POSITION_DIGITS = 'digits';
 const POSITION_DECIMALS = 'decimals';
 
-@Page({
+@Component({
     templateUrl : 'build/pages/amount/amount.html'
 })
 
@@ -28,12 +28,11 @@ export class AmountPage {
     currency:string;
     bitcoinUnit:string;
             
-    constructor(private platform: Platform, private currencyService: Currency, private config: Config, private navigation:NavController, private changeDetector:ChangeDetectorRef) {
-        this.digits   = "0";
-        this.decimals = "00";        
-        this.position = POSITION_DIGITS;
-        this.index = 0;
-                        
+    constructor(private platform: Platform, private currencyService: Currency, private config: Config, private navigation:NavController, private changeDetector:ChangeDetectorRef) {                        
+            
+    }
+
+    ionViewWillEnter() {
         Promise.all<any>([
             this.config.get('currency') ,
             this.config.get('currency-format-s') ,
@@ -42,9 +41,14 @@ export class AmountPage {
             this.currency    = settings[0];
             this.separator   = settings[1];
             this.bitcoinUnit = settings[2];
+            this.digits   = "0";
+            this.decimals = "00";        
+            this.position = POSITION_DIGITS;
+            this.index = 0;
             this.exchangedAmount = "0"+this.separator+"00";
-            changeDetector.detectChanges();
-        });    
+
+            this.changeDetector.detectChanges();
+        });
     }
 
     changeInputCurrency(inputCurrency: string) {

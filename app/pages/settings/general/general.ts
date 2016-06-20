@@ -1,5 +1,5 @@
-import {ChangeDetectorRef} from '@angular/core';
-import {Page,NavController,Alert} from 'ionic-angular';
+import {Component, ChangeDetectorRef} from '@angular/core';
+import {NavController,Alert} from 'ionic-angular';
 import {Config} from '../../../providers/config';
 
 // t = thousands point
@@ -15,7 +15,7 @@ const CURRENCY_FORMATS = {
     }
 };
 
-@Page({
+@Component({
     templateUrl : 'build/pages/settings/general/general.html'
 })
 export class GeneralPage {
@@ -31,8 +31,8 @@ export class GeneralPage {
             this.config.get('blockchain-explorer') ,
         ]).then(promised => {
             this.selectedFormat = promised[0];
-            this.selectedUnit   = promised[1];
-            this.selectedExplorer   = promised[2];
+            this.selectedUnit = promised[1];
+            this.selectedExplorer = promised[2];
             this.changeDetector.detectChanges();
         });
     }

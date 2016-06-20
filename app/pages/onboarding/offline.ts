@@ -1,9 +1,10 @@
+import {Component} from '@angular/core';
 import {Page,NavController,MenuController} from 'ionic-angular';
 
 declare var document:any;
 declare var navigator:any;
 
-@Page({
+@Component({
     templateUrl: 'build/pages/onboarding/offline.html',
 })
 export class OfflinePage {
@@ -13,10 +14,5 @@ export class OfflinePage {
     constructor(private menu:MenuController) {
         this.text.no_internet = "No Internet Connection";
         this.menu.enable(false);
-        /*
-        if (this.language.hasText('no_internet')) {
-            this.text.no_internet = this.language.getText('no_internet');
-        }
-        */
     }
 }

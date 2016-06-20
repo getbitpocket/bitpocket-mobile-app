@@ -1,72 +1,50 @@
-import {ChangeDetectorRef} from '@angular/core';
+import {Component, ChangeDetectorRef} from '@angular/core';
 import {Page,NavController,Alert} from 'ionic-angular';
 import {BarcodeScanner} from 'ionic-native';
+import {Address} from '../../providers/address';
 import {Config} from '../../providers/config';
+import {AmountPage} from '../amount/amount';
 import * as bitcoin from 'bitcoinjs-lib';
+import * as bip21 from 'bip21';
+
 
 const ADDRESS_TYPE_MASTER = 'master-public-key';
 const ADDRESS_TYPE_STATIC = 'static'
 
-@Page({
+@Component({
     templateUrl : 'build/pages/onboarding/addresses.html'
 })
 export class AddressesPage {
     
-    addresstype: string = "";
-    addresstypename: string = ""
-    transactionKey: string = "";
-    masterPublicKey: string = "";
-    index: number = 1;
-    buttonDisabled: any = null;
-    active: boolean = false;
+    addressType: string = "";
+    addressInput: string = "";
     showInput: boolean = false;
 
-    constructor(private config: Config, private nav:NavController, private changeDetector: ChangeDetectorRef) {
-        Promise.all<any>([
-            this.config.get('address-type') ,
-            this.config.get('master-public-key') ,
-            this.config.get('master-public-key-index'),
-            this.config.get('static-address')
-        ]).then(promised => {
-            if (promised[0] === ADDRESS_TYPE_MASTER) {
-                this.active = true;
-            }
-            this.masterPublicKey = promised[1];
-            this.index = promised[2];
-            console.log(promised[0]+" "+promised[1]+" "+promised[2]+" "+promised[3]);
-        });
+    constructor(private config: Config, private nav:NavController, private changeDetector: ChangeDetectorRef) {              
     }
 
-    setaddresstype(){
-        this.showInput = true;
-        console.log(this.addresstype);
-        switch (this.addresstype){
-            case "static":
-                this.addresstypename = "Static Address";
-                break;
-            case "master":
-                this.addresstypename = "Master Public Key";
-                break;
-            default:
-                this.showInput = false;
+    start() {
+        if (!Address.checkAddressInput(this.addressInput, this.addressType)) {
+            let alert = Alert.create({
+                title: 'Invalid Innput',
+                subTitle: 'Please recheck your inputs!',
+                buttons: ['Ok']
+            });
+
+            this.nav.present(alert);
+            return;
         }
-    }
 
-    activationChanged() {
-        if (!this.active) {
-            this.config.set('address-type', ADDRESS_TYPE_MASTER);
+        if (this.addressType === 'static') {                    
+            this.config.set(Config.CONFIG_KEY_ADDRESS_TYPE, this.addressType);
+            this.config.set(Config.CONFIG_KEY_STATIC_ADDRESS, this.addressInput);
+        } else if (this.addressType === 'master-public-key') {
+            this.config.set(Config.CONFIG_KEY_ADDRESS_TYPE, this.addressType);
+            this.config.set(Config.CONFIG_KEY_MASTER_PUBLIC_KEY, this.addressInput);
+            this.config.set(Config.CONFIG_KEY_MASTER_PUBLIC_KEY_INDEX, 1);
         }
-    }
 
-    keyChanged() {
-        this.config.set('master-public-key', this.masterPublicKey);
-        if(bitcoin.HDNode.fromBase58(this.masterPublicKey).toBase58()){
-            this.buttonDisabled = true;
-        }
-    }
-
-    indexChanged() {
-        this.config.set('master-public-key-index', this.index);
+        this.nav.setRoot(AmountPage);        
     }
 
     scan() {
@@ -74,14 +52,17 @@ export class AddressesPage {
 
         BarcodeScanner.scan().then((barcodeData) => {
             try {
-                this.masterPublicKey = bitcoin.HDNode.fromBase58(barcodeData.text).toBase58();
-                this.keyChanged();
+                if (this.addressType === 'static') {                    
+                    this.addressInput = bip21.decode(barcodeData.text).address;
+                } else if (this.addressType === 'master-public-key') {
+                    this.addressInput = bitcoin.HDNode.fromBase58(barcodeData.text).toBase58();
+                }
+                
                 this.changeDetector.detectChanges();
             } catch(e) {
                 this.nav.present(alert);
             }
         }, (error) => {
-            console.error(error);
             this.nav.present(alert);
         });
 

@@ -1,9 +1,9 @@
-export interface Transaction {    
+export interface Transaction {        
     txid: string;    
-    timestamp?: number;
     currency: string;
     address: string;        
     bitcoinAmount: number;
-    fiatAmount: number;    
+    fiatAmount: number;
+    timestamp?: number;        
     confirmations?: number;
 }

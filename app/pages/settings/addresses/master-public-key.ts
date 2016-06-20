@@ -1,12 +1,12 @@
-import {ChangeDetectorRef} from '@angular/core';
-import {Page,NavController,Alert} from 'ionic-angular';
+import {Component, ChangeDetectorRef} from '@angular/core';
+import {NavController,Alert} from 'ionic-angular';
 import {BarcodeScanner} from 'ionic-native';
 import {Config} from '../../../providers/config';
 import * as bitcoin from 'bitcoinjs-lib';
 
 const ADDRESS_TYPE = 'master-public-key';
 
-@Page({
+@Component({
     templateUrl : 'build/pages/settings/addresses/master-public-key.html'
 })
 export class MasterPublicKeyPage {
@@ -26,12 +26,11 @@ export class MasterPublicKeyPage {
             }
             this.masterPublicKey = promised[1];
             this.index = promised[2];
-            console.log("LOG: "+promised[0]+" "+promised[1]+" "+promised[2]);
         });
     }
 
     activationChanged() {
-        if (!this.active) {
+        if (this.active) {
             this.config.set('address-type', ADDRESS_TYPE);
         }
     }

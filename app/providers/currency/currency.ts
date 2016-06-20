@@ -31,9 +31,7 @@ const CURRENCY_SYMBOLS = {
 @Injectable()
 export class Currency {
 
-    constructor(private config: Config, private injector: Injector) {
-        this.config.initialize('exchange','blockchain');
-        this.config.initialize('currency','EUR');
+    constructor(private config: Config, private injector: Injector) {        
     }
 
     getAvailabeServices() : Array<{code:string,name:string}> {
