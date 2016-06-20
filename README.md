@@ -1,4 +1,5 @@
-[![Build Status](https://travis-ci.org/getbitpocket/bitpocket-mobile-app.svg?branch=master)](https://travis-ci.org/getbitpocket/bitpocket-mobile-app)
+[![Build Status](https://travis-ci.org/getbitpocket/bitpocket-mobile-app.svg?branch=master)](https://travis-ci.org/getbitpocket/bitpocket-mobile-app) [![Join the chat at https://gitter.im/getbitpocket/bitpocket-mobile-app](https://badges.gitter.im/getbitpocket/bitpocket-mobile-app.svg)](https://gitter.im/getbitpocket/bitpocket-mobile-app?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 
 # BitPocket Mobile App
 
