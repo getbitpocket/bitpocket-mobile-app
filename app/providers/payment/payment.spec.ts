@@ -6,6 +6,8 @@ import {BitcoinUnit} from '../currency/bitcoin-unit';
 import {Transaction} from '../../api/transaction';
 import * as payment from '../../api/payment-service';
 
+// TODO: use mocking framework or jasmine mocks
+
 class MockPaymentService implements payment.PaymentService {
     findTransactions(address: string, amount: BitcoinUnit) : Promise<Array<string>> {
         return new Promise<Array<string>>((resolve, reject) => {
@@ -50,6 +52,8 @@ class MockHistory {
             }
         });
     }
+
+    addTransaction(transaction: Transaction) {}
 }
 
 describe('Payment Provider', () => {

@@ -67,7 +67,7 @@ export class PaymentResultPage {
                 
         setTimeout(() => {
             nav.setRoot(AmountPage);
-        }, 5000);                           
+        }, 8000);                           
     }
     
 }

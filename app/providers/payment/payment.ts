@@ -16,7 +16,7 @@ export class Payment extends EventEmitter {
     private waitingTimeCount: number = 0;
 
     // TODO: check if this should be configurable
-    private checkInterval: number = 4000;
+    private checkInterval: number  = 7500;
     private maxWaitingTime: number = 1000 * 60;
 
     private service: payment.PaymentService;
@@ -58,7 +58,7 @@ export class Payment extends EventEmitter {
             .then((txids) => {
                 this.history.findNewTransaction(txids, paymentRequest.address)
                     .then(index => {
-                        if (index > 0) {
+                        if (index >= 0) {
                             let transaction: Transaction = {
                                 txid : txids[index] ,
                                 address : paymentRequest.address ,
@@ -67,6 +67,7 @@ export class Payment extends EventEmitter {
                                 fiatAmount : paymentRequest.fiatAmount
                             };
 
+                            this.history.addTransaction(transaction);
                             this.emit('payment-status:' + payment.PAYMENT_STATUS_RECEIVED, transaction);
                         } else {
                             this.emit('payment-status:' + payment.PAYMENT_STATUS_NOT_RECEIVED, paymentRequest);

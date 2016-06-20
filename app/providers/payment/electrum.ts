@@ -67,7 +67,7 @@ export class ElectrumPaymentService implements payment.PaymentService {
                 nD.sendRandomRequest(request);
             });
                 
-            nD.on('peers:response', response => { console.log(response);
+            nD.on('peers:response', response => {
                 if (response.id == requestId && Array.isArray(response.result) && response.result.length > 0) {
                     txCount = response.result.length;
 
@@ -86,7 +86,7 @@ export class ElectrumPaymentService implements payment.PaymentService {
                     txResultCount++;
                     let txid = this.checkTransaction(response.result, address, amount);
 
-                    if (txid) {
+                    if (txid !== false) {
                         txids.push(txid);
                     }
                 }
