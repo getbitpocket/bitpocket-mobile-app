@@ -1,4 +1,4 @@
-import {Injectable, Injector} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {BitcoinUnit} from '../currency/bitcoin-unit';
 import * as payment from '../../api/payment-service';
 import {PaymentRequest} from '../../api/payment-request';
@@ -20,14 +20,28 @@ export class Payment extends EventEmitter {
     private maxWaitingTime: number = 1000 * 60;
 
     private service: payment.PaymentService;
+
+    setCheckInterval(checkInterval: number) {
+        this.checkInterval = checkInterval;
+    }
+
+    setMaxWaitingTime(maxWaitingTime: number) {
+        this.maxWaitingTime = maxWaitingTime;
+    }
+
+    setPaymentService(paymentService: payment.PaymentService) {
+        this.service = paymentService;
+    }
     
-    constructor(private injector: Injector, private history: History) {        
+    constructor(private history: History) {        
         super();
-        this.service = this.injector.get(ElectrumPaymentService);
+        
+        // TODO: make this configurable, currently only one provider available
+        this.service = new ElectrumPaymentService();
     }
     
     checkPayment(paymentRequest: PaymentRequest) {
-        if (this.waitingTimeCount > this.maxWaitingTime) {
+        if (this.waitingTimeCount >= this.maxWaitingTime) {
             this.emit('payment-status:' + payment.PAYMENT_STATUS_TIMEOUT, paymentRequest);
             return;
         } else if (this.active) {
@@ -43,7 +57,7 @@ export class Payment extends EventEmitter {
             BitcoinUnit.from(paymentRequest.bitcoinAmount, 'BTC'))
             .then((txids) => {
                 this.history.findNewTransaction(txids, paymentRequest.address)
-                    .then(index => { 
+                    .then(index => {
                         if (index > 0) {
                             let transaction: Transaction = {
                                 txid : txids[index] ,
@@ -56,13 +70,13 @@ export class Payment extends EventEmitter {
                             this.emit('payment-status:' + payment.PAYMENT_STATUS_RECEIVED, transaction);
                         } else {
                             this.emit('payment-status:' + payment.PAYMENT_STATUS_NOT_RECEIVED, paymentRequest);
-                            setTimeout(this.checkPayment, this.checkInterval);
+                            setTimeout(() => { this.checkPayment(paymentRequest) }, this.checkInterval);
                         }
-                     });
-            })
+                    });                    
+            })            
             .catch(() => {
                 this.emit('payment-status:' + payment.PAYMENT_STATUS_NOT_RECEIVED, paymentRequest);
-                setTimeout(this.checkPayment, this.checkInterval);
+                setTimeout(() => { this.checkPayment(paymentRequest) }, this.checkInterval);
             });
 
         return this;

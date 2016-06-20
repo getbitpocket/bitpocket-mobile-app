@@ -71,7 +71,8 @@ export class PaymentPage {
             currency : this.currency
         };
 
-        this.paymentService.startPaymentStatusCheck(paymentRequest)
+        this.paymentService.startPaymentStatusCheck(paymentRequest);
+        this.paymentService
             .on('payment-status:'+payment.PAYMENT_STATUS_RECEIVED, (transaction) => {
                 this.paymentReceived(transaction);
             })

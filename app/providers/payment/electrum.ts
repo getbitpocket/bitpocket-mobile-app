@@ -1,13 +1,11 @@
 /// <reference path="../../bitcoinjs-lib.d.ts" />
 
-import {Injectable} from '@angular/core';
 import {BitcoinUnit} from '../currency/bitcoin-unit';
 import {Transaction} from '../../api/transaction';
 import * as payment from '../../api/payment-service';
 import * as bitcoin from 'bitcoinjs-lib';
 import {Buffer} from 'buffer';
 
-@Injectable()
 export class ElectrumPaymentService implements payment.PaymentService {
 
     checkTransaction(transaction: string, address: string, amount: BitcoinUnit) : any {
@@ -69,7 +67,7 @@ export class ElectrumPaymentService implements payment.PaymentService {
                 nD.sendRandomRequest(request);
             });
                 
-            nD.on('peers:response', response => {
+            nD.on('peers:response', response => { console.log(response);
                 if (response.id == requestId && Array.isArray(response.result) && response.result.length > 0) {
                     txCount = response.result.length;
 

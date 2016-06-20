@@ -11,7 +11,7 @@
     "bitcoinjs-lib": "^2.2.0",
     "es6-promise": "3.2.1",
     "es6-shim": "0.35.1",
-    "ionic-angular": "^2.0.0-beta.8",
+    "ionic-angular": "^2.0.0-beta.9",
     "ionic-native": "^1.2.1",
     "ionicons": "3.0.0",
     "qrcode-generator": "^1.0.0",
