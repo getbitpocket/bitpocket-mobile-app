@@ -8,30 +8,33 @@ import * as bitcoin from 'bitcoinjs-lib';
 
 const POSITION_DIGITS = 'digits';
 const POSITION_DECIMALS = 'decimals';
+const FONT_SIZE = 4.5;
 
 @Component({
     templateUrl : 'build/pages/amount/amount.html'
 })
 
 export class AmountPage {
-
+    
     exchangedAmount:string; // either BTC or Fiat    
     digits:string;
     decimals:string;
     separator:string;
- 
+    
     position:string; // digits or dicimals area
     index:number; // index of writing position
     entryInFiat:boolean = true;
     entryInBTC:boolean = false;
-        
+    
     currency:string;
     bitcoinUnit:string;
-            
-    constructor(private platform: Platform, private currencyService: Currency, private config: Config, private navigation:NavController, private changeDetector:ChangeDetectorRef) {                        
-            
+    
+    fontSize:number;
+    
+    constructor(private platform: Platform, private currencyService: Currency, private config: Config, private navigation:NavController, private changeDetector:ChangeDetectorRef) {
+        this.fontSize = FONT_SIZE;
     }
-
+    
     ionViewWillEnter() {
         Promise.all<any>([
             this.config.get('currency') ,
@@ -46,11 +49,10 @@ export class AmountPage {
             this.position = POSITION_DIGITS;
             this.index = 0;
             this.exchangedAmount = "0"+this.separator+"00";
-
             this.changeDetector.detectChanges();
         });
     }
-
+    
     changeInputCurrency(inputCurrency: string) {
         this.entryInBTC  = !this.entryInBTC;
         this.entryInFiat = !this.entryInFiat;
@@ -59,7 +61,7 @@ export class AmountPage {
             this.resetAmount();
         } else {
             this.digits = "0";
-            this.decimals = "0000";        
+            this.decimals = "00";
             this.position = POSITION_DIGITS;
             this.index = 0;
             this.updateExchangedAmount();
@@ -93,6 +95,9 @@ export class AmountPage {
             }
         }
 
+        let currentLenght = this.digits.length + this.decimals.length + 1;
+        this.resizeFont(currentLenght);
+
         this.updateExchangedAmount();
     }
 
@@ -105,10 +110,40 @@ export class AmountPage {
     }
 
     numberInput(input:string) {
-        let currentLenght = this.decimals.length + this.digits.length + 1;
-        if(currentLenght >= 8){
-            return null;
+        let countDigits = this.digits.length + 1;
+        let countDecimals = this.decimals.length;
+        //blocking overflow input
+        if (this.entryInFiat) {
+            if((this.position === POSITION_DIGITS && countDigits > 8) || (this.position === POSITION_DECIMALS && countDecimals > 2)){
+                return null;
+            }
+        } else {
+            switch (this.bitcoinUnit)
+            {
+                case'BTC':
+                    if((this.position === POSITION_DIGITS && countDigits > 8) || (this.position === POSITION_DECIMALS && countDecimals > 8)){
+                        return null;
+                    }
+                    break;
+                case'mBTC':
+                    if((this.position === POSITION_DIGITS && countDigits > 8) || (this.position === POSITION_DECIMALS && countDecimals > 5)){
+                        return null;
+                    }
+                    break;
+                case'bits':
+                    if((this.position === POSITION_DIGITS && countDigits > 8) || (this.position === POSITION_DECIMALS && countDecimals > 2)){
+                        return null;
+                    }
+                    break;
+                default:
+                    console.log('amount - numberInput - error');
+            }
         }
+
+        let currentLenght = countDigits + countDecimals;
+        this.resizeFont(currentLenght);
+
+
         if (this.position === POSITION_DIGITS) {
             this.digitInput(input.toString());
         } else if (this.position === POSITION_DECIMALS) {
@@ -116,6 +151,20 @@ export class AmountPage {
         }
 
         this.updateExchangedAmount();
+    }
+
+    resizeFont(currentLenght: number){
+        if(currentLenght < 5){
+            this.fontSize = FONT_SIZE;
+        } else if (currentLenght === 5) {
+            this.fontSize = 4;
+        } else if (currentLenght === 6) {
+            this.fontSize = 3.75;
+        } else if (currentLenght === 7) {
+            this.fontSize = 3.25;
+        } else if (currentLenght === 8) {
+            this.fontSize = 2.75;
+        }
     }
 
     decimalInput(input:string) {
@@ -142,6 +191,7 @@ export class AmountPage {
         this.index = 0;
         this.entryInBTC = false;
         this.entryInFiat = true;
+        this.fontSize = FONT_SIZE;
         this.updateExchangedAmount();
     }
     
@@ -173,12 +223,16 @@ export class AmountPage {
         
         if (this.entryInBTC) {
             this.navigation.push(PaymentPage,{
-                bitcoinAmount : BitcoinUnit.from(amount,this.bitcoinUnit)
+                bitcoinAmount : BitcoinUnit.from(amount,this.bitcoinUnit) ,
+                newFontSize : this.fontSize ,
+                entryInFiat : this.entryInFiat
             });                   
         } else {
             this.currencyService.getSelectedCurrencyRate().then(rate => {
                 this.navigation.push(PaymentPage,{
-                    bitcoinAmount: BitcoinUnit.fromFiat(amount,rate) ,                
+                    bitcoinAmount: BitcoinUnit.fromFiat(amount,rate) ,
+                    newFontSize : this.fontSize ,
+                    entryInFiat : this.entryInFiat
                 });
             });
         }    

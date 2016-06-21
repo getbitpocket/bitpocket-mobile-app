@@ -70,6 +70,14 @@ $checkbox-md-icon-border-color-off:       rgba(106,109,122,1);
 $card-md-text-color:        $basic-design-color;
 $card-md-title-text-color:  $basic-design-color;
 
+/*
+$item-md-padding-left: 16px; //-> Item Left Padding Fail
+button {
+  &.item {
+    padding-right: 16px !important;
+  }
+}*/
+
 $colors: (
   primary:      #333,
   secondary:    #6A6D7A,

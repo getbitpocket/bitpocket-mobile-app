@@ -1,15 +1,53 @@
-.amount-page {
-    scroll-content {
-        overflow-y: hidden;
-    }
-}
-
 .amount, .payment, .payment-result, .history {
 
-    height: 100%;
-    width: 100%;
-
     .amount-input {
+        color: #FFF;
+        /* iPad mini, iPad and up */
+        margin: 1rem 2rem;
+        /* iPhone 6, 6s, 6Plus, Nexus 5X, Nexus 6P,  - Portrait 374 bis 767*/
+        @media only screen and (min-device-width: 375px) and (max-device-width: 767px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
+            margin: 2rem 4rem;
+        }
+        /* Galaxy S3, S5, Note II,  - Portrait 360 bis 374*/
+        @media only screen and (min-device-width: 360px) and (max-device-width: 374px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
+            margin: 2rem 4rem;
+        }
+        /* iPhone 5 - 5s Portrait */
+        @media only screen and (min-device-width: 320px) and (max-device-width: 359px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
+            margin: 0.8rem 1.8rem;
+        }
+        ion-checkbox, ion-label, ion-col {
+            display: inline-block;
+        }
+        ion-row {
+            line-height: $font-size-large;
+            vertical-align: middle;
+            ion-col {
+                padding: 0;
+                &.amount-type {
+                    text-align: left;
+                    font-size: $font-size-x-small;
+                }
+                &.readable-amount {
+                    text-align: right;
+                    transition: font-size 500ms ease-in-out;
+                }
+                &.checkbox {
+                    line-height: $font-size-x-large;
+                }
+            }
+            ion-label {
+                margin: 0 0 0 3px;
+            }
+        }
+        &.history{
+            color: $basic-design-color;
+            margin: 0;
+        }
+
+    }
+
+    .xamount-input {
         color: #FFF;
         /* iPad mini, iPad and up */
         margin: 1rem 2rem;
@@ -32,13 +70,9 @@
             padding: 0;
         }
 
-        .checkbox, .amount-type, .readable-amount, .icon-pos {
+        .checkbox, .amount-type, .icon-pos {
             line-height: $font-size-x-large;
             font-size: $font-size-x-small;
-            -webkit-transition: all 200ms ease-in-out;
-            -moz-transition: all 200ms ease-in-out;
-            -o-transition: all 200ms ease-in-out;
-            transition: all 200ms ease-in-out;
             ion-label {
                 margin: 0 0 0 3px;
             }
@@ -47,30 +81,12 @@
             }
         }
 
-        .amount-type {
-            &.active {
-
-            }
-        }
-
-
         .readable-amount {
+            transition: font-size 500ms ease-in-out;
             text-align: right;
-            &.active {
-                /* iPad mini, iPad and up */
-                font-size: $font-size-x-large;
-                /* iPhone 6, 6s, 6Plus, Nexus 5X, Nexus 6P,  - Portrait 374 bis 767*/
-                @media only screen and (min-device-width: 375px) and (max-device-width: 767px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
-                    font-size: $font-size-x-large;
-                }
-                /* Galaxy S3, S5, Note II,  - Portrait 360 bis 374*/
-                @media only screen and (min-device-width: 360px) and (max-device-width: 374px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
-                    font-size: $font-size-x-large;
-                }
-                /* iPhone 5 - 5s Portrait */
-                @media only screen and (min-device-width: 320px) and (max-device-width: 359px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
-                    font-size: $font-size-x-large;
-                }
+            line-height: $font-size-x-large;
+            ion-label {
+                margin: 0 0 0 3px;
             }
         }
         .amount-input-form {
@@ -159,6 +175,7 @@
         height: 100px;
         font-size: $font-size-x-medium;
         border-radius: 100%;
+        text-align: center;
     }
 }
 

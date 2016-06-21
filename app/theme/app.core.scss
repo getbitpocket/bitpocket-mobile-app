@@ -58,11 +58,15 @@ ion-menu {
       display:inline-block;
     }
   }
+  scroll-content {
+    overflow-y: hidden;
+  }
+
 }
 
 #menu {
   ion-list {
-    height: 100%;
+    //height: 100%;
   }
   ion-title {
     min-width: 100%;
@@ -92,8 +96,17 @@ ion-navbar {
   .logo {
     min-width: 2.0rem;
     min-height: 2.0rem;
-    background: url(../../img/bitpocket_appicon_1024x1024.png) no-repeat center center;
+    background: url(../../img/bitpocket_icon_grey_135x135.svg) no-repeat center center;
     background-size: cover;
+  }
+
+  .logo-loading {
+    -webkit-animation:spin 2s linear infinite;
+    -moz-animation:spin 2s linear infinite;
+    animation:spin 2s linear infinite;
+    @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+    @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+    @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
   }
 }
 
@@ -101,8 +114,6 @@ ion-content {
   background: url(../../img/background.png) no-repeat center center;
   background-size: cover;
 }
-
-
 
 .divider-box {
   margin: 3% 0 8% 0;
