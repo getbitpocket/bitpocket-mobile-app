@@ -1,6 +1,4 @@
 .payment {
-    height: 100%;
-    width: 100%;
     color: #FFF;
 
     .payment-qr {
@@ -12,7 +10,7 @@
             display:inline-block;            
             background:white;
             img {
-                margin:30px;
+                margin: 2rem;
             }
         }
     }
@@ -21,15 +19,15 @@
         text-align: center;
         color: #FFF;
         margin:0;
-        font-size:1.8em;
+        font-size: 1.8rem;
         height: 25%;
         padding: 5% 10% 0 10%;
     }
     
     .payment-info {
-        margin-top:110px;
+        margin-top: 6rem;
         text-align: center;
-        font-size: 1.2em;
+        font-size: 1.2rem;
         .payment-text {
             margin:0;
         }        
@@ -38,8 +36,6 @@
 }
 
 .payment-result {
-    height: 100%;
-    width: 100%;
     color: $basic-color-white;
 
     .payment-readable-box {
@@ -66,7 +62,7 @@
 
         .payment-result-icon {
             padding: 20% 10% 5% 10%;
-            font-size: 8.0rem;
+            font-size: 8rem;
         }
 
         .payment-result-text {

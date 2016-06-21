@@ -2,7 +2,7 @@
     <ion-title>Payment request</ion-title>
     <ion-buttons end>
         <button (click)="showHome()">
-            <div class="logo"></div>
+            <div class="logo logo-loading"></div>
         </button>
     </ion-buttons>
 </ion-navbar>
@@ -15,7 +15,7 @@
                     <ion-label>{{ currency }}</ion-label>
                 </ion-col>
                 <ion-col  class="readable-amount active" width-70>
-                    <div class="amount-input-form active">
+                    <div class="amount-input-form active" [ngStyle]="{'font-size': fontSize+'rem'}">
                         {{ fiatAmount }}
                     </div>
                 </ion-col>

@@ -12,9 +12,12 @@ import {Transaction} from '../../api/transaction';
 import * as payment from '../../api/payment-service';
 import qrcode = require('qrcode-generator');
 
+const FONT_SIZE = 4.5;
+
 @Component({
     templateUrl : 'build/pages/payment/payment.html'
 })
+
 export class PaymentPage {
     
     qrImage: any;
@@ -30,8 +33,14 @@ export class PaymentPage {
     address: string;
     readableAmount: string;
 
-    constructor(private addressService: Address, private historyService: History, private paymentService: Payment, private currencyService: Currency, private config: Config, private params: NavParams, private navigation:NavController, private changeDetector:ChangeDetectorRef) {              
+    fontSize:number;
+    entryInFiat: boolean;
+
+    constructor(private addressService: Address, private historyService: History, private paymentService: Payment, private currencyService: Currency, private config: Config, private params: NavParams, private navigation:NavController, private changeDetector:ChangeDetectorRef) {
+        this.fontSize = FONT_SIZE;
         this.amount = params.data.bitcoinAmount;
+        this.fontSize = params.data.newFontSize;
+        this.entryInFiat = params.data.entryInFiat;
                       
         Promise.all<any>([
             this.config.get('currency') ,

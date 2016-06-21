@@ -83,10 +83,11 @@ export class BitPocketApp {
             ]).then(promised => {        
                 if (promised[0] && (promised[1] || promised[2])) {
                     this.nav.setRoot(AmountPage);
+                    Splashscreen.hide();
                 } else {
                     this.nav.setRoot(AddressesPage);
+                    Splashscreen.hide();
                 }
-                Splashscreen.hide();
             });
         } else {
             this.nav.setRoot(OfflinePage);

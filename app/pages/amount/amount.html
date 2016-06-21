@@ -18,11 +18,11 @@
                     <ion-label (click)="changeInputCurrency('Fiat')">{{ currency }}</ion-label>
                 </ion-col>
 
-                <ion-col  class="readable-amount" [ngClass]="{active:entryInFiat}" width-70>
+                <ion-col  class="readable-amount" [ngClass]="{active:entryInFiat}" width-60>
                     <div class="amount-input-form" [ngClass]="{active:entryInFiat}">
-                        <span *ngIf="entryInFiat">
-                            <span clear class="number digits">{{ digits }}</span><span class="separator">{{ separator }}</span><span clear class="number decimals">{{ decimals }}</span>
-                        </span>
+                        <div *ngIf="entryInFiat">
+                            <span clear class="number digits" [ngStyle]="{'font-size': fontSize+'rem'}">{{ digits }}</span><span class="separator" [ngStyle]="{'font-size': fontSize+'rem'}">{{ separator }}</span><span clear class="number decimals" [ngStyle]="{'font-size': fontSize+'rem'}">{{ decimals }}</span>
+                        </div>
                         <span *ngIf="entryInBTC">{{ exchangedAmount }}</span>
                     </div>
                 </ion-col>
@@ -40,7 +40,7 @@
                 <ion-col class="readable-amount" [ngClass]="{active:entryInBTC}" width-70>
                     <div class="amount-input-form" [ngClass]="{active:entryInBTC}">
                         <span *ngIf="entryInBTC">
-                            <span clear class="number digits">{{ digits }}</span><span class="separator">{{ separator }}</span><span clear class="number decimals">{{ decimals }}</span>
+                            <span clear class="number digits" [ngStyle]="{'font-size': fontSize+'rem'}">{{ digits }}</span><span class="separator" [ngStyle]="{'font-size': fontSize+'rem'}">{{ separator }}</span><span clear class="number decimals" [ngStyle]="{'font-size': fontSize+'rem'}">{{ decimals }}</span>
                         </span>
                         <span *ngIf="entryInFiat">{{ exchangedAmount }}</span>
                     </div>
