@@ -36,9 +36,10 @@ export class PaymentPage {
         Promise.all<any>([
             this.config.get('currency') ,
             this.config.get('currency-format-s') ,
-            this.config.get('bitcoin-unit') ,            
+            this.config.get('bitcoin-unit') , 
             this.addressService.getAddress() ,
-            this.currencyService.getSelectedCurrencyRate()
+            this.currencyService.getSelectedCurrencyRate() ,
+            this.config.get('payment-request-label')
         ]).then(promised => {            
             this.currency      = promised[0];
             this.bitcoinUnit   = promised[2];
@@ -50,7 +51,7 @@ export class PaymentPage {
             
             let bip21uri = bip21.encode(promised[3],{
                 amount : this.amount.to('BTC') ,
-                label : 'Test Payment'
+                label : promised[5]
             });
                            
             let qr:any = qrcode(6,'M');

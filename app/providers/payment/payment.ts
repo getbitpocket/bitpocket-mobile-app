@@ -87,16 +87,26 @@ export class Payment extends EventEmitter {
         this.removeAllListeners();
         this.active = true;
         this.waitingTimeCount = 0;
-        this.checkPayment(paymentRequest);        
-
+        this.checkPayment(paymentRequest);
         return this;
     }
 
     stopPaymentStatusCheck() {
         this.removeAllListeners();
         this.active = false;
-
         return this;
+    }
+
+    updateConfirmations(transactions: Array<Transaction>) : Promise<Array<Transaction>> {
+        return this.service.updateConfirmations(transactions).then((transactions) => {
+            for (let i = 0; i < transactions.length; i++) {
+                if (transactions[i].confirmations >= 6) {
+                    this.history.updateConfirmations(transactions[i].txid, transactions[i].confirmations);
+                }
+            }
+
+            return transactions;
+        });
     }
     
 }

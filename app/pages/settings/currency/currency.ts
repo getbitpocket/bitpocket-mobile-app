@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, ChangeDetectorRef} from '@angular/core';
 import {Page} from 'ionic-angular';
 import {Currency} from '../../../providers/currency/currency';
 
@@ -15,25 +15,31 @@ export class CurrencyPage {
     selectedCurrency:string;
     availableCurrencies:Array<any>;
     
-    constructor(private currencyService:Currency) {        
+    constructor(private currencyService:Currency, private changeDetector: ChangeDetectorRef) {        
         this.exchangeServices = currencyService.getAvailabeServices();
         Promise.all<any>([
             currencyService.getSelectedService() ,
             currencyService.getSelectedCurrency() ,
             currencyService.getAvailableCurrencies()
         ]).then(selections => {
-            this.selectedExchange = selections[0];
-            this.selectedCurrency = selections[1];
+            this.selectedExchange    = selections[0];
+            this.selectedCurrency    = selections[1];
             this.availableCurrencies = selections[2];
+            this.changeDetector.detectChanges();
+        });
+    }
+
+    exchangeChanged() {
+        this.currencyService.setSelectedService(this.selectedExchange);
+        this.currencyService.getAvailableCurrencies().then((currencies) => {
+            this.availableCurrencies = currencies;
+            this.changeDetector.detectChanges();
         });
     }
     
-    exchangeChanged() {
+    ionViewWillLeave() {
         this.currencyService.setSelectedService(this.selectedExchange);
-    }
-    
-    currencyChanged() {
         this.currencyService.setSelectedCurrency(this.selectedCurrency);
-    }
+    }  
        
 }

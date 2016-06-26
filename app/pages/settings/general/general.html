@@ -3,8 +3,16 @@
 </ion-navbar>
 
 <ion-content>
+
+    <ion-list>
+        <ion-list-header>Payer Information</ion-list-header>
+        <ion-item>
+            <ion-label floating>Text for Request Label</ion-label>
+            <ion-input type="text" [(ngModel)]="paymentRequestLabel"></ion-input>
+        </ion-item>
+    </ion-list>
     
-    <ion-list radio-group [(ngModel)]="selectedFormat" (change)="formatChanged()">
+    <ion-list radio-group [(ngModel)]="selectedFormat">
         <ion-list-header>Currency Format</ion-list-header>
         <ion-item>
             <ion-label>Example: $ 1,000.00</ion-label>
@@ -16,7 +24,7 @@
         </ion-item>
     </ion-list>
     
-    <ion-list radio-group [(ngModel)]="selectedUnit" (change)="unitChanged()">
+    <ion-list radio-group [(ngModel)]="selectedUnit">
         <ion-list-header>Bitcoin Unit</ion-list-header>        
         <ion-item>
             <ion-label>Bitcoin (BTC)</ion-label>
@@ -32,7 +40,7 @@
         </ion-item>
     </ion-list>
 
-    <ion-list radio-group [(ngModel)]="selectedExplorer" (change)="explorerChanged()">
+    <ion-list radio-group [(ngModel)]="selectedExplorer">
         <ion-list-header>Blockchain Explorer</ion-list-header>
         <ion-item>
             <ion-label>blockchain.info</ion-label>
@@ -47,5 +55,5 @@
             <ion-radio [checked]="selectedUnit === 'blockexplorercom'" value="blockexplorercom"></ion-radio>
         </ion-item>
     </ion-list>
-    
+
 </ion-content>

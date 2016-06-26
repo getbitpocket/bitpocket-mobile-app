@@ -20,6 +20,7 @@ import {History} from './providers/history/history';
 
 // Exchange Services
 import {BlockchainExchangeService} from './providers/currency/blockchain';
+import {BitcoinAverageExchangeService} from './providers/currency/bitcoinaverage';
 
 // Payment Services
 import {ElectrumPaymentService} from './providers/payment/electrum';
@@ -113,9 +114,10 @@ ionicBootstrap(
         Currency,
         Address,
         Payment,
-        Config ,
-        DatabaseHelper ,
-        BlockchainExchangeService ,
+        Config,
+        DatabaseHelper,
+        BlockchainExchangeService,
+        BitcoinAverageExchangeService,
         ElectrumPaymentService
     ],
     {}

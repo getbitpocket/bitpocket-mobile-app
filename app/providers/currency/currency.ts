@@ -2,14 +2,15 @@ import {Injectable, Injector} from '@angular/core';
 import {Config} from '../config';
 import {CurrencyExchangeService} from '../../api/currency-exchange-service';
 import {BlockchainExchangeService} from './blockchain';
+import {BitcoinAverageExchangeService} from './bitcoinaverage';
 import {BitcoinUnit} from './bitcoin-unit';
 
 const EXCHANGE_SERVICES:Array<{code:string,name:string}> = [
-    {code:'blockchain',name:'Blockchain.info'},
-    {code:'bitcoinaverage',name:'BitcoinAverage'}
+    { code:'blockchain', name:'Blockchain.info' },
+    { code:'bitcoinaverage', name:'BitcoinAverage' }
 ];
 
-const CURRENCY_SYMBOLS = {
+export const CURRENCY_SYMBOLS = {
     'USD': '$', // US Dollar
     'EUR': '€', // Euro
     'CRC': '₡', // Costa Rican Colón
@@ -47,6 +48,8 @@ export class Currency {
             this.getSelectedService().then(exchange => {
                 if (exchange === 'blockchain') {
                     resolve(this.injector.get(BlockchainExchangeService));
+                } else if (exchange === 'bitcoinaverage') {
+                    resolve(this.injector.get(BitcoinAverageExchangeService));
                 } else {
                     resolve(this.injector.get(BlockchainExchangeService));
                 }
@@ -73,7 +76,7 @@ export class Currency {
     }
 
     setSelectedService(code:string) : Currency {
-        this.config.set('exchange', code)
+        this.config.set('exchange', code);
         return this;
     }
 

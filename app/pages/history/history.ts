@@ -6,6 +6,7 @@ import {Config} from '../../providers/config';
 import {BitcoinUnit} from '../../providers/currency/bitcoin-unit';
 import {Transaction} from '../../api/transaction';
 import {CurrencyPipe} from '../../pipes/currency';
+import {Payment} from '../../providers/payment/payment';
 
 @Component({
     templateUrl : 'build/pages/history/history.html' ,
@@ -21,7 +22,18 @@ export class HistoryPage {
     sumBitcoinAmount: number = 0;
     sumUnconfirmendTransactionBitcoinAmount: number = 0;
     
-    constructor(private history: History, private currency: Currency, private config: Config) {  
+    constructor(private history: History, private currency: Currency, private config: Config, private payment: Payment) {         
+
+        this.payment.updateConfirmations([
+            {
+                txid : 'fef7ddf5373ec5b0143db3eb75429e7a7a4e9980893de95a911d55bf010b5f9f' ,
+                address : '1GLaS11iwJofTeRvRmRPwK7DtdPhrU8mat' ,
+                bitcoinAmount : 100 ,
+                fiatAmount : 100 ,
+                currency : 'EUR'            
+            }
+        ]).then(transactions => { console.log(transactions); });
+
         Promise.all<any>([
             history.queryTransactions() ,
             config.get('currency-format-s') ,

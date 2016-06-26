@@ -104,12 +104,14 @@ export class ElectrumPaymentService implements payment.PaymentService {
         return new Promise<Array<Transaction>>((resolve, reject) => {
             let nD = new electrum.NetworkDiscovery(),
                 blockRequestId = this.generateRandomId(),
-                historyRequestId = this.generateRandomId(),
+                responseCount = 0,
                 retrievedBlockHeight = 0,
                 addresses = [];
 
             for(let i = 0; i < transactions.length; i++) {
-                addresses.push(transactions[i].address);
+                if (addresses.indexOf(transactions[i].address) === -1) {
+                    addresses.push(transactions[i].address);
+                }                
             }
 
             nD.init();
@@ -122,18 +124,30 @@ export class ElectrumPaymentService implements payment.PaymentService {
                 });
             });
 
-            nD.on('peers:response', response => {
+            nD.on('peers:response', response => { console.log(response, transactions, addresses, retrievedBlockHeight);
+                if (response.error !== undefined) {
+                    reject(response.error);
+                    return;
+                }
+
                 if (response.id == blockRequestId) {
                     retrievedBlockHeight = response.result;
+                    
+                    for (let i = 0; i < addresses.length; i++) {
+                        nD.sendRandomRequest({
+                            id: this.generateRandomId() ,
+                            method : 'blockchain.address.get_history' ,
+                            params : addresses[i]
+                        });
+                    }                                        
+                } else {
+                    responseCount++;
+                    
+                    transactions = this.updateTransactionData(response.result, transactions, retrievedBlockHeight);
 
-                    nD.sendRandomRequest({
-                        id: historyRequestId ,
-                        method : 'blockchain.address.get_history' ,
-                        params : addresses
-                    });
-                } else if (response.id == historyRequestId) {
-
-                    resolve(transactions);
+                    if (responseCount >= addresses.length) {
+                        resolve(transactions);
+                    }
                 }
             });
 
