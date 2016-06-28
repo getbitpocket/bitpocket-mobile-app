@@ -4,7 +4,7 @@ import {AmountPage} from '../pages/amount/amount';
 
 @Component({
     selector: 'bitpocket-logo' ,
-    template: '<img title="BitPocket Logo" src="img/bitpocket_icon_135x135.svg">'
+    templateUrl: 'build/components/logo.html'
 })
 export class Logo {
 

@@ -32,7 +32,7 @@ export class BitPocketApp {
     @ViewChild(Nav) nav: Nav;   
     @ViewChild(Menu) menu: Menu; 
     
-    rootPage: Type;
+    rootPage: Type = OfflinePage;
     menuItems:Array<{name:string,icon:string,page:any}> = [];
 
     constructor(platform: Platform, private app:App, private config:Config, private currency:Currency, private dbHelper:DatabaseHelper, private history: History) {//, private currency:Currency) {
@@ -85,12 +85,12 @@ export class BitPocketApp {
                 if (promised[0] && (promised[1] || promised[2])) {
                     this.nav.setRoot(AmountPage);
                 } else {
-                    this.nav.setRoot(AddressesPage);
+                    // this.nav.setRoot(AddressesPage);
                 }
                 Splashscreen.hide();
             });
         } else {
-            this.nav.setRoot(OfflinePage);
+            // this.nav.setRoot(OfflinePage);
             Splashscreen.hide();
         }
     }
