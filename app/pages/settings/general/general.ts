@@ -1,6 +1,7 @@
 import {Component, ChangeDetectorRef} from '@angular/core';
 import {NavController,Alert} from 'ionic-angular';
 import {Config} from '../../../providers/config';
+import {Logo} from '../../../components/logo';
 
 // t = thousands point
 // s = separator
@@ -16,7 +17,8 @@ const CURRENCY_FORMATS = {
 };
 
 @Component({
-    templateUrl : 'build/pages/settings/general/general.html'
+    templateUrl : 'build/pages/settings/general/general.html' ,
+    directives : [Logo]
 })
 export class GeneralPage {
     

@@ -11,9 +11,11 @@ import * as bip21 from 'bip21';
 import {Transaction} from '../../api/transaction';
 import * as payment from '../../api/payment-service';
 import qrcode = require('qrcode-generator');
+import {Logo} from '../../components/logo';
 
 @Component({
-    templateUrl : 'build/pages/payment/payment.html'
+    templateUrl : 'build/pages/payment/payment.html' ,
+    directives : [Logo]
 })
 export class PaymentPage {
     

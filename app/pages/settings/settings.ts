@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {NavController} from 'ionic-angular';
+import {Logo} from '../../components/logo';
 
 // pages
 import {CurrencyPage} from './currency/currency';
@@ -8,7 +9,8 @@ import {MasterPublicKeyPage} from './addresses/master-public-key';
 import {GeneralPage} from './general/general';
 
 @Component({
-    templateUrl : 'build/pages/settings/settings.html'
+    templateUrl : 'build/pages/settings/settings.html' ,
+    directives : [Logo]
 })
 export class SettingsPage {
       

@@ -20,8 +20,8 @@
 // Both iOS and MD colors can be further customized if colors
 // are different per mode.
 
-$font-ubuntu:           'Ubuntu', sans-serif;
-$font-family-base:      'Ubuntu', sans-serif;
+$font-family-base: 'Ubuntu', sans-serif;
+$font-family-md-base: $font-family-base;
 
 $basic-color-white:                       #FFF;
 $basic-color-black:                       #000;
@@ -118,3 +118,4 @@ $colors: (
           contrast: $basic-design-color,                          //-> Text
   )
 );
+

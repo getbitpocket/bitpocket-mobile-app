@@ -26,7 +26,7 @@ import {BitcoinAverageExchangeService} from './providers/currency/bitcoinaverage
 import {ElectrumPaymentService} from './providers/payment/electrum';
 
 @Component({
-    templateUrl : 'build/app.html'    
+    templateUrl: 'build/app.html'
 })
 export class BitPocketApp {
     @ViewChild(Nav) nav: Nav;   

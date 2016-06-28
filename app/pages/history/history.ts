@@ -7,10 +7,12 @@ import {BitcoinUnit} from '../../providers/currency/bitcoin-unit';
 import {Transaction} from '../../api/transaction';
 import {CurrencyPipe} from '../../pipes/currency';
 import {Payment} from '../../providers/payment/payment';
+import {Logo} from '../../components/logo';
 
 @Component({
     templateUrl : 'build/pages/history/history.html' ,
-    pipes : [CurrencyPipe]   
+    pipes : [CurrencyPipe] ,
+    directives: [Logo]   
 })
 export class HistoryPage {
     

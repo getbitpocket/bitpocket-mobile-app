@@ -1,11 +1,13 @@
 import {Component, ChangeDetectorRef} from '@angular/core';
 import {Page} from 'ionic-angular';
 import {Currency} from '../../../providers/currency/currency';
+import {Logo} from '../../../components/logo';
 
 // services
 
 @Component({
-    templateUrl : 'build/pages/settings/currency/currency.html'
+    templateUrl : 'build/pages/settings/currency/currency.html' ,
+    directives : [Logo]
 })
 export class CurrencyPage {     
           

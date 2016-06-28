@@ -6,6 +6,7 @@ import {Config} from '../../providers/config';
 import {Currency} from '../../providers/currency/currency';
 import * as payment from '../../api/payment-service';
 import {BitcoinUnit} from '../../providers/currency/bitcoin-unit';
+import {Logo} from '../../components/logo';
 
 let PAYMENT_STATUS_MESSAGES = {};
 PAYMENT_STATUS_MESSAGES[payment.PAYMENT_STATUS_TIMEOUT]  = 'Payment request timed out, please start again';
@@ -15,7 +16,8 @@ PAYMENT_STATUS_MESSAGES[payment.PAYMENT_STATUS_NOT_RECEIVED] = 'Payment not rece
 PAYMENT_STATUS_MESSAGES[payment.PAYMENT_STATUS_ERROR] = 'Payment error';
 
 @Component({
-    templateUrl : 'build/pages/payment/payment-result.html'
+    templateUrl : 'build/pages/payment/payment-result.html' ,
+    directives : [Logo]
 })
 export class PaymentResultPage {
     resultIcon : string = "";

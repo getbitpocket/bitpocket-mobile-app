@@ -5,14 +5,15 @@ import {Config} from '../../providers/config';
 import {Currency} from '../../providers/currency/currency';
 import {BitcoinUnit} from '../../providers/currency/bitcoin-unit';
 import * as bitcoin from 'bitcoinjs-lib';
+import {Logo} from '../../components/logo';
 
 const POSITION_DIGITS = 'digits';
 const POSITION_DECIMALS = 'decimals';
 
 @Component({
-    templateUrl : 'build/pages/amount/amount.html'
+    templateUrl : 'build/pages/amount/amount.html' ,
+    directives: [Logo] 
 })
-
 export class AmountPage {
 
     exchangedAmount:string; // either BTC or Fiat    
@@ -20,7 +21,7 @@ export class AmountPage {
     decimals:string;
     separator:string;
  
-    position:string; // digits or dicimals area
+    position:string; // digits or decimals area
     index:number; // index of writing position
     entryInFiat:boolean = true;
     entryInBTC:boolean = false;

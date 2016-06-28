@@ -3,11 +3,13 @@ import {NavController, Alert} from 'ionic-angular';
 import {BarcodeScanner} from 'ionic-native';
 import * as bip21 from 'bip21';
 import {Config} from '../../../providers/config';
+import {Logo} from '../../../components/logo';
 
 const ADDRESS_TYPE = 'static';
 
 @Component({
-    templateUrl : 'build/pages/settings/addresses/static-address.html'
+    templateUrl : 'build/pages/settings/addresses/static-address.html' ,
+    directives : [Logo]
 })
 export class StaticAddressPage {
 
