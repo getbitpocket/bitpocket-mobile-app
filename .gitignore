@@ -10,3 +10,4 @@ plugins/
 Thumbs.db
 .vscode
 .idea
+!typings/**/plugins
