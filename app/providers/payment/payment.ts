@@ -16,8 +16,8 @@ export class Payment extends EventEmitter {
     private waitingTimeCount: number = 0;
 
     // TODO: check if this should be configurable
-    private checkInterval: number  = 7500;
-    private maxWaitingTime: number = 1000 * 60;
+    private checkInterval: number  = 500;
+    private maxWaitingTime: number = 1000;
 
     private service: payment.PaymentService;
 

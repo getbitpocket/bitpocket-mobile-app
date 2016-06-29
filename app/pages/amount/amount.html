@@ -5,45 +5,32 @@
         <bitpocket-logo></bitpocket-logo>    
     </ion-navbar>
 </ion-header>
-<ion-content class="amount">
-        <div class="amount-input">
-            <ion-row>
-                <ion-col class="checkbox" [ngClass]="{active:entryInFiat}" width-10>
+<ion-content no-scroll>
+        <div class="payment-specification">
+            <div class="payment-currency" [ngClass]="{active:entryInFiat}">
                 <ion-checkbox checkbox-style [(ngModel)]="entryInFiat" (click)="changeInputCurrency('Fiat')"></ion-checkbox>
-                </ion-col>
-
-                <ion-col class="amount-type" [ngClass]="{active:entryInFiat}" width-20>
-                    <ion-label (click)="changeInputCurrency('Fiat')">{{ currency }}</ion-label>
-                </ion-col>
-
-                <ion-col class="readable-amount" [ngClass]="{active:entryInFiat}" width-70>
-                    <div class="amount-input-form" [ngClass]="{active:entryInFiat}">
-                        <span *ngIf="entryInFiat">
-                            <span clear class="number digits">{{ digits }}</span><span class="separator">{{ separator }}</span><span clear class="number decimals">{{ decimals }}</span>
-                        </span>
-                        <span *ngIf="entryInBTC">{{ exchangedAmount }}</span>
-                    </div>
-                </ion-col>
-            </ion-row>
-
-            <ion-row>
-                <ion-col class="checkbox" [ngClass]="{active:entryInBTC}" width-10>
-                    <ion-checkbox checkbox-style [(ngModel)]="entryInBTC" (click)="changeInputCurrency('BTC')"></ion-checkbox>
-                </ion-col>
-
-                <ion-col class="amount-type" [ngClass]="{active:entryInBTC}" width-20>
-                    <ion-label (click)="changeInputCurrency('BTC')">{{ bitcoinUnit }}</ion-label>
-                </ion-col>
-
-                <ion-col class="readable-amount" [ngClass]="{active:entryInBTC}" width-70>
-                    <div class="amount-input-form" [ngClass]="{active:entryInBTC}">
-                        <span *ngIf="entryInBTC">
-                            <span clear class="number digits">{{ digits }}</span><span class="separator">{{ separator }}</span><span clear class="number decimals">{{ decimals }}</span>
-                        </span>
-                        <span *ngIf="entryInFiat">{{ exchangedAmount }}</span>
-                    </div>
-                </ion-col>
-            </ion-row>
+                <ion-label (click)="changeInputCurrency('Fiat')">{{ currency }}</ion-label>
+            </div>
+            <div class="payment-amount" [ngClass]="{active:entryInFiat}">
+                <div [ngClass]="{active:entryInFiat}">
+                    <span *ngIf="entryInFiat">
+                        <span clear class="number digits">{{ digits }}</span><span class="separator">{{ separator }}</span><span clear class="number decimals">{{ decimals }}</span>
+                    </span>
+                    <span *ngIf="entryInBTC">{{ exchangedAmount }}</span>
+                </div>
+            </div>
+            <div class="payment-currency" [ngClass]="{active:entryInBTC}">
+                <ion-checkbox checkbox-style [(ngModel)]="entryInBTC" (click)="changeInputCurrency('BTC')"></ion-checkbox>
+                <ion-label (click)="changeInputCurrency('BTC')">{{ bitcoinUnit }}</ion-label>
+            </div>
+            <div class="payment-amount" [ngClass]="{active:entryInBTC}">
+                <div [ngClass]="{active:entryInBTC}">
+                    <span *ngIf="entryInBTC">
+                        <span clear class="number digits">{{ digits }}</span><span class="separator">{{ separator }}</span><span clear class="number decimals">{{ decimals }}</span>
+                    </span>
+                    <span *ngIf="entryInFiat">{{ exchangedAmount }}</span>
+                </div>
+            </div>
         </div>
 
         <div class="divider-box">

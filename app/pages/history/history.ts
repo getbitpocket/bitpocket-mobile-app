@@ -26,16 +26,6 @@ export class HistoryPage {
     
     constructor(private history: History, private currency: Currency, private config: Config, private payment: Payment) {         
 
-        this.payment.updateConfirmations([
-            {
-                txid : 'fef7ddf5373ec5b0143db3eb75429e7a7a4e9980893de95a911d55bf010b5f9f' ,
-                address : '1GLaS11iwJofTeRvRmRPwK7DtdPhrU8mat' ,
-                bitcoinAmount : 100 ,
-                fiatAmount : 100 ,
-                currency : 'EUR'            
-            }
-        ]).then(transactions => { console.log(transactions); });
-
         Promise.all<any>([
             history.queryTransactions() ,
             config.get('currency-format-s') ,

@@ -1,4 +1,7 @@
 
+
+// logo header
+
 bitpocket-logo {
     position: absolute;
     padding:0.8rem;
@@ -20,4 +23,56 @@ bitpocket-logo {
     }
     
 }
+
+
+// payment specification
+
+.payment-specification {  
+    display:flex;  
+    flex-flow:row wrap;
+    color: white;
+    margin: 1rem 2rem;   
+
+    @media(max-width: $screen-l-max) {
+        margin: 2rem 4rem;
+    }
+    @media(max-width: $screen-m-max) {
+        margin: 2rem 4rem;
+    }
+    @media(max-width: $screen-s-max) {
+        margin: 0.8rem 1.8rem;
+    }
+    
+    .payment-amount {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        flex-basis:65%;
+        text-align: right;
+        font-size: $font-size-x-small;
+
+        .active {            
+            font-size: $font-size-x-large;
+            transition: all 200ms ease-in-out;
+        }
+    }
+
+    .payment-currency {
+        flex-basis:35%;
+        font-size: $font-size-x-small;
+        overflow: hidden;
+
+        ion-label {
+            font-size: $font-size-small;
+            margin-left:3px;
+        }
+
+        ion-checkbox, ion-label {
+            display: inline-block;
+            vertical-align: middle;
+        }
+    }
+
+}
+
 

@@ -32,7 +32,7 @@ export class BitPocketApp {
     @ViewChild(Nav) nav: Nav;   
     @ViewChild(Menu) menu: Menu; 
     
-    rootPage: Type = OfflinePage;
+    rootPage: Type;
     menuItems:Array<{name:string,icon:string,page:any}> = [];
 
     constructor(platform: Platform, private app:App, private config:Config, private currency:Currency, private dbHelper:DatabaseHelper, private history: History) {//, private currency:Currency) {
@@ -75,6 +75,12 @@ export class BitPocketApp {
         },1000 * 60 * 5);
     }
 
+    hideSplashscreen() {
+        setTimeout(() => {
+            Splashscreen.hide();
+        }, 2000);
+    }
+
     initNavState() {
         if (this.isOnline()) {
             Promise.all<any>([
@@ -85,13 +91,14 @@ export class BitPocketApp {
                 if (promised[0] && (promised[1] || promised[2])) {
                     this.nav.setRoot(AmountPage);
                 } else {
-                    // this.nav.setRoot(AddressesPage);
+                    this.nav.setRoot(AddressesPage);
                 }
-                Splashscreen.hide();
+                
+                this.hideSplashscreen();
             });
         } else {
-            // this.nav.setRoot(OfflinePage);
-            Splashscreen.hide();
+            this.nav.setRoot(OfflinePage);
+            this.hideSplashscreen();
         }
     }
     

@@ -1,25 +1,3 @@
-// http://ionicframework.com/docs/v2/theming/
-
-
-// App Shared Variables
-// --------------------------------------------------
-// To customize the look and feel of this app, you can override
-// the Sass variables found in Ionic's source scss files. Setting
-// variables before Ionic's Sass will use these variables rather than
-// Ionic's default Sass variable values. App Shared Sass imports belong
-// in the app.core.scss file and not this file. Sass variables specific
-// to the mode belong in either the app.ios.scss or app.md.scss files.
-
-
-// App Shared Color Variables
-// --------------------------------------------------
-// It's highly recommended to change the default colors
-// to match your app's branding. Ionic uses a Sass map of
-// colors so you can add, rename and remove colors as needed.
-// The "primary" color is the only required color in the map.
-// Both iOS and MD colors can be further customized if colors
-// are different per mode.
-
 $font-family-base: 'Ubuntu', sans-serif;
 $font-family-md-base: $font-family-base;
 
@@ -60,8 +38,6 @@ $tabbar-md-item-icon-size: 2.8em;
 $radio-md-color-off:    rgba(106,109,122,0.5);
 $radio-md-color-on:     rgba(106,109,122,1);
 
-//$checkbox-md-icon-size: 28px;
-//$checkbox-md-icon-checkmark-width: 3px;
 $checkbox-md-icon-background-color-on:    rgba(106,109,122,0.5);
 $checkbox-md-icon-background-color-off:   rgba(106,109,122,0.5);
 $checkbox-md-icon-border-color-on:        rgba(106,109,122,1);
@@ -69,6 +45,11 @@ $checkbox-md-icon-border-color-off:       rgba(106,109,122,1);
 
 $card-md-text-color:        $basic-design-color;
 $card-md-title-text-color:  $basic-design-color;
+
+// sizes
+$screen-s-max: 359px; /* iPhone 5 - 5s Portrait */
+$screen-m-max: 374px; /* Galaxy S3, S5, Note II,  - Portrait 360 bis 374*/
+$screen-l-max: 767px; /* iPhone 6, 6s, 6Plus, Nexus 5X, Nexus 6P,  - Portrait 374 bis 767*/
 
 $colors: (
   primary:      #333,

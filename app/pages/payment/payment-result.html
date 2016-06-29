@@ -4,46 +4,35 @@
         <bitpocket-logo></bitpocket-logo>
     </ion-navbar>
 </ion-header>
-<ion-content [ngClass]="getResultClasses()">
-    <div class="payment-result">
+<ion-content [ngClass]="getResultClasses()" no-scroll>
         
-        <div class="amount-input">
-            <ion-row>
-                <ion-col class="amount-type active" width-30>
-                    <ion-label>{{ currency }}</ion-label>
-                </ion-col>
-                <ion-col  class="readable-amount active" width-70>
-                    <div class="amount-input-form active">
-                        {{ fiatAmount }}
-                    </div>
-                </ion-col>
-            </ion-row>
-            <ion-row>
-                <ion-col class="amount-type" width-30>                    
-                    <ion-label>{{ bitcoinUnit }}</ion-label>
-                </ion-col>
-                <ion-col class="readable-amount" width-70>
-                    <div class="amount-input-form">
-                        {{ bitcoinAmount }}
-                    </div>
-                </ion-col>
-            </ion-row>
+        <div class="payment-specification">
+            <div class="payment-currency">{{ currency }}</div>
+            <div class="payment-amount">
+                <div class="active">
+                    {{ fiatAmount }}
+                </div>
+            </div>
+            <div class="payment-currency">{{ bitcoinUnit }}</div>
+            <div class="payment-amount">
+                <div>
+                    {{ bitcoinAmount }}
+                </div>
+            </div>
         </div>
 
         <div class="divider-box">
             <div class="divider"></div>
         </div>
 
-        <div class="result-box">
+        <div class="payment-result-box">
             <div class="payment-result-icon">
                 <ion-icon [name]="resultIcon"></ion-icon>
             </div>
             <div class="payment-result-text text-center">{{ resultText }}</div>
         </div>
 
-        <div class="history-button">
+        <div class="payment-result-history">
             <button show-history class="text-uppercase" (click)="showHistory()">Show details</button>
         </div>
-
-    </div>   
 </ion-content>

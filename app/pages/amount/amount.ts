@@ -42,29 +42,14 @@ export class AmountPage {
             this.currency    = settings[0];
             this.separator   = settings[1];
             this.bitcoinUnit = settings[2];
-            this.digits   = "0";
-            this.decimals = "00";        
-            this.position = POSITION_DIGITS;
-            this.index = 0;
-            this.exchangedAmount = "0"+this.separator+"00";
-
-            this.changeDetector.detectChanges();
+            this.resetAmount();
         });
     }
 
     changeInputCurrency(inputCurrency: string) {
         this.entryInBTC  = !this.entryInBTC;
         this.entryInFiat = !this.entryInFiat;
-
-        if (this.entryInFiat) {
-            this.resetAmount();
-        } else {
-            this.digits = "0";
-            this.decimals = "0000";        
-            this.position = POSITION_DIGITS;
-            this.index = 0;
-            this.updateExchangedAmount();
-        }        
+        this.resetAmount(); 
     }
 
     backspaceInput() {
@@ -105,11 +90,7 @@ export class AmountPage {
         }
     }
 
-    numberInput(input:string) {
-        let currentLenght = this.decimals.length + this.digits.length + 1;
-        if(currentLenght >= 8){
-            return null;
-        }
+    numberInput(input:string) {        
         if (this.position === POSITION_DIGITS) {
             this.digitInput(input.toString());
         } else if (this.position === POSITION_DECIMALS) {
@@ -140,29 +121,24 @@ export class AmountPage {
         this.digits = "0";
         this.decimals = "00";
         this.position = POSITION_DIGITS;
-        this.index = 0;
-        this.entryInBTC = false;
-        this.entryInFiat = true;
+        this.index = 0;        
         this.updateExchangedAmount();
     }
     
     updateExchangedAmount() {
         let inputAmount = parseFloat(this.digits+"."+this.decimals);
-        
-        if (this.entryInBTC) {
-            this.currencyService.getSelectedCurrencyRate().then(rate => {
+
+        this.currencyService.getSelectedCurrencyRate().then(rate => {
+            if (this.entryInBTC) {
                 let amount = BitcoinUnit.from(inputAmount,this.bitcoinUnit).toFiat(rate);
-                this.exchangedAmount = (amount.toFixed(0) + this.separator + amount.toFixed(2).substr(-2));
-                this.changeDetector.detectChanges();
-            });
-        } else if (this.entryInFiat) {
-            this.currencyService.getSelectedCurrencyRate().then(rate => {
+                this.exchangedAmount = this.currencyService.formatNumber(amount, this.separator, 2);                
+            } else if (this.entryInFiat) {
                 let amount = BitcoinUnit.fromFiat(inputAmount,rate).to(this.bitcoinUnit);
                 let decimalsCount = BitcoinUnit.decimalsCount(this.bitcoinUnit);
-                this.exchangedAmount = amount.toFixed(0) + this.separator + amount.toFixed(decimalsCount).substr(-decimalsCount);
-                this.changeDetector.detectChanges();
-            });
-        }
+                this.exchangedAmount = this.currencyService.formatNumber(amount, this.separator, decimalsCount, 2);
+            }            
+            this.changeDetector.detectChanges();
+        });        
     }
 
     requestPayment() {

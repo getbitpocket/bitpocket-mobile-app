@@ -4,30 +4,22 @@
         <bitpocket-logo loading></bitpocket-logo>
     </ion-navbar>
 </ion-header>
-<ion-content>
-    <div class="payment">
-        <div class="amount-input">
-            <ion-row>
-                <ion-col class="amount-type active" width-30>
-                    <ion-label>{{ currency }}</ion-label>
-                </ion-col>
-                <ion-col  class="readable-amount active" width-70>
-                    <div class="amount-input-form active">
-                        {{ fiatAmount }}
-                    </div>
-                </ion-col>
-            </ion-row>
-            <ion-row>
-                <ion-col class="amount-type" width-30>                    
-                    <ion-label>{{ bitcoinUnit }}</ion-label>
-                </ion-col>
-                <ion-col class="readable-amount" width-70>
-                    <div class="amount-input-form">
-                        {{ bitcoinAmount }}
-                    </div>
-                </ion-col>
-            </ion-row>
+<ion-content no-scroll>
+
+    <div class="payment-specification">
+        <div class="payment-currency">{{ currency }}</div>
+        <div class="payment-amount">
+            <div class="active">
+                {{ fiatAmount }}
+            </div>
         </div>
+        <div class="payment-currency">{{ bitcoinUnit }}</div>
+        <div class="payment-amount">
+            <div>
+                {{ bitcoinAmount }}
+            </div>
+        </div>
+    </div>
 
         <div class="divider-box">
             <div class="divider"></div>
@@ -41,5 +33,4 @@
             Waiting for Payment
         </div>
 
-    </div>
 </ion-content>

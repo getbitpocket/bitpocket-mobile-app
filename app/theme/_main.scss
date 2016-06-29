@@ -40,4 +40,14 @@ ion-content {
   }
 }
 
+ion-content[no-scroll] {
+  scroll-content {
+    overflow: hidden;
+  }  
+
+  ::-webkit-scrollbar,
+    *::-webkit-scrollbar {
+      display: none;
+    }
+}
 

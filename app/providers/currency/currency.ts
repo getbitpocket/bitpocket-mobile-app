@@ -110,8 +110,29 @@ export class Currency {
         }
     }
     
-    formatNumber(value: number, separator: string, decimals: number = 2) : string {
-        return value.toFixed(decimals).replace(/\./,separator);
+    /**
+     * Format a number, fillup with 0 until minDecimals is reached, cut at maxDecimals
+     */
+    formatNumber(value: number, separator: string, maxDecimals: number = 2, minDecimals: number = 2) : string {
+        let formattedNumber = value.toFixed(maxDecimals).replace(/\./,separator);
+        
+        if (minDecimals >= maxDecimals) {
+            return formattedNumber;
+        } else {
+            let startLength = (formattedNumber.indexOf(separator) + minDecimals);
+            let endIndex    = formattedNumber.length - 1;
+            while (startLength < endIndex) {
+                if (formattedNumber[endIndex] != "0") {
+                    break;
+                } else {
+                    formattedNumber = formattedNumber.substr(0,formattedNumber.length-1);
+                }
+
+                endIndex--;
+            }
+        }
+
+        return formattedNumber;
     }
 
 }
