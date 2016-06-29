@@ -5,25 +5,4 @@
     .confirmed {
         color: color($colors, confirmed);
     }
-    ion-list {
-        ion-item {
-            &:nth-child(odd){
-                background: rgba(255,255,255,0.6);
-            }
-            &:nth-child(even){
-                background: rgba(255,255,255,0.2);
-            }
-        }
-    }
-    .amount-input.history {
-        .ion-md-checkmark-circle {
-            font-size: $font-size-medium;
-        }
-    }
 }
-
-.history-amounts {
-    font-size: $font-size-medium;
-    color: color($colors, success);
-}
-

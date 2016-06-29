@@ -6,92 +6,27 @@
     </ion-navbar>
 </ion-header>
 <ion-content class="history">
-
-    <ion-card>
-
-        <ion-card-content>
-
-            <div class="amount-input history">
-
-                <ion-row *ngFor="let usedCurrency of usedCurrencyList">
-                    <ion-col class="amount-type" width-30>
-                        <ion-label>{{usedCurrency.amount}}</ion-label>
-                    </ion-col>
-
-                    <ion-col class="readable-amount" width-70>
-                        <ion-label>{{usedCurrency.currency}}</ion-label>
-                    </ion-col>
-                </ion-row>
-
-                <div class="mbtc-box">
-                    <ion-row>
-                        <ion-col class="amount-type" width-30>
-                            <ion-label>mBTC</ion-label>
-                        </ion-col>
-
-                        <ion-col class="readable-amount" width-70>
-                            <ion-label>{{sumBitcoinAmount}}</ion-label>
-                        </ion-col>
-                    </ion-row>
-                </div>
-
-                <div class="divider-box">
-                    <div class="divider black"></div>
-                </div>
-
-                <ion-row>
-                    <ion-col class="icon" width-20>
-                        <ion-icon name="checkmark-circle" class="unconfirmed" item-left></ion-icon>
-                    </ion-col>
-                    <ion-col class="amount-type" width-20>
-                        <ion-label>mBTC</ion-label>
-                    </ion-col>
-
-                    <ion-col class="readable-amount" width-60>
-                        <ion-label>{{sumUnconfirmendTransactionBitcoinAmount}}</ion-label>
-                    </ion-col>
-                </ion-row>
-
-            </div>
-
-        </ion-card-content>
-
-    </ion-card>
-
-    <div [hidden]="transactions">
-         <ion-label white text-center padding>no entries were found</ion-label>
-    </div>
-
-    <div [hidden]="!transactions">
-
-        <ion-card *ngFor="let transaction of transactionList">
-
+    <ion-list>
+        <ion-list-header>Transactions</ion-list-header>
+        <ion-item-sliding *ngFor="let transaction of transactions">
             <ion-item>
-                <ion-icon [class.unconfirmed]="transaction.confirmations < 6" [class.confirmed]="transaction.confirmations >= 6" ios="ios-checkmark-circle" md="ios-checkmark-circle" item-left></ion-icon>
-                <h2 item-left>{{ transaction.timestamp | date }}</h2>
+                <ion-icon [class.unconfirmed]="transaction.confirmations < 6" [class.confirmed]="transaction.confirmations >= 6" name="checkmark-circle" item-left></ion-icon>
+                <p>{{ transaction.timestamp | date }}</p>
+                <h2>{{ transaction.currency }} {{ transaction.fiatAmount | bitpocketCurrency:'.':',':2 }}</h2>                
             </ion-item>
-
-            <ion-card-content>
-                <div class="history-amounts" text-center>
-                    <div class="success">{{ transaction.fiatAmount | bitpocketCurrency:currencyFormatSeparator:currencyFormatThousandsPoint:2:transaction.symbol }}</div>
-                    <p>{{ transaction.bitcoinAmount | bitpocketCurrency:currencyFormatSeparator:currencyFormatThousandsPoint }}</p>
-                </div>
-            </ion-card-content>
-
-            <ion-item>
-                <button primary clear item-right>
-                    <ion-icon name="trash" ></ion-icon>
-                    <div>Delete Item</div>
+            <ion-item-options>
+                <button danger (click)="deleteTransaction(transaction.txid)">
+                    <ion-icon name="trash"></ion-icon>
+                    Remove
                 </button>
-                <button primary clear item-right>
-                    <ion-icon name="search" ></ion-icon>
-                    <div>Show details</div>
-                </button>
-            </ion-item>
-
-        </ion-card>
-    </div>
-
-
-
+                <button primary>
+                    <ion-icon name="search"></ion-icon>
+                    Details
+                </button>                
+            </ion-item-options>
+        </ion-item-sliding>
+    </ion-list>
+    <ion-infinite-scroll (ionInfinite)="loadTransactions($event)">
+        <ion-infinite-scroll-content loadingSpinner="bubbles"></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
 </ion-content>

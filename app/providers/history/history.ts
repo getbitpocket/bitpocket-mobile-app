@@ -4,9 +4,12 @@ import {Transaction} from '../../api/transaction';
 
 const SQL_ADD_TRANSACTION = "INSERT INTO tx (timestamp,txid,currency,address,bitcoinAmount,fiatAmount,confirmations) VALUES (?,?,?,?,?,?,?);";
 const SQL_UPDATE_CONFIRMATIONS = "UPDATE tx SET confirmations = ? WHERE txid = ?;";
-const SQL_QUERY_TRANSACTIONS = "SELECT * FROM tx ORDER BY timestamp DESC;";
+const SQL_DELETE_TRANSACTION = "DELETE FROM tx WHERE txid = ?";
+const SQL_QUERY_TRANSACTIONS = "SELECT * FROM tx ORDER BY timestamp DESC LIMIT ? OFFSET ?;";
 const SQL_QUERY_HAS_TRANSACTION = "SELECT * FROM tx WHERE txid = ? AND address = ?;";
 const SQL_QUERY_UNCONFIRMED_TRANSACTIONS = "SELECT * FROM tx WHERE confirmations < 6;";
+const SQL_QUERY_TRANSACTIONS_SUM_BTC = "SELECT SUM(bitcoinAmount) FROM tx WHERE confirmations > ?";
+const SQL_QUERY_TRANSACTIONS_SUM_FIAT = "SELECT SUM (fiatAmount) FROM tx GROUP BY currency confirmations > ?";
 
 @Injectable()
 export class History {
@@ -76,11 +79,17 @@ export class History {
         });
     }
 
-    queryTransactions() : Promise<Array<Transaction>> {
+    queryTransactionSums(confirmed: boolean = true, btc: boolean = true) : Promise<any> {
+        return new Promise<any> (() => {
+            // this.dbHelper.executeSql();
+        });
+    }
+
+    queryTransactions(limit:number = 10, offset:number = 0) : Promise<Array<Transaction>> {
         let transactions: Array<Transaction> = [];
         
         return new Promise<Array<Transaction>> ((resolve, reject) => {
-            this.dbHelper.executeSql(SQL_QUERY_TRANSACTIONS,[]).then((results) => {                                
+            this.dbHelper.executeSql(SQL_QUERY_TRANSACTIONS,[limit, offset]).then((results) => {                                
                 for (let i = 0; i < results.rows.length; i++) {
                     let row = results.rows.item(i);                    
                     
@@ -108,6 +117,18 @@ export class History {
         return new Promise<boolean>((resolve, reject) => {        
             this.dbHelper.executeSql(SQL_UPDATE_CONFIRMATIONS,[
                 confirmations ,
+                txid
+            ]).then(() => {
+                resolve(true);
+            }).catch(() => {
+                reject(false);
+            });        
+        });
+    }
+
+    deleteTransaction(txid: string) : Promise<boolean> {
+        return new Promise<boolean>((resolve, reject) => {        
+            this.dbHelper.executeSql(SQL_DELETE_TRANSACTION,[
                 txid
             ]).then(() => {
                 resolve(true);

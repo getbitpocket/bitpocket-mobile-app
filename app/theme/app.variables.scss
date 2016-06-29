@@ -60,8 +60,8 @@ $colors: (
   dark:         #222,
   white:        #FFF,
   favorite:     #69BB7B,
-  confirmed:    rgba(106,109,122,1),
-  unconfirmed:  rgba(106,109,122,0.5),
+  confirmed:    green ,
+  unconfirmed:  yellow ,
   menu-item: (
           base:     $basic-design-color,                         //-> Background
           contrast: $basic-design-color,                         //-> Text
