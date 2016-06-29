@@ -1,8 +1,8 @@
 {
   "resolution": "main",
   "tree": {
-    "src": "https://raw.githubusercontent.com/getbitpocket/electrum-network-plugin/c8c8bf1b29910f3f6336f979414bbd6118f89bb9/index.d.ts",
-    "raw": "github:getbitpocket/electrum-network-plugin/index.d.ts#c8c8bf1b29910f3f6336f979414bbd6118f89bb9",
-    "typings": "https://raw.githubusercontent.com/getbitpocket/electrum-network-plugin/c8c8bf1b29910f3f6336f979414bbd6118f89bb9/index.d.ts"
+    "src": "https://raw.githubusercontent.com/getbitpocket/electrum-network-plugin/65bc4ccffb04400cd5303140abdecffa056f5426/index.d.ts",
+    "raw": "github:getbitpocket/electrum-network-plugin/index.d.ts#65bc4ccffb04400cd5303140abdecffa056f5426",
+    "typings": "https://raw.githubusercontent.com/getbitpocket/electrum-network-plugin/65bc4ccffb04400cd5303140abdecffa056f5426/index.d.ts"
   }
 }

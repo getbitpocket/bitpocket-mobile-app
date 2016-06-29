@@ -67,13 +67,14 @@ gulp.task('clean', function(){
 });
 
 gulp.task('test-build', function(done) {
-  del('tests');
-  copyScripts({ dest: 'tests' });
-    
-  glob('app/**/*.spec.ts', function(err, files) {
-    files.unshift('./app/app.ts','./typings/index.d.ts');  
-    buildBrowserify({ outputPath: 'tests/', src: files }).on('end', done);
-  });        
+  del('tests').then(function() {
+    copyScripts({ dest: 'tests' });
+
+    glob('app/**/*.spec.ts', function(err, files) {
+      files.unshift('./app/app.ts','./typings/index.d.ts');  
+      buildBrowserify({ outputPath: 'tests/', src: files }).on('end', done);
+    });
+  });          
 });
 
 gulp.task('test', ['test-build'], function(done) {
