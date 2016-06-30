@@ -31,20 +31,17 @@ export class GeneralPage {
         Promise.all<string>([
             this.config.get('currency-format') ,
             this.config.get('bitcoin-unit') ,
-            this.config.get('blockchain-explorer') ,
             this.config.get('payment-request-label')
         ]).then(promised => {
             this.selectedFormat      = promised[0];
             this.selectedUnit        = promised[1];
-            this.selectedExplorer    = promised[2];
-            this.paymentRequestLabel = promised[3];
+            this.paymentRequestLabel = promised[2];
             this.changeDetector.detectChanges();
         });
     }
 
     ionViewWillLeave() {
         this.config.set('bitcoin-unit', this.selectedUnit);
-        this.config.set('blockchain-explorer', this.selectedExplorer);
         this.config.set('currency-format', this.selectedFormat);
         this.config.set('currency-format-t', CURRENCY_FORMATS[this.selectedFormat].t);
         this.config.set('currency-format-s', CURRENCY_FORMATS[this.selectedFormat].s);

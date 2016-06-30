@@ -6,26 +6,29 @@
     </ion-navbar>
 </ion-header>
 <ion-content class="history">
-    <ion-list>
+    <ion-list *ngIf="transactions.length > 0">
         <ion-list-header>Transactions</ion-list-header>
-        <ion-item-sliding *ngFor="let transaction of transactions">
+        <ion-item-sliding *ngFor="let transaction of transactions; let i = index">
             <ion-item>
                 <ion-icon [class.unconfirmed]="transaction.confirmations < 6" [class.confirmed]="transaction.confirmations >= 6" name="checkmark-circle" item-left></ion-icon>
                 <p>{{ transaction.timestamp | date }}</p>
-                <h2>{{ transaction.currency }} {{ transaction.fiatAmount | bitpocketCurrency:'.':',':2 }}</h2>                
+                <h2>{{ transaction.currency }} {{ transaction.fiatAmount | bitpocketCurrency:currencySeparator:currencyThousandsPoint:2 }}</h2>                
             </ion-item>
             <ion-item-options>
-                <button danger (click)="deleteTransaction(transaction.txid)">
+                <button danger (click)="deleteTransaction(i)">
                     <ion-icon name="trash"></ion-icon>
                     Remove
                 </button>
-                <button primary>
+                <button primary (click)="openTransaction(transaction.txid)">
                     <ion-icon name="search"></ion-icon>
                     Details
                 </button>                
             </ion-item-options>
         </ion-item-sliding>
     </ion-list>
+
+    <div *ngIf="transactions.length <= 0" class="no-transactions">No Transactions yet...</div>
+
     <ion-infinite-scroll (ionInfinite)="loadTransactions($event)">
         <ion-infinite-scroll-content loadingSpinner="bubbles"></ion-infinite-scroll-content>
     </ion-infinite-scroll>

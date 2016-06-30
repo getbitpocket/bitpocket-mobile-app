@@ -3,10 +3,10 @@ import {ElectrumPaymentService} from './electrum';
 import {BitcoinUnit} from './../currency/bitcoin-unit';
 import {Transaction} from '../../api/transaction';
 
-function createDummy(txid: string) : Transaction {
+function createDummy(txid: string, address = 'blablabla') : Transaction {
     return {
         txid : txid ,
-        address : 'blabla' ,
+        address : address ,
         currency : 'EUR' ,
         fiatAmount : 10 ,
         bitcoinAmount : 11 ,
@@ -84,6 +84,21 @@ describe('Electrum Payment Service', () => {
         expect(transactions[3].confirmations).toEqual(100);
         expect(transactions[4].confirmations).toEqual(100);       
 
+    });
+
+    it('unique address list', () => {
+        let addresses = paymentService.createUniqueAddressList([
+            createDummy('id1','address1') ,
+            createDummy('id2','address1') ,
+            createDummy('id3','address2') ,
+            createDummy('id4','address2') ,
+            createDummy('id5','address3')
+        ]);
+
+        expect(addresses.length).toEqual(3);
+        expect(addresses[0]).toEqual('address1');
+        expect(addresses[1]).toEqual('address2');
+        expect(addresses[2]).toEqual('address3');
     });
     
 });

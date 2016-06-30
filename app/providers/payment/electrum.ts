@@ -41,11 +41,21 @@ export class ElectrumPaymentService implements payment.PaymentService {
         for (let tx of response) {
             let index = this.findTransactionIndex(tx.tx_hash, transactions);
             if (index >= 0) {
-                transactions[index].confirmations = blockHeight - tx.height;
+                transactions[index].confirmations = tx.height > 0 ? blockHeight - tx.height : 0;
             }
         }
 
         return transactions;
+    }
+
+    createUniqueAddressList(transactions: Array<Transaction>) {
+        let addresses = [];
+        for(let i = 0; i < transactions.length; i++) {
+            if (addresses.indexOf(transactions[i].address) == -1) {
+                addresses.push(transactions[i].address);
+            }                
+        }
+        return addresses;
     }
 
     findTransactions(address: string, amount: BitcoinUnit) : Promise<Array<string>> {
@@ -106,16 +116,9 @@ export class ElectrumPaymentService implements payment.PaymentService {
                 blockRequestId = this.generateRandomId(),
                 responseCount = 0,
                 retrievedBlockHeight = 0,
-                addresses = [];
-
-            for(let i = 0; i < transactions.length; i++) {
-                if (addresses.indexOf(transactions[i].address) === -1) {
-                    addresses.push(transactions[i].address);
-                }                
-            }
-
-            nD.init();
+                addresses = this.createUniqueAddressList(transactions);
             
+            nD.init();            
             nD.on('peers:discovered', () => {                
                 nD.sendRandomRequest({
                     id: blockRequestId,
@@ -124,26 +127,39 @@ export class ElectrumPaymentService implements payment.PaymentService {
                 });
             });
 
-            nD.on('peers:response', response => { console.log(response, transactions, addresses, retrievedBlockHeight);
+            nD.on('peers:response', response => {
+                console.debug("peer:response", response);
                 if (response.error !== undefined) {
                     reject(response.error);
                     return;
                 }
 
-                if (response.id == blockRequestId) {
-                    retrievedBlockHeight = response.result;
-                    
+                if (response.id == blockRequestId) {                    
+                    retrievedBlockHeight = response.result;                    
+                    console.debug("Blockheight:",retrievedBlockHeight);
+
                     for (let i = 0; i < addresses.length; i++) {
+                        console.debug("Query address history:",addresses[i]);
                         nD.sendRandomRequest({
                             id: this.generateRandomId() ,
                             method : 'blockchain.address.get_history' ,
-                            params : addresses[i]
+                            params : [addresses[i]]
                         });
-                    }                                        
+                    }                                  
+
+                    if (addresses.length > 0) {
+                        setTimeout(() => {
+                            if (responseCount < addresses.length) {
+                                console.debug("Timeout occured while waiting for confirmation updates");
+                                reject();
+                            }
+                        }, 18000);
+                    }
+
                 } else {
-                    responseCount++;
-                    
+                    responseCount++;                    
                     transactions = this.updateTransactionData(response.result, transactions, retrievedBlockHeight);
+                    console.debug("updated transaction data:",transactions,responseCount);
 
                     if (responseCount >= addresses.length) {
                         resolve(transactions);

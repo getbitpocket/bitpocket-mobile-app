@@ -1,8 +1,17 @@
 .history {
+    
     .unconfirmed {
         color: color($colors, unconfirmed);
     }    
+    
     .confirmed {
         color: color($colors, confirmed);
+    }
+
+    .no-transactions {
+        color: white;
+        margin-top:15px;
+        text-align: center;
+        font-size: 1.2em;
     }
 }

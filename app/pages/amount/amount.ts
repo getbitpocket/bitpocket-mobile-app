@@ -1,4 +1,4 @@
-import {Component, ChangeDetectorRef} from '@angular/core';
+import {Component, ChangeDetectorRef, Output, EventEmitter} from '@angular/core';
 import {NavController, Platform} from 'ionic-angular';
 import {PaymentPage} from '../payment/payment';
 import {Config} from '../../providers/config';
@@ -6,13 +6,14 @@ import {Currency} from '../../providers/currency/currency';
 import {BitcoinUnit} from '../../providers/currency/bitcoin-unit';
 import * as bitcoin from 'bitcoinjs-lib';
 import {Logo} from '../../components/logo';
+import {DynamicFontSize} from '../../components/dynamic-font-size';
 
 const POSITION_DIGITS = 'digits';
 const POSITION_DECIMALS = 'decimals';
 
 @Component({
     templateUrl : 'build/pages/amount/amount.html' ,
-    directives: [Logo] 
+    directives: [Logo, DynamicFontSize]
 })
 export class AmountPage {
 
@@ -29,8 +30,7 @@ export class AmountPage {
     currency:string;
     bitcoinUnit:string;
             
-    constructor(private platform: Platform, private currencyService: Currency, private config: Config, private navigation:NavController, private changeDetector:ChangeDetectorRef) {                        
-            
+    constructor(private platform: Platform, private currencyService: Currency, private config: Config, private navigation:NavController, private changeDetector:ChangeDetectorRef) {                                   
     }
 
     ionViewWillEnter() {

@@ -97,16 +97,27 @@ export class Payment extends EventEmitter {
         return this;
     }
 
-    updateConfirmations(transactions: Array<Transaction>) : Promise<Array<Transaction>> {
-        return this.service.updateConfirmations(transactions).then((transactions) => {
-            for (let i = 0; i < transactions.length; i++) {
-                if (transactions[i].confirmations >= 6) {
-                    this.history.updateConfirmations(transactions[i].txid, transactions[i].confirmations);
+    updateConfirmations() : Promise<any> {
+      return new Promise<Array<Transaction>>((resolve,reject) => {
+            this.history.findUnconfirmedTransactions().then(transactions => {
+                if (transactions.length <= 0) {
+                    resolve();
+                } else {
+                    this.service.updateConfirmations(transactions).then((transactions) => {
+                        console.debug("confirmation update from payment service");
+                        for (let i = 0; i < transactions.length; i++) {
+                            if (transactions[i].confirmations >= 1) {
+                                this.history.updateConfirmations(transactions[i].txid, transactions[i].confirmations);
+                            }
+                        }
+                        setTimeout(resolve,1000);
+                    }).catch(() => {
+                        console.debug("confirmation update from payment service rejected");
+                        resolve();
+                    });
                 }
-            }
-
-            return transactions;
-        });
+            });
+        });        
     }
     
 }

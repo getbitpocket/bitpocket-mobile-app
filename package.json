@@ -48,6 +48,7 @@
     "cordova-plugin-network-information",
     "cordova-plugin-whitelist",
     "cordova-plugin-splashscreen",
+    "cordova-plugin-inappbrowser",
     {
       "locator": "https://github.com/getbitpocket/electrum-network-plugin",
       "id": "electrum-network-plugin"

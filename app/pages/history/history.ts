@@ -1,5 +1,8 @@
 import {Component, ChangeDetectorRef} from '@angular/core';
+import {Loading, NavController} from 'ionic-angular';
+import {Payment} from '../../providers/payment/payment';
 import {History} from '../../providers/history/history';
+import {Config} from '../../providers/config';
 import {Transaction} from '../../api/transaction';
 import {CurrencyPipe} from '../../pipes/currency';
 import {Logo} from '../../components/logo';
@@ -11,17 +14,40 @@ import {Logo} from '../../components/logo';
 })
 export class HistoryPage {
     
-    transactions: Array<Transaction>;
+    transactions: Array<Transaction> = [];
+    currencyThousandsPoint: string;
+    currencySeparator: string;
     
-    constructor(private history: History, private changeDetector: ChangeDetectorRef) {         
-        history.queryTransactions().then(transactions => {
-            this.transactions = transactions;
-            this.changeDetector.detectChanges();
+    constructor(private history: History, private config: Config, private payment: Payment, private nav: NavController, private changeDetector: ChangeDetectorRef) {    
+
+        let loading = Loading.create({
+            content: 'Checking Transactions'
         });
+        nav.present(loading);
+
+        payment.updateConfirmations().then(() => {
+            Promise.all<any>([
+                history.queryTransactions(10,0) ,
+                config.get('currency-format-t') ,
+                config.get('currency-format-s')
+            ]).then(promised => {
+                this.transactions = promised[0];
+                this.currencyThousandsPoint = promised[1];
+                this.currencySeparator = promised[2];
+                loading.dismiss();
+            });
+        });
+
+        
     }
 
-    deleteTransaction(txid: string) {
-        this.history.deleteTransaction(txid);
+    deleteTransaction(index: number) {
+        this.history.deleteTransaction(this.transactions[index].txid);
+        this.transactions.splice(index,1);        
+    }
+
+    openTransaction(txid: string) {
+        window.open('https://blockchain.info/tx/' + txid, '_system');
     }
 
     loadTransactions(infiniteScroll) {
