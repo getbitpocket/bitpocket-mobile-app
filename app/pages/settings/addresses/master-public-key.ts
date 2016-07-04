@@ -2,10 +2,9 @@ import {Component, ChangeDetectorRef} from '@angular/core';
 import {NavController,Alert} from 'ionic-angular';
 import {BarcodeScanner} from 'ionic-native';
 import {Config} from '../../../providers/config';
+import {Address} from '../../../providers/address';
 import * as bitcoin from 'bitcoinjs-lib';
 import {Logo} from '../../../components/logo';
-
-const ADDRESS_TYPE = 'master-public-key';
 
 @Component({
     templateUrl : 'build/pages/settings/addresses/master-public-key.html' ,
@@ -15,34 +14,24 @@ export class MasterPublicKeyPage {
 
     masterPublicKey: string = "";
     index: number = 1;
-    active: boolean = false;
 
     constructor(private config: Config, private nav:NavController, private changeDetector: ChangeDetectorRef) {       
         Promise.all<any>([
-            this.config.get('address-type') ,
             this.config.get('master-public-key') ,
             this.config.get('master-public-key-index')
-        ]).then(promised => {
-            if (promised[0] === ADDRESS_TYPE) {
-                this.active = true;
-            }
-            this.masterPublicKey = promised[1];
-            this.index = promised[2];
+        ]).then(promised => {            
+            this.masterPublicKey = promised[0];
+            this.index = promised[1];
         });
     }
 
-    activationChanged() {
-        if (this.active) {
-            this.config.set('address-type', ADDRESS_TYPE);
+    inputChanged() {
+        if (Address.checkAddressInput(this.masterPublicKey, 'master-public-key')) {
+            this.config.set('master-public-key', this.masterPublicKey);
         }
-    }
-
-    keyChanged() {
-        this.config.set('master-public-key', this.masterPublicKey);
-    }
-    
-    indexChanged() {
-        this.config.set('master-public-key-index', this.index);
+        if (this.index > 0) {
+            this.config.set('master-public-key-index', this.index);
+        }
     }
 
     scan() {
@@ -51,13 +40,11 @@ export class MasterPublicKeyPage {
         BarcodeScanner.scan().then((barcodeData) => {
             try {                
                 this.masterPublicKey = bitcoin.HDNode.fromBase58(barcodeData.text).toBase58();                
-                this.keyChanged();
                 this.changeDetector.detectChanges();
             } catch(e) {
                 this.nav.present(alert);
             }
         }, (error) => {
-            console.error(error);
             this.nav.present(alert);
         });
 
@@ -67,5 +54,10 @@ export class MasterPublicKeyPage {
             buttons: ['Ok']
         });
     }
+
+    ionViewWillLeave() {
+        // TODO: Alert message if not a valid address
+        this.inputChanged();
+    }  
 
 }

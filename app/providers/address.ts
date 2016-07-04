@@ -2,6 +2,9 @@ import {Injectable} from '@angular/core';
 import {Config} from './config';
 import * as bitcoin from 'bitcoinjs-lib';
 
+export const ADDRESS_TYPE_STATIC_ADDRESS = "static-address";
+export const ADDRESS_TYPE_MASTER_PUBLIC_KEY = "master-public-key";
+
 @Injectable()
 export class Address {
     
@@ -12,9 +15,9 @@ export class Address {
     
     static checkAddressInput(addressInput: string, addressType: string) : boolean {
         try {
-            if (addressType === 'static' && Address.REGEX_BITCOIN_ADDRESS.test(addressInput)) {                    
+            if (addressType === ADDRESS_TYPE_STATIC_ADDRESS && Address.REGEX_BITCOIN_ADDRESS.test(addressInput)) {                    
                 return true;
-            } else if (addressType === 'master-public-key' &&
+            } else if (addressType === ADDRESS_TYPE_MASTER_PUBLIC_KEY &&
                 Address.REGEX_XPUB_KEY.test(addressInput) &&
                 bitcoin.HDNode.fromBase58(addressInput).toBase58() === addressInput) {
                 return true;
@@ -26,6 +29,26 @@ export class Address {
         return false;
     }
 
+    availableAddressTypes() : Promise<Array<string>> {
+        let addressTypes:Array<string> = [];
+
+        return new Promise<Array<string>>((resolve, reject) => {
+            Promise.all<any>([
+                this.config.get('static-address') ,
+                this.config.get('master-public-key')
+            ]).then(promised => {
+                if (Address.checkAddressInput(promised[0], ADDRESS_TYPE_STATIC_ADDRESS)) {
+                    addressTypes.push(ADDRESS_TYPE_STATIC_ADDRESS);
+                }
+                if (Address.checkAddressInput(promised[1], ADDRESS_TYPE_MASTER_PUBLIC_KEY)) {
+                    addressTypes.push(ADDRESS_TYPE_MASTER_PUBLIC_KEY);
+                }
+
+                resolve(addressTypes);
+            });                  
+        });     
+    }
+
     getAddress() : Promise<string> {
         return new Promise<string>((resolve, reject) => {
             Promise.all<any>([
@@ -34,14 +57,26 @@ export class Address {
                 this.config.get('master-public-key') ,
                 this.config.get('master-public-key-index')
             ]).then(promised => {
-                if (promised[0] === 'static') {
+                if (promised[0] === ADDRESS_TYPE_STATIC_ADDRESS) {
                     resolve(promised[1]);
-                } else if (promised[0] === 'master-public-key') {
+                } else if (promised[0] === ADDRESS_TYPE_MASTER_PUBLIC_KEY) {
+                    // m/0/(master-public-key-index)
                     resolve( bitcoin.HDNode.fromBase58(promised[2]).derive(0).derive(promised[3]).getAddress() );
                 }
-            });
-                  
+            });                  
         });                       
+    }
+
+    setAddressType(addressType: string) : Promise<any> {
+        return this.config.set('address-type', addressType);
+    }
+
+    getAddressType() : Promise<string> {
+        return new Promise<string>((resolve, reject) => {
+            this.config.get('address-type').then(ad => {
+                resolve(ad);
+            });
+        });
     }
     
 }

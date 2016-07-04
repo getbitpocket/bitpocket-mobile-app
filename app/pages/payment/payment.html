@@ -7,16 +7,16 @@
 <ion-content no-scroll>
 
     <div class="payment-specification">
-        <div class="payment-currency">{{ currency }}</div>
+        <div class="payment-currency vertical-align">{{ currency }}</div>
         <div class="payment-amount">
             <div class="active">
-                {{ fiatAmount }}
+                <span dynamicFontSize [maxSize]="true" [dynamicText]="fiatAmount" [breakPoint]="7">{{ fiatAmount }}</span>
             </div>
         </div>
-        <div class="payment-currency">{{ bitcoinUnit }}</div>
+        <div class="payment-currency vertical-align">{{ bitcoinUnit }}</div>
         <div class="payment-amount">
             <div>
-                {{ bitcoinAmount }}
+                <span dynamicFontSize [maxSize]="false" [dynamicText]="bitcoinAmount" [breakPoint]="9">{{ bitcoinAmount }}</span>
             </div>
         </div>
     </div>

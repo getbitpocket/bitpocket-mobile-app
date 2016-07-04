@@ -12,10 +12,11 @@ import {Transaction} from '../../api/transaction';
 import * as payment from '../../api/payment-service';
 import qrcode = require('qrcode-generator');
 import {Logo} from '../../components/logo';
+import {DynamicFontSize} from '../../components/dynamic-font-size';
 
 @Component({
     templateUrl : 'build/pages/payment/payment.html' ,
-    directives : [Logo]
+    directives : [Logo, DynamicFontSize]
 })
 export class PaymentPage {
     
@@ -23,8 +24,8 @@ export class PaymentPage {
     
     amount: BitcoinUnit;
     
-    fiatAmount: string;
-    bitcoinAmount: string;    
+    fiatAmount: string = "";
+    bitcoinAmount: string = "";    
     currency: string;
     bitcoinUnit: string;
     currencyRate: number;

@@ -8,6 +8,7 @@ import {Currency} from '../../providers/currency/currency';
 import * as payment from '../../api/payment-service';
 import {BitcoinUnit} from '../../providers/currency/bitcoin-unit';
 import {Logo} from '../../components/logo';
+import {DynamicFontSize} from '../../components/dynamic-font-size';
 
 let PAYMENT_STATUS_MESSAGES = {};
 PAYMENT_STATUS_MESSAGES[payment.PAYMENT_STATUS_TIMEOUT]  = 'Payment request timed out, please start again';

@@ -8,9 +8,9 @@
 <ion-content>
 
     <ion-list>
-        <ion-list-header>Payer Information</ion-list-header>
+        <ion-list-header>Merchant Information</ion-list-header>
         <ion-item>
-            <ion-label floating>Text for Request Label</ion-label>
+            <ion-label floating>Merchant Name (Payment Request Label)</ion-label>
             <ion-input type="text" [(ngModel)]="paymentRequestLabel"></ion-input>
         </ion-item>
     </ion-list>
@@ -18,11 +18,11 @@
     <ion-list radio-group [(ngModel)]="selectedFormat">
         <ion-list-header>Currency Format</ion-list-header>
         <ion-item>
-            <ion-label>Example: $ 1,000.00</ion-label>
+            <ion-label>#,###.## (e.g. 11,500.00)</ion-label>
             <ion-radio [checked]="currencyFormat === 'us'" value="us"></ion-radio>
         </ion-item>
         <ion-item>
-            <ion-label>Example: € 1.000,00</ion-label>
+            <ion-label>#.###,## (e.g. 11.500,00)</ion-label>
             <ion-radio [checked]="currencyFormat === 'de'" value="de"></ion-radio>
         </ion-item>
     </ion-list>

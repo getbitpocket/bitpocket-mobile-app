@@ -54,13 +54,9 @@ bitpocket-logo {
         overflow: hidden;
         white-space: nowrap;
 
-        & > div > span {
-            display:inline-block;
-        }
-
         .active {            
-            font-size: $font-size-x-large;
-            transition: all 200ms ease-in-out;
+            font-size: $font-size-x-large;  
+            transition: all 200ms ease-in-out;          
         }
     }
 
@@ -68,7 +64,12 @@ bitpocket-logo {
         flex-basis:35%;
         font-size: $font-size-x-small;
         overflow: hidden;
+        min-height: 50px;
 
+        &.vertical-align {
+            line-height:50px;
+        }
+        
         ion-label {
             font-size: $font-size-small;
             margin-left:3px;

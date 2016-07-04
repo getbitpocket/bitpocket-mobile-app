@@ -13,10 +13,10 @@
             </div>
             <div class="payment-amount">
                 <div [ngClass]="{active:entryInFiat}">
-                    <span dynamicFontSize [maxSize]="entryInFiat"  [dynamicText]="digits+separator+decimals" *ngIf="entryInFiat">
+                    <span dynamicFontSize [maxSize]="entryInFiat" [dynamicText]="digits+separator+decimals" [breakPoint]="7" *ngIf="entryInFiat">
                         <span clear class="number digits">{{ digits }}</span><span class="separator">{{ separator }}</span><span clear class="number decimals">{{ decimals }}</span>
                     </span>
-                    <span dynamicFontSize [maxSize]="entryInFiat" [dynamicText]="digits+separator+decimals" *ngIf="entryInBTC">{{ exchangedAmount }}</span>
+                    <span dynamicFontSize [maxSize]="entryInFiat" [dynamicText]="digits+separator+decimals" [breakPoint]="9" *ngIf="entryInBTC">{{ exchangedAmount }}</span>
                 </div>
             </div>
             <div class="payment-currency">
@@ -25,10 +25,10 @@
             </div>
             <div class="payment-amount">
                 <div [ngClass]="{active:entryInBTC}">
-                    <span dynamicFontSize [maxSize]="entryInBTC" [dynamicText]="digits+separator+decimals" *ngIf="entryInBTC">
+                    <span dynamicFontSize [maxSize]="entryInBTC" [dynamicText]="digits+separator+decimals" [breakPoint]="7" *ngIf="entryInBTC">
                         <span clear class="number digits">{{ digits }}</span><span class="separator">{{ separator }}</span><span clear class="number decimals">{{ decimals }}</span>
                     </span>
-                    <span dynamicFontSize [maxSize]="entryInBTC" [dynamicText]="digits+separator+decimals" *ngIf="entryInFiat">{{ exchangedAmount }}</span>
+                    <span dynamicFontSize [maxSize]="entryInBTC" [dynamicText]="digits+separator+decimals" [breakPoint]="9" *ngIf="entryInFiat">{{ exchangedAmount }}</span>
                 </div>
             </div>
         </div>

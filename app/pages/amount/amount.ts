@@ -37,7 +37,7 @@ export class AmountPage {
         Promise.all<any>([
             this.config.get('currency') ,
             this.config.get('currency-format-s') ,
-            this.config.get('bitcoin-unit') ,
+            this.config.get('bitcoin-unit')
         ]).then(settings => {
             this.currency    = settings[0];
             this.separator   = settings[1];
