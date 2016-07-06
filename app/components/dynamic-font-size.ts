@@ -18,12 +18,10 @@ export class DynamicFontSize {
         if (this.el && this.el.parentElement && this.el.parentElement.parentElement) {
             this.maxFontSize = this.el.parentElement.parentElement.clientHeight * (this.maxSize ? 1 : 0.55);            
         }
-        console.log("geht");
         let textLength = this.dynamicText.length;
         let shrinkValue = this.maxFontSize * (1/this.breakPoint) * (textLength-this.breakPoint);
 
-        if (this.maxFontSize > 0) {
-            console.log(textLength, this.breakPoint, this.maxFontSize, shrinkValue);
+        if (this.maxFontSize > 0) {            
             this.el.style.fontSize = (textLength > this.breakPoint ? (this.maxFontSize - shrinkValue) : this.maxFontSize) + 'px';
         }
     }

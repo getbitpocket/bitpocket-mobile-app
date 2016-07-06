@@ -19,7 +19,7 @@ PAYMENT_STATUS_MESSAGES[payment.PAYMENT_STATUS_ERROR] = 'Payment error';
 
 @Component({
     templateUrl : 'build/pages/payment/payment-result.html' ,
-    directives : [Logo]
+    directives : [Logo, DynamicFontSize]
 })
 export class PaymentResultPage {
     
@@ -29,10 +29,10 @@ export class PaymentResultPage {
     success : boolean = false;
     transaction:Transaction;
     
-    currency:string;
-    fiatAmount:string;
-    bitcoinAmount:string;
-    bitcoinUnit:string;
+    currency:string = "";
+    fiatAmount:string = "";
+    bitcoinAmount:string = "";
+    bitcoinUnit:string = "";
 
     waiting:boolean = true;
     
@@ -51,7 +51,8 @@ export class PaymentResultPage {
     constructor(private currencyService: Currency, private config: Config, private params: NavParams, private nav: NavController, private changeDetector: ChangeDetectorRef) {
         this.success = (params.data.success === true);
         this.transaction = params.data.transaction;
-        
+        console.debug('PaymentResultPage: Page loaded', params);
+
         if (PAYMENT_STATUS_MESSAGES[params.data.status]) {
             this.resultText = PAYMENT_STATUS_MESSAGES[params.data.status];
         } else {
@@ -76,7 +77,7 @@ export class PaymentResultPage {
             this.currency = this.transaction.currency;
             this.bitcoinAmount = this.currencyService.formatNumber(BitcoinUnit.from(this.transaction.bitcoinAmount,'BTC').to(this.bitcoinUnit), promised[1]);
             this.fiatAmount = this.currencyService.formatNumber(this.transaction.fiatAmount, promised[1]);
-            
+            console.debug('PaymentResultPage: Data loaded');
             this.changeDetector.detectChanges();
         })
                 

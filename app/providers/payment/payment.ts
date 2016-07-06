@@ -48,14 +48,16 @@ export class Payment extends EventEmitter {
             this.waitingTimeCount += this.checkInterval;
         } else {
             // this.active == false , or any other reason abort
-            // TODO: do we need an event?
+            // TODO: can this happen?
+            this.emit('payment-status:' + payment.PAYMENT_STATUS_NOT_RECEIVED, paymentRequest);
             return;
         }
-
+        console.debug('find transactions to address: ' + paymentRequest.address);
         this.service.findTransactions(
             paymentRequest.address,
             BitcoinUnit.from(paymentRequest.bitcoinAmount, 'BTC'))
             .then((txids) => {
+                console.debug('Transactions found to address:' + paymentRequest.address, txids);
                 this.history.findNewTransaction(txids, paymentRequest.address)
                     .then(index => {
                         if (index >= 0) {
@@ -68,14 +70,17 @@ export class Payment extends EventEmitter {
                             };
 
                             this.history.addTransaction(transaction);
+                            console.debug('Emit payment status: ' + payment.PAYMENT_STATUS_RECEIVED);
                             this.emit('payment-status:' + payment.PAYMENT_STATUS_RECEIVED, transaction);
                         } else {
+                            console.debug('Emit payment status: ' + payment.PAYMENT_STATUS_NOT_RECEIVED);
                             this.emit('payment-status:' + payment.PAYMENT_STATUS_NOT_RECEIVED, paymentRequest);
                             setTimeout(() => { this.checkPayment(paymentRequest) }, this.checkInterval);
                         }
                     });                    
             })            
             .catch(() => {
+                console.debug('Emit payment status: ' + payment.PAYMENT_STATUS_NOT_RECEIVED);
                 this.emit('payment-status:' + payment.PAYMENT_STATUS_NOT_RECEIVED, paymentRequest);
                 setTimeout(() => { this.checkPayment(paymentRequest) }, this.checkInterval);
             });
@@ -84,7 +89,7 @@ export class Payment extends EventEmitter {
     }
 
     startPaymentStatusCheck(paymentRequest: PaymentRequest) {
-        this.removeAllListeners();
+        this.removeAllListeners(); console.debug('Start Payment Status Check');
         this.active = true;
         this.waitingTimeCount = 0;
         this.checkPayment(paymentRequest);
@@ -92,7 +97,7 @@ export class Payment extends EventEmitter {
     }
 
     stopPaymentStatusCheck() {
-        this.removeAllListeners();
+        this.removeAllListeners(); console.debug('Stop Payment Status Check');
         this.active = false;
         return this;
     }

@@ -26,8 +26,8 @@ export class PaymentPage {
     
     fiatAmount: string = "";
     bitcoinAmount: string = "";    
-    currency: string;
-    bitcoinUnit: string;
+    currency: string = "";
+    bitcoinUnit: string = "";
     currencyRate: number;
     
     address: string;
@@ -78,9 +78,11 @@ export class PaymentPage {
         this.paymentService.startPaymentStatusCheck(paymentRequest);
         this.paymentService
             .on('payment-status:'+payment.PAYMENT_STATUS_RECEIVED, (transaction) => {
+                console.debug('PaymentPage: payment received');
                 this.paymentReceived(transaction);
             })
             .on('payment-status:'+payment.PAYMENT_STATUS_TIMEOUT, (paymentRequest) => {
+                console.debug('PaymentPage: payment timeout');
                 this.paymentError(payment.PAYMENT_STATUS_TIMEOUT, paymentRequest);
             });        
     }

@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, ChangeDetectorRef} from '@angular/core';
 import {NavController} from 'ionic-angular';
 import {Address, ADDRESS_TYPE_STATIC_ADDRESS, ADDRESS_TYPE_MASTER_PUBLIC_KEY} from '../../providers/address';
 import {Logo} from '../../components/logo';
@@ -21,7 +21,7 @@ export class SettingsPage {
     addressTypesEnabled = [false, false];
     addressTypesChecked = [false, false];
 
-    constructor(private addressService: Address, private navigation:NavController) {
+    constructor(private addressService: Address, private navigation:NavController, private changeDetector: ChangeDetectorRef) {
         Promise.all<any>([
             this.addressService.availableAddressTypes() ,
             this.addressService.getAddressType()
@@ -38,6 +38,8 @@ export class SettingsPage {
             if (promised[1] === ADDRESS_TYPES[1]) {
                 this.addressTypesChecked[1] = true;
             }
+
+            this.changeDetector.detectChanges();
         });
 
     }

@@ -78,6 +78,7 @@ export class ElectrumPaymentService implements payment.PaymentService {
             });
                 
             nD.on('peers:response', response => {
+                console.debug('peers:response', response);
                 if (response.id == requestId && Array.isArray(response.result) && response.result.length > 0) {
                     txCount = response.result.length;
 
