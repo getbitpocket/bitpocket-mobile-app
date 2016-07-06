@@ -21,14 +21,14 @@
                 <h2>Static Address</h2>
                 <p>Static address to receive payments</p>
             </ion-label>
-            <ion-toggle [(ngModel)]="addressTypesChecked[0]" *ngIf="addressTypesEnabled[0]" item-right></ion-toggle>
+            <ion-toggle (ionChange)="addressTypeCheckChanged()" [(ngModel)]="addressTypesChecked[0]" *ngIf="addressTypesEnabled[0]" item-right></ion-toggle>
         </ion-item>
         <ion-item menu-item>
             <ion-label (click)="openPage(3)">
                 <h2>Master Public Key</h2>
                 <p>Derive new address for each payment</p>
             </ion-label>
-            <ion-toggle [(ngModel)]="addressTypesChecked[1]" *ngIf="addressTypesEnabled[1]" item-right></ion-toggle>
+            <ion-toggle (ionChange)="addressTypeCheckChanged()" [(ngModel)]="addressTypesChecked[1]" *ngIf="addressTypesEnabled[1]" item-right></ion-toggle>
         </ion-item>
     </ion-list>
 </ion-content>

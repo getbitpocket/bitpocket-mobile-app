@@ -4,6 +4,7 @@ import * as payment from '../../api/payment-service';
 import {PaymentRequest} from '../../api/payment-request';
 import {Transaction} from '../../api/transaction';
 import {History} from '../history/history';
+import {Address} from '../address';
 import {EventEmitter} from 'events';
 
 // Payment Services
@@ -33,7 +34,7 @@ export class Payment extends EventEmitter {
         this.service = paymentService;
     }
     
-    constructor(private history: History) {        
+    constructor(private history: History, private address: Address) {        
         super();
         
         // TODO: make this configurable, currently only one provider available
@@ -68,8 +69,11 @@ export class Payment extends EventEmitter {
                                 bitcoinAmount : paymentRequest.bitcoinAmount ,
                                 fiatAmount : paymentRequest.fiatAmount
                             };
-
+                            
+                            // TODO: this could be processed by event handlers
                             this.history.addTransaction(transaction);
+                            this.address.addressPostProcess();
+                            
                             console.debug('Emit payment status: ' + payment.PAYMENT_STATUS_RECEIVED);
                             this.emit('payment-status:' + payment.PAYMENT_STATUS_RECEIVED, transaction);
                         } else {

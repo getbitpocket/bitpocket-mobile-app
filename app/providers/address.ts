@@ -60,11 +60,29 @@ export class Address {
                 if (promised[0] === ADDRESS_TYPE_STATIC_ADDRESS) {
                     resolve(promised[1]);
                 } else if (promised[0] === ADDRESS_TYPE_MASTER_PUBLIC_KEY) {
+                    let index = promised[3] > 0 ? promised[3] : 1;
                     // m/0/(master-public-key-index)
-                    resolve( bitcoin.HDNode.fromBase58(promised[2]).derive(0).derive(promised[3]).getAddress() );
+                    resolve( bitcoin.HDNode.fromBase58(promised[2]).derive(0).derive(index).getAddress() );
                 }
             });                  
         });                       
+    }
+
+    /**
+     * if an address was successfully used,
+     * and it was a derived address increase
+     * the index count +1
+     */
+    addressPostProcess() {
+        Promise.all<any>([
+            this.config.get('address-type') ,
+            this.config.get('master-public-key-index')
+        ]).then(promised => {                
+            if (promised[0] === ADDRESS_TYPE_MASTER_PUBLIC_KEY) {
+                let index = Math.floor(parseInt(promised[1] > 0 ? promised[1] : 1) + 1);
+                this.config.set('master-public-key-index', index);
+            }
+        });         
     }
 
     setAddressType(addressType: string) : Promise<any> {

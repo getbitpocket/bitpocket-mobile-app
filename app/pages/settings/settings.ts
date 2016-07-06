@@ -21,7 +21,9 @@ export class SettingsPage {
     addressTypesEnabled = [false, false];
     addressTypesChecked = [false, false];
 
-    constructor(private addressService: Address, private navigation:NavController, private changeDetector: ChangeDetectorRef) {
+    constructor(private addressService: Address, private navigation:NavController, private changeDetector: ChangeDetectorRef) {}
+
+    ionViewDidEnter() {
         Promise.all<any>([
             this.addressService.availableAddressTypes() ,
             this.addressService.getAddressType()
@@ -41,8 +43,10 @@ export class SettingsPage {
 
             this.changeDetector.detectChanges();
         });
-
     }
+
+    addressTypeCheckChanged() {        
+        this.changeDetector.detectChanges();    }
     
     ionViewWillLeave() {
         let addressType = "";
