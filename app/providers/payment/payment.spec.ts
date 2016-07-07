@@ -2,6 +2,7 @@ import {describe, it, expect, beforeEachProviders, inject, beforeEach} from '@an
 import {provide} from '@angular/core';
 import {Payment} from './payment';
 import {History} from '../history/history';
+import {Address} from '../address';
 import {BitcoinUnit} from '../currency/bitcoin-unit';
 import {Transaction} from '../../api/transaction';
 import * as payment from '../../api/payment-service';
@@ -35,46 +36,63 @@ class MockPaymentService implements payment.PaymentService {
 
     updateConfirmations(transactions: Array<Transaction>) : Promise<Array<Transaction>> {
         return new Promise<Array<Transaction>>((resolve, reject) => {
-
         });
     }
-}
-
-class MockHistory {
-    findNewTransaction(txids: Array<string>, address: string, currentIndex: number = 0) : Promise<number> {
-        return new Promise<number>((resolve, reject) => {
-            if (address === 'test-address-2') {
-                resolve(-1);
-            } else if (address === 'test-address-3') {
-                resolve(1);
-            } else if (address === 'test-address-4') {
-                resolve(-1);
-            }
-        });
-    }
-
-    addTransaction(transaction: Transaction) {}
 }
 
 describe('Payment Provider', () => {
-
+    
     let paymentService: Payment;
+    let paymentServiceMock: payment.PaymentService;    
+
+    let historyMock = {
+        findNewTransaction : (txids: Array<string>, address: string, currentIndex: number = 0) : Promise<number> => {
+            return new Promise<number>((resolve, reject) => {
+                if (address === 'test-address-2') {
+                    resolve(-1);
+                } else if (address === 'test-address-3') {
+                    resolve(1);
+                } else if (address === 'test-address-4') {
+                    resolve(-1);
+                }
+            });
+        },
+        addTransaction : null
+    }
+
+    let addressSpy = {
+        addressPostProcess : null
+    };
 
     beforeEachProviders(() => [
         Payment,
         provide(History, {
-            useClass : MockHistory
+            useFactory : () => {
+                return historyMock;
+            }
+        }),
+        provide(Address, {
+            useFactory : () => {
+                return addressSpy;
+            }
         })
     ]);
 
-    beforeEach(inject([Payment], (_payment) => {
+    beforeEach(inject([Payment], (_payment) => {        
+        paymentServiceMock = new MockPaymentService();        
+        spyOn(paymentServiceMock, 'findTransactions').and.callThrough();
+        spyOn(paymentServiceMock, 'updateConfirmations').and.callThrough();
+        spyOn(addressSpy,         'addressPostProcess');
+        spyOn(historyMock,        'findNewTransaction').and.callThrough();
+        spyOn(historyMock,        'addTransaction');
+        
         paymentService = _payment;
-        paymentService.setPaymentService(new MockPaymentService());
+        paymentService.setPaymentService(paymentServiceMock);
         paymentService.setMaxWaitingTime(500);
-        paymentService.setCheckInterval(100);
+        paymentService.setCheckInterval(100);        
     }));
 
-    it('Payment Not received, as no transactions found', (done) => {      
+    it('Payment Not received, as no transactions found', (done) => {             
         let checkTimes = 0;
 
         paymentService.startPaymentStatusCheck({
@@ -87,10 +105,13 @@ describe('Payment Provider', () => {
         paymentService.on('payment-status:'+payment.PAYMENT_STATUS_NOT_RECEIVED, (paymentRequest) => {
             expect(paymentRequest.address).toEqual('test-address-1');
             checkTimes++;
-            
+
             if (checkTimes >= 4) {
+                expect(paymentServiceMock.findTransactions).toHaveBeenCalled();
+                // expect(historyMock.findNewTransaction).not.toHaveBeenCalled();
                 done();
             }
+            
         });
     });
 
@@ -109,6 +130,8 @@ describe('Payment Provider', () => {
             checkTimes++;
             
             if (checkTimes >= 4) {
+                expect(paymentServiceMock.findTransactions).toHaveBeenCalled();
+                // expect(historyMock.findNewTransaction).toHaveBeenCalled();
                 done();
             }
         });
@@ -123,6 +146,8 @@ describe('Payment Provider', () => {
         });
 
         paymentService.on('payment-status:'+payment.PAYMENT_STATUS_RECEIVED, (paymentRequest) => {
+            expect(historyMock.addTransaction).toHaveBeenCalledTimes(1);
+            expect(addressSpy.addressPostProcess).toHaveBeenCalledTimes(1);
             expect(paymentRequest.address).toEqual('test-address-3');
             done();
         });
@@ -137,6 +162,8 @@ describe('Payment Provider', () => {
         });
 
         paymentService.on('payment-status:'+payment.PAYMENT_STATUS_TIMEOUT, (paymentRequest) => {
+            expect(paymentServiceMock.findTransactions).toHaveBeenCalledTimes(5);
+            // expect(historyMock.findNewTransaction).not.toHaveBeenCalled();
             expect(paymentRequest.address).toEqual('test-address-4');
             done();
         });

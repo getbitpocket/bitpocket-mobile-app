@@ -53,6 +53,7 @@ export class Payment extends EventEmitter {
             this.emit('payment-status:' + payment.PAYMENT_STATUS_NOT_RECEIVED, paymentRequest);
             return;
         }
+
         console.debug('find transactions to address: ' + paymentRequest.address);
         this.service.findTransactions(
             paymentRequest.address,
@@ -77,14 +78,14 @@ export class Payment extends EventEmitter {
                             console.debug('Emit payment status: ' + payment.PAYMENT_STATUS_RECEIVED);
                             this.emit('payment-status:' + payment.PAYMENT_STATUS_RECEIVED, transaction);
                         } else {
-                            console.debug('Emit payment status: ' + payment.PAYMENT_STATUS_NOT_RECEIVED);
+                            console.debug('No new txs found, emit payment status: ' + payment.PAYMENT_STATUS_NOT_RECEIVED);
                             this.emit('payment-status:' + payment.PAYMENT_STATUS_NOT_RECEIVED, paymentRequest);
                             setTimeout(() => { this.checkPayment(paymentRequest) }, this.checkInterval);
                         }
                     });                    
             })            
             .catch(() => {
-                console.debug('Emit payment status: ' + payment.PAYMENT_STATUS_NOT_RECEIVED);
+                console.debug('No txs found, emit payment status: ' + payment.PAYMENT_STATUS_NOT_RECEIVED);
                 this.emit('payment-status:' + payment.PAYMENT_STATUS_NOT_RECEIVED, paymentRequest);
                 setTimeout(() => { this.checkPayment(paymentRequest) }, this.checkInterval);
             });
