@@ -15,8 +15,8 @@ import {Logo} from '../../components/logo';
 export class HistoryPage {
     
     transactions: Array<Transaction> = [];
-    currencyThousandsPoint: string;
-    currencySeparator: string;
+    currencyThousandsPoint: string = "";
+    currencySeparator: string = "";
     
     constructor(private history: History, private config: Config, private payment: Payment, private nav: NavController, private changeDetector: ChangeDetectorRef) {    
 
@@ -25,19 +25,26 @@ export class HistoryPage {
         });
         nav.present(loading);
 
-        payment.updateConfirmations().then(() => {
-            Promise.all<any>([
-                history.queryTransactions(10,0) ,
+        try {
+            Promise.all<string>([
                 config.get('currency-format-t') ,
                 config.get('currency-format-s')
             ]).then(promised => {
-                this.transactions = promised[0];
-                this.currencyThousandsPoint = promised[1];
-                this.currencySeparator = promised[2];
-                loading.dismiss();
+                payment.updateConfirmations()
+                    .then(() => { return history.queryTransactions(10,0) })
+                    .then(transactions => {
+                        this.transactions = transactions;
+                        loading.dismiss();
+                        this.changeDetector.detectChanges();
+                    })
+                    .catch(() => {
+                        loading.dismiss();
+                    });
             });
-        });
-
+        } catch (e) {
+            console.debug("History Error: ", e);
+            loading.dismiss();
+        }        
         
     }
 
