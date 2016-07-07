@@ -40,6 +40,10 @@ export class GeneralPage {
         });
     }
 
+    inputChanged() {
+        this.changeDetector.detectChanges();
+    }
+
     ionViewWillLeave() {
         this.config.set('bitcoin-unit', this.selectedUnit);
         this.config.set('currency-format', this.selectedFormat);

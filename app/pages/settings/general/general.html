@@ -15,7 +15,7 @@
         </ion-item>
     </ion-list>
     
-    <ion-list radio-group [(ngModel)]="selectedFormat">
+    <ion-list radio-group [(ngModel)]="selectedFormat" (ionChange)="inputChanged()">
         <ion-list-header>Currency Format</ion-list-header>
         <ion-item>
             <ion-label>#,###.## (e.g. 11,500.00)</ion-label>
@@ -27,7 +27,7 @@
         </ion-item>
     </ion-list>
     
-    <ion-list radio-group [(ngModel)]="selectedUnit">
+    <ion-list radio-group [(ngModel)]="selectedUnit" (ionChange)="inputChanged()">
         <ion-list-header>Bitcoin Unit</ion-list-header>        
         <ion-item>
             <ion-label>Bitcoin (BTC)</ion-label>

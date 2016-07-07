@@ -46,7 +46,8 @@ export class SettingsPage {
     }
 
     addressTypeCheckChanged() {        
-        this.changeDetector.detectChanges();    }
+        this.changeDetector.detectChanges();
+    }
     
     ionViewWillLeave() {
         let addressType = "";
