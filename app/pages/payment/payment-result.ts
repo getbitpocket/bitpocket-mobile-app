@@ -51,7 +51,6 @@ export class PaymentResultPage {
     constructor(private currencyService: Currency, private config: Config, private params: NavParams, private nav: NavController, private changeDetector: ChangeDetectorRef) {
         this.success = (params.data.success === true);
         this.transaction = params.data.transaction;
-        console.debug('PaymentResultPage: Page loaded', params);
 
         if (PAYMENT_STATUS_MESSAGES[params.data.status]) {
             this.resultText = PAYMENT_STATUS_MESSAGES[params.data.status];
@@ -75,9 +74,8 @@ export class PaymentResultPage {
         ]).then(promised => {
             this.bitcoinUnit = promised[0];
             this.currency = this.transaction.currency;
-            this.bitcoinAmount = this.currencyService.formatNumber(BitcoinUnit.from(this.transaction.bitcoinAmount,'BTC').to(this.bitcoinUnit), promised[1]);
-            this.fiatAmount = this.currencyService.formatNumber(this.transaction.fiatAmount, promised[1]);
-            console.debug('PaymentResultPage: Data loaded');
+            this.bitcoinAmount = this.currencyService.formatNumber(BitcoinUnit.from(this.transaction.bitcoinAmount,'BTC').to(promised[0]), promised[1], BitcoinUnit.decimalsCount(this.bitcoinUnit));
+            this.fiatAmount    = this.currencyService.formatNumber(this.transaction.fiatAmount, promised[1]);
             this.changeDetector.detectChanges();
         })
                 

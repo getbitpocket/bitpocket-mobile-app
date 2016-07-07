@@ -50,7 +50,7 @@ export class PaymentPage {
             this.currencyRate  = promised[4];
 
             this.fiatAmount    = this.currencyService.formatNumber(this.amount.toFiat(promised[4],2), promised[1]);
-            this.bitcoinAmount = this.amount.to(this.bitcoinUnit).toString();
+            this.bitcoinAmount = this.currencyService.formatNumber(this.amount.to(this.bitcoinUnit), promised[1], BitcoinUnit.decimalsCount(this.bitcoinUnit));
             
             let bip21uri = bip21.encode(promised[3],{
                 amount : this.amount.to('BTC') ,
