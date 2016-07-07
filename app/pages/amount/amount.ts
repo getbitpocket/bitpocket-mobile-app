@@ -1,5 +1,5 @@
 import {Component, ChangeDetectorRef, Output, EventEmitter} from '@angular/core';
-import {NavController, Platform} from 'ionic-angular';
+import {NavController, Platform, Loading} from 'ionic-angular';
 import {PaymentPage} from '../payment/payment';
 import {Config} from '../../providers/config';
 import {Currency} from '../../providers/currency/currency';
@@ -17,10 +17,11 @@ const POSITION_DECIMALS = 'decimals';
 })
 export class AmountPage {
 
+    loading: Loading;
     exchangedAmount:string; // either BTC or Fiat    
-    digits:string;
-    decimals:string;
-    separator:string;
+    digits:string   = "0";
+    decimals:string = "00";
+    separator:string = ".";
  
     position:string; // digits or decimals area
     index:number; // index of writing position
@@ -33,16 +34,37 @@ export class AmountPage {
     constructor(private platform: Platform, private currencyService: Currency, private config: Config, private navigation:NavController, private changeDetector:ChangeDetectorRef) {                                   
     }
 
+    startLoading() {
+        this.loading = Loading.create({
+            content : "Loading Currencies..."
+        });
+        this.navigation.present(this.loading);
+    }
+
+    stopLoading() {
+        this.loading.dismiss();
+    }
+
     ionViewWillEnter() {
         Promise.all<any>([
             this.config.get('currency') ,
             this.config.get('currency-format-s') ,
-            this.config.get('bitcoin-unit')
+            this.config.get('bitcoin-unit') ,
+            this.currencyService.getSelectedCurrencyRate()
         ]).then(settings => {
             this.currency    = settings[0];
             this.separator   = settings[1];
-            this.bitcoinUnit = settings[2];
-            this.resetAmount();
+            this.bitcoinUnit = settings[2];            
+
+            if (settings[3] < 0) {
+                this.startLoading();
+                this.currencyService.updateCurrencyRate().then(() => {
+                    this.stopLoading();
+                    this.resetAmount();
+                });
+            } else {
+                this.resetAmount();
+            }        
         });
     }
 

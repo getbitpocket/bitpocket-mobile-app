@@ -2,23 +2,22 @@ import {Component, ChangeDetectorRef} from '@angular/core';
 import {Loading, NavController} from 'ionic-angular';
 import {Payment} from '../../providers/payment/payment';
 import {History} from '../../providers/history/history';
+import {Currency} from '../../providers/currency/currency';
 import {Config} from '../../providers/config';
 import {Transaction} from '../../api/transaction';
-import {CurrencyPipe} from '../../pipes/currency';
 import {Logo} from '../../components/logo';
 
 @Component({
     templateUrl : 'build/pages/history/history.html' ,
-    pipes : [CurrencyPipe] ,
     directives: [Logo]   
 })
 export class HistoryPage {
     
-    transactions: Array<Transaction> = [];
+    transactions: Array<{txid: string, fiatAmount:string, currency:string, timestamp:number}> = [];
     currencyThousandsPoint: string = "";
     currencySeparator: string = "";
     
-    constructor(private history: History, private config: Config, private payment: Payment, private nav: NavController, private changeDetector: ChangeDetectorRef) {    
+    constructor(private history: History, private config: Config, private currency: Currency, private payment: Payment, private nav: NavController, private changeDetector: ChangeDetectorRef) {    
 
         let loading = Loading.create({
             content: 'Checking Transactions'
@@ -33,9 +32,8 @@ export class HistoryPage {
                 payment.updateConfirmations()
                     .then(() => { return history.queryTransactions(10,0) })
                     .then(transactions => {
-                        this.transactions = transactions;
-                        loading.dismiss();
-                        this.changeDetector.detectChanges();
+                        this.addTransactions(transactions);
+                        loading.dismiss();                        
                     })
                     .catch(() => {
                         loading.dismiss();
@@ -44,8 +42,19 @@ export class HistoryPage {
         } catch (e) {
             console.debug("History Error: ", e);
             loading.dismiss();
-        }        
-        
+        }       
+    }
+
+    addTransactions(transactions: Array<Transaction>) {
+        for(let t of transactions) {
+            this.transactions.push({
+                txid : t.txid ,
+                fiatAmount : this.currency.formatNumber(t.fiatAmount,this.currencySeparator) ,
+                timestamp : t.timestamp ,
+                currency : t.currency
+            });
+        }
+        this.changeDetector.detectChanges();
     }
 
     deleteTransaction(index: number) {
@@ -59,10 +68,7 @@ export class HistoryPage {
 
     loadTransactions(infiniteScroll) {
         this.history.queryTransactions(10,this.transactions.length-1).then(transactions => {
-            for (let t of transactions) {
-                this.transactions.push(t);
-            }
-
+            this.addTransactions(transactions);
             infiniteScroll.complete();
         }).catch(() => {
             infiniteScroll.complete();

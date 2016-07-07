@@ -20,21 +20,32 @@ export class Config extends Storage {
         
     constructor() {
         super(SqlStorage);
-
-        this.initialize(Config.CONFIG_KEY_EXCHANGE_RATE,'1');
-        this.initialize(Config.CONFIG_KEY_EXCHANGE_SERVICE,'blockchain');
-        this.initialize(Config.CONFIG_KEY_BLOCKCHAIN_EXPLORER,'blockchain');
-
-        this.initialize(Config.CONFIG_KEY_CURRENCY,'EUR');
-        this.initialize(Config.CONFIG_KEY_CURRENCY_SYMBOL,'€');
-        this.initialize(Config.CONFIG_KEY_CURRENCY_FORMAT,'de');
-        this.initialize(Config.CONFIG_KEY_CURRENCY_FORMAT_T,'.');
-        this.initialize(Config.CONFIG_KEY_CURRENCY_FORMAT_S,',');
-
-        this.initialize(Config.CONFIG_KEY_BITCOIN_UNIT,'mBTC');        
     }
 
-    isSet(key:string) {
+    initConfig() : Promise<boolean> {
+        return new Promise<boolean>((resolve,reject) => {
+            Promise.all<any>([
+                this.initialize(Config.CONFIG_KEY_EXCHANGE_RATE,-1),
+                this.initialize(Config.CONFIG_KEY_EXCHANGE_SERVICE,'blockchain'),
+                this.initialize(Config.CONFIG_KEY_BLOCKCHAIN_EXPLORER,'blockchain'),
+                this.initialize(Config.CONFIG_KEY_CURRENCY,'EUR'),
+                this.initialize(Config.CONFIG_KEY_CURRENCY_SYMBOL,'€'),
+                this.initialize(Config.CONFIG_KEY_CURRENCY_FORMAT,'de'),
+                this.initialize(Config.CONFIG_KEY_CURRENCY_FORMAT_T,'.'),
+                this.initialize(Config.CONFIG_KEY_CURRENCY_FORMAT_S,','),
+                this.initialize(Config.CONFIG_KEY_BITCOIN_UNIT,'mBTC')
+            ]).then(() => {
+                resolve(true);
+            }).catch(() => {
+                resolve(false);
+            });
+        });
+
+
+        
+    }
+
+    isSet(key:string) : Promise<boolean> {
         return new Promise<boolean>((resolve,reject) => {
             this.get(key).then(storedValue => {
                 if (storedValue === null || storedValue === undefined) {
@@ -49,12 +60,18 @@ export class Config extends Storage {
      * init the key with the given value, only!
      * if there is no value set already
      */
-    initialize(key:string, value:any) {
-        this.isSet(key).then(status => {
-            if (!status) {
-                this.set(key,value);
-            }
+    initialize(key:string, value:any) : Promise<boolean> {
+        return new Promise<boolean>((resolve,reject) => {
+            this.isSet(key).then(status => {
+                if (!status) {
+                    this.set(key,value);                    
+                }
+                resolve(true);
+            }).catch(() => {
+                resolve(false);
+            });
         });
+        
     }    
         
 }

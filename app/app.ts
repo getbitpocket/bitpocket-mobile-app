@@ -103,9 +103,13 @@ export class BitPocketApp {
     }
     
     initApp() {
-        this.dbHelper.initDb();
-        this.triggerUpdateTask();
-        this.initNavState();        
+        Promise.all<any>([
+            this.dbHelper.initDb() ,
+            this.config.initConfig()
+        ]).then(() => {
+            this.triggerUpdateTask();
+            this.initNavState();
+        });                
     }
     
     openPage(page:any) {

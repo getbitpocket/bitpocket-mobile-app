@@ -1,6 +1,7 @@
 import {Injectable, Injector} from '@angular/core';
 import {Config} from '../config';
 import {CurrencyExchangeService} from '../../api/currency-exchange-service';
+import {CurrencyExchangeRate} from '../../api/currency-exchange-rate';
 import {BlockchainExchangeService} from './blockchain';
 import {BitcoinAverageExchangeService} from './bitcoinaverage';
 import {BitcoinUnit} from './bitcoin-unit';
@@ -88,18 +89,24 @@ export class Currency {
         return this;
     }
 
-    updateCurrencyRate() : Currency {
-        Promise.all<any>([
-            this.getExchangeService() ,
-            this.getSelectedCurrency()
-        ]).then(promisedArray => {
-            return promisedArray[0].getExchangeRate(promisedArray[1]);
-        }).then(data => {
-            this.config.set('symbol', data.symbol);
-            this.config.set('rate', data.rate.toString());
-        });
+    updateCurrencyRate() : Promise<CurrencyExchangeRate> {
+        return new Promise<CurrencyExchangeRate>((resolve,reject) => {
+            Promise.all<any>([
+                this.getExchangeService() ,
+                this.getSelectedCurrency()
+            ]).then(promised => {
+                promised[0].getExchangeRate(promised[1]).then(data => {          
+                    this.config.set('symbol', data.symbol);
+                    this.config.set('rate', data.rate);
 
-        return this;
+                    resolve({
+                        'code'   : promised[1] ,
+                        'symbol' : data.symbol ,
+                        'rate'   : data.rate
+                    });
+                }).catch(reject);
+            }).catch(reject);
+        });
     }
 
     getCurrencySymbol(currency: string) : string {
