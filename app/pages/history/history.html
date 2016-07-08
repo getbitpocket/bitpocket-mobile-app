@@ -29,7 +29,7 @@
 
     <div *ngIf="transactions.length <= 0" class="no-transactions">No Transactions yet...</div>
 
-    <ion-infinite-scroll (ionInfinite)="loadTransactions($event)">
+    <ion-infinite-scroll [shouldEnable]="moreContentAvailable" (ionInfinite)="loadTransactions($event)">
         <ion-infinite-scroll-content loadingSpinner="bubbles"></ion-infinite-scroll-content>
     </ion-infinite-scroll>
 </ion-content>

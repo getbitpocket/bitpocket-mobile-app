@@ -16,6 +16,7 @@ export class HistoryPage {
     transactions: Array<{txid: string, fiatAmount:string, currency:string, timestamp:number}> = [];
     currencyThousandsPoint: string = "";
     currencySeparator: string = "";
+    moreContentAvailable: boolean = true;
     
     constructor(private history: History, private config: Config, private currency: Currency, private payment: Payment, private nav: NavController, private changeDetector: ChangeDetectorRef) {    
 
@@ -46,6 +47,13 @@ export class HistoryPage {
     }
 
     addTransactions(transactions: Array<Transaction>) {
+        if (transactions && transactions.length <= 0) {
+            this.moreContentAvailable = false;
+            return;
+        } else {
+            this.moreContentAvailable = true;
+        }
+        
         for(let t of transactions) {
             this.transactions.push({
                 txid : t.txid ,
