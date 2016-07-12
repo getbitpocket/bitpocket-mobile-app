@@ -13,7 +13,7 @@ import {Logo} from '../../components/logo';
 })
 export class HistoryPage {
     
-    transactions: Array<{txid: string, fiatAmount:string, currency:string, timestamp:number}> = [];
+    transactions: Array<{txid: string, fiatAmount:string, currency:string, timestamp:number, confirmations:number}> = [];
     currencyThousandsPoint: string = "";
     currencySeparator: string = "";
     moreContentAvailable: boolean = true;
@@ -30,6 +30,9 @@ export class HistoryPage {
                 config.get('currency-format-t') ,
                 config.get('currency-format-s')
             ]).then(promised => {
+                this.currencyThousandsPoint = promised[0];
+                this.currencySeparator = promised[1];
+
                 payment.updateConfirmations()
                     .then(() => { return history.queryTransactions(10,0) })
                     .then(transactions => {
@@ -44,6 +47,7 @@ export class HistoryPage {
             console.debug("History Error: ", e);
             loading.dismiss();
         }       
+
     }
 
     addTransactions(transactions: Array<Transaction>) {
@@ -57,9 +61,10 @@ export class HistoryPage {
         for(let t of transactions) {
             this.transactions.push({
                 txid : t.txid ,
-                fiatAmount : this.currency.formatNumber(t.fiatAmount,this.currencySeparator) ,
+                fiatAmount : this.currency.formatNumber(t.fiatAmount, this.currencySeparator) ,
                 timestamp : t.timestamp ,
-                currency : t.currency
+                currency : t.currency ,
+                confirmations : t.confirmations
             });
         }
         this.changeDetector.detectChanges();

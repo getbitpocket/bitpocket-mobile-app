@@ -11,7 +11,7 @@
         <ion-item-sliding *ngFor="let transaction of transactions; let i = index">
             <ion-item>
                 <ion-icon [class.unconfirmed]="transaction.confirmations < 6" [class.confirmed]="transaction.confirmations >= 6" name="checkmark-circle" item-left></ion-icon>
-                <p>{{ transaction.timestamp | date }}</p>
+                <p>{{ transaction.timestamp | date:'short' }}</p>
                 <h2>{{ transaction.currency }} {{ transaction.fiatAmount }}</h2>                
             </ion-item>
             <ion-item-options>
