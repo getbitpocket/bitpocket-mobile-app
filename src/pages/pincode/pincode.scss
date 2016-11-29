@@ -1,0 +1,18 @@
+.pin {
+    padding:4vh 0 3vh 0;
+    text-align:center;
+
+    .pin-position {
+        margin:3vw;
+        display:inline-block;
+        width:10vw;
+        height:10vw;
+        border:1px solid white;
+        border-radius: 100%;
+    }
+
+    .filled {
+        background: $basic-background-color-transparency;
+    }
+
+}

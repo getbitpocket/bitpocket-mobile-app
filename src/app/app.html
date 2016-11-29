@@ -1,0 +1,19 @@
+<ion-menu id="menu" [content]="content">
+
+    
+
+    <ion-content class="outer-content">        
+        <div class="menu-top"></div>
+
+        <ion-list no-lines>
+            <button ion-item *ngFor="let menuItem of menuItems" (click)="openPage(menuItem.page)">
+                <ion-icon name="{{menuItem.icon}}" item-left></ion-icon>
+                {{menuItem.name}}
+            </button>
+        </ion-list>
+        
+    </ion-content>
+
+</ion-menu>
+
+<ion-nav id="nav" [root]="rootPage" #content></ion-nav>

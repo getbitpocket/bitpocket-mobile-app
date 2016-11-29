@@ -1,0 +1,15 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>Static address</ion-title>
+        <bitpocket-logo></bitpocket-logo>
+    </ion-navbar>
+</ion-header>
+<ion-content>
+    <ion-list>
+        <ion-item dark>
+            <ion-label floating>Static Address</ion-label>
+            <ion-input padding-right type="text" [(ngModel)]="address"></ion-input>
+            <button ion-button clear item-right (click)="scan()"><ion-icon name="qr-scanner"></ion-icon></button>
+        </ion-item>
+    </ion-list>
+</ion-content>

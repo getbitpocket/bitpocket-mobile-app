@@ -1,0 +1,22 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>Scanning</ion-title>
+        <ion-buttons start>
+            <button ion-button (click)="close()">
+                <ion-icon name="close"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+<ion-content no-scroll class="qrscanner">
+    <div class="qrscanner-area">    
+    </div>       
+    <div class="button-bottom">
+        <button (click)="toggleLight()" ion-fab class="text-uppercase">
+            <ion-icon name="flash"></ion-icon>                  
+        </button>
+        <button (click)="toggleCamera()" ion-fab class="text-uppercase">
+            <ion-icon name="reverse-camera"></ion-icon>                  
+        </button>
+    </div>    
+</ion-content>

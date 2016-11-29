@@ -1,0 +1,61 @@
+<ion-header>
+    <ion-navbar>
+        <button ion-button menuToggle="left"><ion-icon name="menu"></ion-icon></button>
+        <ion-title>Request amount</ion-title>
+        <bitpocket-logo></bitpocket-logo>    
+    </ion-navbar>
+</ion-header>
+<ion-content no-scroll>
+        <div class="payment-specification">
+            <div class="payment-currency">
+                <ion-checkbox checkbox-style [(ngModel)]="entryInFiat" (click)="changeInputCurrency('Fiat')"></ion-checkbox>
+                <ion-label (click)="changeInputCurrency('Fiat')">{{ currency }}</ion-label>
+            </div>
+            <div class="payment-amount">
+                <div [ngClass]="{active:entryInFiat}">
+                    <span *ngIf="entryInFiat">
+                        <span clear class="number digits">{{ digits }}</span><span class="separator">{{ separator }}</span><span clear class="number decimals">{{ decimals }}</span>
+                    </span>
+                    <span *ngIf="entryInBTC">{{ exchangedAmount }}</span>
+                </div>
+            </div>
+            <div class="payment-currency">
+                <ion-checkbox checkbox-style [(ngModel)]="entryInBTC" (click)="changeInputCurrency('BTC')"></ion-checkbox>
+                <ion-label (click)="changeInputCurrency('BTC')">{{ bitcoinUnit }}</ion-label>
+            </div>
+            <div class="payment-amount">
+                <div [ngClass]="{active:entryInBTC}">
+                    <span *ngIf="entryInBTC">
+                        <span clear class="number digits">{{ digits }}</span><span class="separator">{{ separator }}</span><span clear class="number decimals">{{ decimals }}</span>
+                    </span>
+                    <span *ngIf="entryInFiat">{{ exchangedAmount }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="divider-box">
+            <div class="divider"></div>
+        </div>
+
+        <div class="numpad">
+            <button ion-button color="number" class="numpad-button border-right" (click)="numberInput('1')">1</button>
+            <button ion-button color="number" class="numpad-button border-right" (click)="numberInput('2')">2</button>
+            <button ion-button color="number" class="numpad-button" (click)="numberInput('3')">3</button>
+            
+            <button ion-button color="number" class="numpad-button border-right" (click)="numberInput('4')">4</button>
+            <button ion-button color="number" class="numpad-button border-right" (click)="numberInput('5')">5</button>
+            <button ion-button color="number" class="numpad-button" (click)="numberInput('6')">6</button>
+            
+            <button ion-button color="number" class="numpad-button border-right" (click)="numberInput('7')">7</button>
+            <button ion-button color="number" class="numpad-button border-right" (click)="numberInput('8')">8</button>
+            <button ion-button color="number" class="numpad-button" (click)="numberInput('9')">9</button>
+            
+            <button ion-button color="number-decimals" class="numpad-button" (click)="switchInput('decimals')">{{ separator }}</button>
+            <button ion-button color="number" class="numpad-button border-right" (click)="numberInput('0')">0</button>
+            <button ion-button color="number-backspaceinput" class="numpad-button border-right" (click)="backspaceInput()"><ion-icon name="backspace"></ion-icon></button>
+            
+            <button ion-button color="numpad-reset" class="numpad-primary-button text-uppercase" (click)="resetAmount()">Reset</button>
+            <button ion-button color="numpad-request" class="numpad-primary-button text-uppercase" (click)="requestPayment()">Request Amount</button>
+        </div>
+    
+</ion-content>

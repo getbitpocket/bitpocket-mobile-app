@@ -1,0 +1,24 @@
+ion-menu {
+  .menu-top {
+    background: #EBEBEB;    
+    min-width: 100%;
+    min-height: 25%;
+    background: url(../assets/img/bitpocket_menu_header.jpg) no-repeat center center;
+    background-size: cover;
+  }
+}
+
+.menu-header {
+  background-color: #434954;
+  padding: 16px;
+  width: 100%;
+  min-height: 150px;
+  text-align: center;
+}
+
+.menu-header img {
+  max-width: 200px;
+  min-height: 115px;
+  margin-left: -15px;
+  padding: 25px 0 20px 0;
+}

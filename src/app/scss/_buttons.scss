@@ -1,0 +1,21 @@
+.button-large {
+    width:100%;
+    line-height: $font-size-x-large;
+    height: $font-size-x-large;
+    border-radius: $button-border-radius;
+}
+
+.button-bottom {    
+    width:80%;
+    position: absolute;
+    bottom: 8%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align:center;
+
+    .fab {
+        display:inline-block;
+        margin:0 10px;
+    }
+
+}

@@ -1,0 +1,39 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>{{ title }}</ion-title>
+        <ion-buttons start [hidden]="!closable">
+            <button ion-button (click)="close()">
+                <ion-icon name="close"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+<ion-content no-scroll>
+
+        <div class="pin">
+            <div *ngFor="let position of pin" [class.filled]="position" class="pin-position"></div>
+        </div>
+
+        <div class="divider-box">
+            <div class="divider"></div>
+        </div>
+
+        <div class="numpad">
+            <button ion-button color="number" class="numpad-button border-right" (click)="numberInput('1')">1</button>
+            <button ion-button color="number" class="numpad-button border-right" (click)="numberInput('2')">2</button>
+            <button ion-button color="number" class="numpad-button" (click)="numberInput('3')">3</button>
+            
+            <button ion-button color="number" class="numpad-button border-right" (click)="numberInput('4')">4</button>
+            <button ion-button color="number" class="numpad-button border-right" (click)="numberInput('5')">5</button>
+            <button ion-button color="number" class="numpad-button" (click)="numberInput('6')">6</button>
+            
+            <button ion-button color="number" class="numpad-button border-right" (click)="numberInput('7')">7</button>
+            <button ion-button color="number" class="numpad-button border-right" (click)="numberInput('8')">8</button>
+            <button ion-button color="number" class="numpad-button" (click)="numberInput('9')">9</button>
+            
+            <button class="numpad-button invisible"></button>
+            <button ion-button color="number" class="numpad-button border-right" (click)="numberInput('0')">0</button>
+            <button ion-button color="number-backspaceinput" class="numpad-button border-right" (click)="backspaceInput()"><ion-icon name="backspace"></ion-icon></button>
+        </div>
+    
+</ion-content>

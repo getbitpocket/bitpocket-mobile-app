@@ -1,0 +1,36 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>Payment request</ion-title>
+        <bitpocket-logo loading></bitpocket-logo>
+    </ion-navbar>
+</ion-header>
+<ion-content no-scroll>
+
+    <div class="payment-specification">
+        <div class="payment-currency vertical-align">{{ currency }}</div>
+        <div class="payment-amount">
+            <div class="active">
+                <span>{{ fiatAmount }}</span>
+            </div>
+        </div>
+        <div class="payment-currency vertical-align">{{ bitcoinUnit }}</div>
+        <div class="payment-amount">
+            <div>
+                <span>{{ bitcoinAmount }}</span>
+            </div>
+        </div>
+    </div>
+
+        <div class="divider-box">
+            <div class="divider"></div>
+        </div>
+
+        <div class="payment-qr">
+            <div [innerHTML]="qrImage"></div>
+        </div>
+
+        <div class="payment-info">
+            Waiting for Payment
+        </div>
+
+</ion-content>
