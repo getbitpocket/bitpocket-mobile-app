@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Config} from './config';
 import * as bitcoin from 'bitcoinjs-lib';
+import * as bip21 from 'bip21';
 
 export const ADDRESS_TYPE_STATIC_ADDRESS = "static-address";
 export const ADDRESS_TYPE_MASTER_PUBLIC_KEY = "master-public-key";
@@ -11,22 +12,46 @@ export class Address {
     static REGEX_BITCOIN_ADDRESS = /^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$/;
     static REGEX_XPUB_KEY = /^xpub[a-km-zA-HJ-NP-Z1-9]{100,108}$/;
 
-    constructor(private config: Config) {}    
+    constructor(private config: Config) {}
+
+    static transformAddressInput(addressInput: string, addressType: string) : string {
+        if (addressType === ADDRESS_TYPE_STATIC_ADDRESS) {
+            if (Address.REGEX_BITCOIN_ADDRESS.test(addressInput)) {
+                return addressInput;
+            } else {
+                return Address.transformBitcoinUri(addressInput);
+            }
+        }  else if (addressType === ADDRESS_TYPE_MASTER_PUBLIC_KEY && Address.checkMasterPublicKeyInput(addressInput)) {
+            return addressInput;
+        } else {
+            return "";
+        }
+    }    
+
+    static transformBitcoinUri(input: string) {
+        try {
+            return bip21.decode(input).address;
+        } catch (e) {
+            return "";
+        }
+    }
+
+    static checkMasterPublicKeyInput(input: string) {
+        try {
+            return Address.REGEX_XPUB_KEY.test(input) && bitcoin.HDNode.fromBase58(input).toBase58() === input;
+        } catch(e) {
+            return false;
+        }
+    }
     
     static checkAddressInput(addressInput: string, addressType: string) : boolean {
-        try {
-            if (addressType === ADDRESS_TYPE_STATIC_ADDRESS && Address.REGEX_BITCOIN_ADDRESS.test(addressInput)) {                    
-                return true;
-            } else if (addressType === ADDRESS_TYPE_MASTER_PUBLIC_KEY &&
-                Address.REGEX_XPUB_KEY.test(addressInput) &&
-                bitcoin.HDNode.fromBase58(addressInput).toBase58() === addressInput) {
-                return true;
-            }
-        } catch(e) {
-            return false
+        if (addressType === ADDRESS_TYPE_STATIC_ADDRESS && Address.REGEX_BITCOIN_ADDRESS.test(addressInput)) {                    
+            return true;
+        } else if (addressType === ADDRESS_TYPE_MASTER_PUBLIC_KEY && Address.checkMasterPublicKeyInput(addressInput)) {
+            return true;
+        } else {
+            return false;
         }
-
-        return false;
     }
 
     availableAddressTypes() : Promise<Array<string>> {

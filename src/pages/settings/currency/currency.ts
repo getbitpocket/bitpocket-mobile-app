@@ -1,4 +1,4 @@
-import {Component, ChangeDetectorRef} from '@angular/core';
+import {Component} from '@angular/core';
 import {Loading, NavController, LoadingController} from 'ionic-angular';
 import {Currency} from '../../../providers/currency/currency';
 
@@ -25,7 +25,7 @@ export class CurrencyPage {
         this.loader.dismiss();
     }
     
-    constructor(private currencyService:Currency, private nav:NavController, private loadingController:LoadingController, private changeDetector: ChangeDetectorRef) {        
+    constructor(private currencyService:Currency, private nav:NavController, private loadingController:LoadingController) {        
         this.exchangeServices = currencyService.getAvailabeServices();        
         this.startLoading();
 
@@ -37,20 +37,19 @@ export class CurrencyPage {
             this.selectedExchange    = selections[0];
             this.selectedCurrency    = selections[1];
             this.availableCurrencies = selections[2];
-            this.changeDetector.detectChanges();
             this.stopLoading();
         });
     }
 
     exchangeChanged() {
-        this.currencyService.setSelectedService(this.selectedExchange);
         this.startLoading();
-        
-        this.currencyService.getAvailableCurrencies().then((currencies) => {
-            this.availableCurrencies = currencies;                        
-            this.changeDetector.detectChanges();
-            this.stopLoading();
-        });
+        this.currencyService.setSelectedService(this.selectedExchange)
+            .then(() => {               
+                this.currencyService.getAvailableCurrencies().then((currencies) => {       
+                    this.stopLoading();
+                    this.availableCurrencies = currencies;
+                });
+            });        
     }
     
     ionViewWillLeave() {

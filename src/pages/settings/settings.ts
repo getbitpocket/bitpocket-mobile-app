@@ -74,6 +74,15 @@ export class SettingsPage {
 
     ionViewCanEnter() : Promise<void> {
         return new Promise<void>((resolve, reject) => {
+            
+            // if the SettingsPage was already navigated, don't ask again for PIN
+            for (let i = 0; i < this.navigation.length(); i++) {
+                if (SettingsPage === this.navigation.getByIndex(i).component) {
+                    resolve();
+                    return;
+                }
+            }
+
             this.config.get('pin').then(value => {
                 if (value === '') {
                     resolve();

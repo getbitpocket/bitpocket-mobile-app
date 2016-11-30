@@ -2,8 +2,7 @@ import {Component} from '@angular/core';
 import {NavController} from 'ionic-angular';
 import {QRScanner} from '../../../providers/qrscanner/qrscanner';
 import {Config} from '../../../providers/config';
-import {Address} from '../../../providers/address';
-import * as bitcoin from 'bitcoinjs-lib';
+import {Address, ADDRESS_TYPE_MASTER_PUBLIC_KEY} from '../../../providers/address';
 
 @Component({
     templateUrl : 'master-public-key.html' 
@@ -34,11 +33,7 @@ export class MasterPublicKeyPage {
 
     scan() {
         this.qrscanner.scan(text => {
-            try {
-                return bitcoin.HDNode.fromBase58(text).toBase58();                
-            } catch(e) {
-                return false;
-            }
+            return Address.transformAddressInput(text, ADDRESS_TYPE_MASTER_PUBLIC_KEY);
         }).then(text => {
             this.masterPublicKey = text;
         });

@@ -8,7 +8,7 @@ import {SettingsPage} from '../pages/settings/settings';
 import {HistoryPage} from '../pages/history/history';
 import {AddressesPage} from '../pages/onboarding/addresses';
 import {OfflinePage} from '../pages/onboarding/offline';
-import {PincodePage} from '../pages/pincode/pincode';
+// import {PincodePage} from '../pages/pincode/pincode';
 
 // Providers
 import {DatabaseHelper} from '../providers/database-helper';

@@ -1,32 +1,27 @@
 .onboarding {
-  height: 100%;
-  width: 100%;
 
-  .icon {
-    display: block;
+  .logo {
+    margin-top:10vh;
+    text-align:center;
     img {
-      height: 5rem;
+      display: inline-block;
+      height: 5rem;    
     }
   }
-
-  .title {
+  
+  h2 {
     color: $basic-color-white;
     font-size: $font-size-x-medium;
     font-weight: 300;
     display: block;
+    text-align:center;
   }
 
-  .settings {
-    display: block;
-  }
+  .info {
+    padding:5vw;
 
-  .savestart-button {
-    display: block;
-    button {
-      width: 100%;
-      line-height: $font-size-x-large;
-      height: $font-size-x-large;
-      border-radius: $button-border-radius;
+    & > button {
+      margin-top:8vh;
     }
   }
 

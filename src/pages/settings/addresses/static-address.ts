@@ -1,8 +1,7 @@
-import {Component, ChangeDetectorRef} from '@angular/core';
+import {Component} from '@angular/core';
 import {NavController} from 'ionic-angular';
-import * as bip21 from 'bip21';
 import {Config} from '../../../providers/config';
-import {Address} from '../../../providers/address';
+import {Address, ADDRESS_TYPE_STATIC_ADDRESS} from '../../../providers/address';
 import {QRScanner} from '../../../providers/qrscanner/qrscanner';
 
 @Component({
@@ -28,12 +27,7 @@ export class StaticAddressPage {
 
     scan() {       
         this.qrscanner.scan(text => {
-            try {
-                text = bip21.decode(text).address;
-                return text;
-            } catch(e) {
-                return false;
-            }
+            return Address.transformAddressInput(text, ADDRESS_TYPE_STATIC_ADDRESS);
         }).then(text => {
             this.address = text;
         });
@@ -42,7 +36,6 @@ export class StaticAddressPage {
     ionViewWillLeave() {
         // TODO: Alert message if not a valid address
         this.addressChanged();
-
     }  
 
 }

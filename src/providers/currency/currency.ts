@@ -75,9 +75,8 @@ export class Currency {
         });
     }
 
-    setSelectedService(code:string) : Currency {
-        this.config.set('exchange', code);
-        return this;
+    setSelectedService(code:string) : Promise<any> {
+        return this.config.set('exchange', code);
     }
 
     setSelectedCurrency(code:string) : Currency {

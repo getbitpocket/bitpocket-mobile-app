@@ -12,7 +12,7 @@
             <ion-radio [value]="service.code" (ionSelect)="exchangeChanged()"></ion-radio>
         </ion-item>
     </ion-list>   
-    <ion-list radio-group  [(ngModel)]="selectedCurrency">
+    <ion-list radio-group [(ngModel)]="selectedCurrency">
         <ion-list-header>Available Currencies</ion-list-header>
         <ion-item *ngFor="let currency of availableCurrencies">
             <ion-label>{{ currency.code }} ({{ currency.symbol }})</ion-label>

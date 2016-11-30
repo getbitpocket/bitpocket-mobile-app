@@ -8,8 +8,7 @@ export class QRScanner {
     
     protected modal:Modal;
 
-    constructor(private modalController:ModalController) {  
-        
+    constructor(private modalController:ModalController) {          
     }
 
     scan(validate: (text:any) => any = (text) => { return text; }) : Promise<any> { 

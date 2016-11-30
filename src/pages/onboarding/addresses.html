@@ -1,35 +1,36 @@
 <ion-content class="onboarding">
-    <ion-grid padding>
-        <ion-row class="icon" padding text-center>
-            <img src="assets/img/bitpocket_appicon_white1024x1024.png" alt="ICON">
-        </ion-row>
-        <ion-row class="title" padding text-center>
-            Onboarding
-        </ion-row>
-        <ion-row class="settings" padding text-center>
-            <ion-list>
 
-                <ion-item>
-                    <ion-label>Address Type</ion-label>
-                    <ion-select [(ngModel)]="addressType">
-                        <ion-option value="static-address">Static Address</ion-option>
-                        <ion-option value="master-public-key">Master Public Key</ion-option>
-                    </ion-select>
-                </ion-item>
+    <div class="logo">
+        <img src="assets/img/bitpocket_appicon_white1024x1024.png" alt="ICON">
+    </div>
 
-                <ion-item *ngIf="addressType">
-                    <ion-input type="text"  placeholder="{{addresstypename}}" [(ngModel)]="addressInput"></ion-input>
-                    <button ion-button clear item-right (click)="scan()"><ion-icon name="qr-scanner"></ion-icon></button>
-                </ion-item>
+    <h2>Onboarding</h2>
 
-            </ion-list>
-        </ion-row>
-        <ion-row class="savestart-button" padding text-center>
-            <button ion-button icon-right show-history class="text-uppercase" (click)="start()">
-                Continue <ion-icon name="arrow-forward"></ion-icon>                
-            </button>
-        </ion-row>
-    </ion-grid>
+    <div class="info">
+        <ion-card>
+            <ion-card-content>
+                <p>A <b>bitcoin address</b> or <b>master public key (xpub key)</b> is required to let you accept bitcoin payments. Please add the requested information to get started!</p>
+            </ion-card-content>
+        </ion-card>
+        <ion-card>
+            <ion-item>
+                <ion-label>Address type</ion-label>
+                <ion-select [(ngModel)]="addressType">
+                    <ion-option value="static-address">Static address</ion-option>
+                    <ion-option value="master-public-key">Master public key</ion-option>
+                </ion-select>
+            </ion-item>
+            <ion-item *ngIf="addressType">
+                <ion-input type="text"  placeholder="{{addresstypename}}" [(ngModel)]="addressInput"></ion-input>
+                <button ion-button clear item-right (click)="scan()"><ion-icon name="qr-scanner"></ion-icon></button>
+            </ion-item>
+        </ion-card>
+
+        <button ion-button icon-right class="text-uppercase button-large" (click)="start()">
+            Continue <ion-icon name="arrow-forward"></ion-icon> 
+        </button>
+    </div>
+
 </ion-content>
 
 

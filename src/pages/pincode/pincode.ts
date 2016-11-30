@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {ToastController, Toast, ViewController, NavParams, MenuController} from 'ionic-angular';
+import {ToastController, ViewController, NavParams, MenuController} from 'ionic-angular';
 import * as bitcoin from 'bitcoinjs-lib';
 
 @Component({
