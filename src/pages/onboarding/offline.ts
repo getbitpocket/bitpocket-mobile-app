@@ -11,8 +11,15 @@ export class OfflinePage {
 
     text:any = {};
 
-    constructor(private menu:MenuController) {
+    constructor(private menuController:MenuController) {
         this.text.no_internet = "No Internet Connection";
-        this.menu.enable(false);
+    }
+
+    ionViewWillEnter() {
+        this.menuController.enable(false);
+    }
+
+    ionViewWillLeave() {
+        this.menuController.enable(true);
     }
 }
