@@ -1,6 +1,15 @@
-<ion-content class="onboarding" no-scroll>
-    <div class="no-internet" padding>
-        <img src="assets/img/noconnection.png" padding>
-        <p padding text-center>{{ text.no_internet }}</p>
+<ion-content class="no-internet" no-scroll>
+    <div>
+        <img src="assets/img/noconnection.png">        
     </div>
+
+    <div class="button-bottom">
+        <p padding text-center>{{ text.no_internet }}</p>
+
+        <button ion-button icon-right class="text-uppercase button-large" (click)="retry()">
+            Try again <ion-icon name="refresh-circle"></ion-icon> 
+        </button>
+    </div>
+
+    
 </ion-content>

@@ -25,15 +25,25 @@
     }
   }
 
-  .no-internet {
-    img {
-      padding: 10rem;
-    }
-    p {
-      color: $basic-color-white;
-      font-size: $font-size-small;
-      text-transform: uppercase;
-    }
+  
+}
+
+.no-internet {
+
+  div {
+    text-align:center;
+  }
+
+  img {
+    display:inline-block;
+    width:50vw;
+    margin-top:10vh;
+  }
+
+  p {
+    color: $basic-color-white;
+    font-size: $font-size-small;
+    text-transform: uppercase;
   }
 }
 
