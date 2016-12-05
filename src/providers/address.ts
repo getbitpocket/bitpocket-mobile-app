@@ -38,8 +38,9 @@ export class Address {
 
     static checkMasterPublicKeyInput(input: string) {
         try {
-            return Address.REGEX_XPUB_KEY.test(input) && bitcoin.HDNode.fromBase58(input).toBase58() === input;
+            return Address.REGEX_XPUB_KEY.test(input) && (bitcoin.HDNode.fromBase58(input).toBase58() === input);
         } catch(e) {
+            console.error(e);
             return false;
         }
     }
@@ -85,6 +86,7 @@ export class Address {
                 if (promised[0] === ADDRESS_TYPE_STATIC_ADDRESS) {
                     resolve(promised[1]);
                 } else if (promised[0] === ADDRESS_TYPE_MASTER_PUBLIC_KEY) {
+                    promised[3] = parseInt(promised[3]);
                     let index = promised[3] > 0 ? promised[3] : 1;
                     // m/0/(master-public-key-index)
                     resolve( bitcoin.HDNode.fromBase58(promised[2]).derive(0).derive(index).getAddress() );
@@ -93,7 +95,7 @@ export class Address {
         });                       
     }
 
-    /**
+    /** 
      * if an address was successfully used,
      * and it was a derived address increase
      * the index count +1

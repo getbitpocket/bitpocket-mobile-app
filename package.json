@@ -7,6 +7,9 @@
     "ionic:build": "ionic-app-scripts build",
     "ionic:serve": "ionic-app-scripts serve"
   },
+  "config": {
+    "ionic_uglifyjs" : "./config/uglifyjs.config.js"
+  },
   "dependencies": {
     "@angular/common": "2.1.1",
     "@angular/compiler": "2.1.1",
