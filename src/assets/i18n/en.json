@@ -1,0 +1,13 @@
+{
+
+    "MENU.PAYMENT"  : "Payment" ,
+    "MENU.HISTORY"  : "History" ,
+    "MENU.SETTINGS" : "Settings" ,
+
+    "TITLE.REQUEST_AMOUNT" : "Request payment",
+
+    "BUTTON.REQUEST_AMOUNT" : "Request amount",
+    "BUTTON.RESET" : "Reset" ,
+
+    "CONTINUE" : "Continue"
+}

@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { Http } from '@angular/http';
 import { IonicApp, IonicModule } from 'ionic-angular';
 
 // Main Component
@@ -29,6 +30,8 @@ import {Address} from '../providers/address';
 import {History} from '../providers/history/history';
 import {QRScanner} from '../providers/qrscanner/qrscanner';
 
+import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-translate/ng2-translate';
+
 // Exchange Services
 import {BlockchainExchangeService} from '../providers/currency/blockchain';
 import {BitcoinAverageExchangeService} from '../providers/currency/bitcoinaverage';
@@ -39,6 +42,10 @@ import {ElectrumPaymentService} from '../providers/payment/electrum';
 // Components, Directives
 import {DynamicFontSize} from '../components/dynamic-font-size';
 import {Logo} from '../components/logo';
+
+export function createTranslateLoader(http: Http) {
+  return new TranslateStaticLoader(http, './assets/i18n', '.json');
+}
 
 @NgModule({
   declarations: [
@@ -60,7 +67,12 @@ import {Logo} from '../components/logo';
     Logo
   ],
   imports: [
-    IonicModule.forRoot(BitPocketApp)
+    IonicModule.forRoot(BitPocketApp) ,
+    TranslateModule.forRoot({
+      provide: TranslateLoader,
+      useFactory: (createTranslateLoader),
+      deps: [Http]
+    })
   ],
   bootstrap: [IonicApp],
   entryComponents: [

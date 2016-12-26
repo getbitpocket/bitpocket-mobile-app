@@ -1,0 +1,13 @@
+{
+
+    "MENU.PAYMENT"  : "Zahlung" ,
+    "MENU.HISTORY"  : "Transaktionen" ,
+    "MENU.SETTINGS" : "Einstellungen" ,
+
+    "TITLE.REQUEST_AMOUNT" : "Zahlung anfordern",
+
+    "BUTTON.REQUEST_AMOUNT" : "Zahlung",
+    "BUTTON.RESET" : "Löschen" ,
+
+    "CONTINUE" : "Continue"
+}

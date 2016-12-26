@@ -16,6 +16,8 @@ import {Config} from '../providers/config';
 import {Currency} from '../providers/currency/currency';
 import {History} from '../providers/history/history';
 
+import { TranslateService } from 'ng2-translate/ng2-translate';
+
 @Component({
     templateUrl: 'app.html'
 })
@@ -26,11 +28,17 @@ export class BitPocketApp {
     rootPage: any;// = PincodePage;
     menuItems:Array<{name:string,icon:string,page:any}> = [];
 
-    constructor(platform: Platform, private app:App, private config:Config, private currency:Currency, private dbHelper:DatabaseHelper, private history: History) {
+    constructor(platform: Platform, private app:App, private config:Config, private currency:Currency, private dbHelper:DatabaseHelper, private history: History, private translate: TranslateService) {
         
-        this.menuItems[0] = { name:'Payment' , icon:'keypad' , page:AmountPage };        
-        this.menuItems[1] = { name:'History', icon:'list', page:HistoryPage };
-        this.menuItems[2] = { name:'Settings', icon:'options', page:SettingsPage };
+        translate.setDefaultLang('de');
+        
+        let menuItemLangIdentifiers = ['MENU.PAYMENT', 'MENU.HISTORY', 'MENU.SETTINGS'];
+        translate.get(menuItemLangIdentifiers)
+            .subscribe((res:Array<string>) => { console.log(res);
+                this.menuItems[0] = { name:res[menuItemLangIdentifiers[0]], icon:'keypad' , page:AmountPage };        
+                this.menuItems[1] = { name:res[menuItemLangIdentifiers[1]], icon:'list', page:HistoryPage };
+                this.menuItems[2] = { name:res[menuItemLangIdentifiers[2]], icon:'options', page:SettingsPage };
+            });
         
         platform.ready().then(() => {
             StatusBar.styleDefault();
