@@ -13,10 +13,10 @@
             </div>
             <div class="payment-amount">
                 <div [ngClass]="{active:entryInFiat}">
-                    <span *ngIf="entryInFiat">
+                    <span *ngIf="entryInFiat" dynamicFontSize [content]="digits + separator + decimals" maxFontSize="50" minFontSize="1">
                         <span clear class="number digits">{{ digits }}</span><span class="separator">{{ separator }}</span><span clear class="number decimals">{{ decimals }}</span>
                     </span>
-                    <span *ngIf="entryInBTC">{{ exchangedAmount }}</span>
+                    <span dynamicFontSize [content]="exchangedAmount" maxFontSize="25" minFontSize="1" *ngIf="entryInBTC">{{ exchangedAmount }}</span>
                 </div>
             </div>
             <div class="payment-currency">
@@ -25,10 +25,10 @@
             </div>
             <div class="payment-amount">
                 <div [ngClass]="{active:entryInBTC}">
-                    <span *ngIf="entryInBTC">
+                    <span *ngIf="entryInBTC" dynamicFontSize [content]="digits + separator + decimals" maxFontSize="50" minFontSize="1">
                         <span clear class="number digits">{{ digits }}</span><span class="separator">{{ separator }}</span><span clear class="number decimals">{{ decimals }}</span>
                     </span>
-                    <span *ngIf="entryInFiat">{{ exchangedAmount }}</span>
+                    <span dynamicFontSize [content]="exchangedAmount" maxFontSize="25" minFontSize="1" *ngIf="entryInFiat">{{ exchangedAmount }}</span>
                 </div>
             </div>
         </div>

@@ -10,13 +10,13 @@
         <div class="payment-currency vertical-align">{{ currency }}</div>
         <div class="payment-amount">
             <div class="active">
-                <span>{{ fiatAmount }}</span>
+                <span dynamicFontSize [content]="fiatAmount" maxFontSize="50" minFontSize="1">{{ fiatAmount }}</span>
             </div>
         </div>
         <div class="payment-currency vertical-align">{{ bitcoinUnit }}</div>
         <div class="payment-amount">
             <div>
-                <span>{{ bitcoinAmount }}</span>
+                <span dynamicFontSize [content]="bitcoinAmount" maxFontSize="25" minFontSize="1">{{ bitcoinAmount }}</span>
             </div>
         </div>
     </div>
