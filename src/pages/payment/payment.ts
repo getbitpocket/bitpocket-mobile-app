@@ -98,6 +98,9 @@ export class PaymentPage {
             success: true ,
             transaction: transaction
         });
+
+        let audio = new Audio('assets/sound/paid.wav');
+        audio.play();
     }
 
     ionViewWillLeave() {

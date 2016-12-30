@@ -8,6 +8,8 @@ import {Currency} from '../../providers/currency/currency';
 import * as payment from '../../api/payment-service';
 import {BitcoinUnit} from '../../providers/currency/bitcoin-unit';
 
+import { TranslateService } from 'ng2-translate/ng2-translate';
+
 let PAYMENT_STATUS_MESSAGES = {};
 PAYMENT_STATUS_MESSAGES[payment.PAYMENT_STATUS_TIMEOUT]  = 'Payment request timed out, please start again';
 PAYMENT_STATUS_MESSAGES[payment.PAYMENT_STATUS_RECEIVED] = 'Your payment was successfully processed';
@@ -45,15 +47,14 @@ export class PaymentResultPage {
         this.nav.setRoot(HistoryPage);
     }
     
-    constructor(private currencyService: Currency, private config: Config, private params: NavParams, private nav: NavController, private changeDetector: ChangeDetectorRef) {
+    constructor(private translate: TranslateService, private currencyService: Currency, private config: Config, private params: NavParams, private nav: NavController, private changeDetector: ChangeDetectorRef) {
         this.success = (params.data.success === true);
         this.transaction = params.data.transaction;
 
-        if (PAYMENT_STATUS_MESSAGES[params.data.status]) {
-            this.resultText = PAYMENT_STATUS_MESSAGES[params.data.status];
-        } else {
-            this.resultText = PAYMENT_STATUS_MESSAGES[payment.PAYMENT_STATUS_ERROR];
-        }
+        translate.get('PAYMENT_STATUS.' + params.data.status)
+            .subscribe((res:string) => {
+                this.resultText = res;
+            });
 
         if (this.success) {
             this.resultClass["transaction-success" ] = true;

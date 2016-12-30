@@ -4,10 +4,10 @@
     </div>
 
     <div class="button-bottom">
-        <p padding text-center>{{ text.no_internet }}</p>
+        <p padding text-center>{{ 'TEXT.NO_INTERNET' | translate }}</p>
 
         <button ion-button icon-right class="text-uppercase button-large" (click)="retry()">
-            Try again <ion-icon name="refresh-circle"></ion-icon> 
+            {{ 'BUTTON.TRY_AGAIN' | translate }} <ion-icon name="refresh-circle"></ion-icon> 
         </button>
     </div>
 

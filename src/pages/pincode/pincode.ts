@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {ToastController, ViewController, NavParams, MenuController} from 'ionic-angular';
 import * as bitcoin from 'bitcoinjs-lib';
+import { TranslateService } from 'ng2-translate/ng2-translate';
 
 @Component({
     templateUrl : 'pincode.html'
@@ -10,22 +11,31 @@ export class PincodePage {
     pin:Array<string> = ["","","",""];
     position:number = 0;
     length:number = 4;
-    title:string = "Verify PIN";
+    title:string = "";
     token:string = "";
     closeable: boolean = false;
     confirm: boolean = false;
+    texts:Array<string> = [];
+    textIdentifiers = ['TITLE.VERIFY_PIN','TITLE.ENTER_PIN','TITLE.CONFIRM_PIN','TEXT.PIN_MISMATCH'];
 
-    constructor(private toastController: ToastController, private viewController: ViewController, private navParams: NavParams, private menuController: MenuController) {        
-        if (navParams.get('closable') === true) {
-            this.closeable = true;
-        }
-        if (navParams.get('token')) {
-            this.token = navParams.get('token');
-        }
-        if (navParams.get('change') === true) {
-            this.confirm = true;
-            this.title = "Enter new PIN";
-        }                        
+    constructor(private toastController: ToastController, private viewController: ViewController, private navParams: NavParams, private menuController: MenuController, private translate: TranslateService) {        
+         translate.get(this.textIdentifiers)
+            .subscribe((res:Array<string>) => {
+                this.texts = res;
+                this.title = this.texts[this.textIdentifiers[0]];
+
+                if (navParams.get('closable') === true) {
+                    this.closeable = true;
+                }
+                if (navParams.get('token')) {
+                    this.token = navParams.get('token');
+                }
+                if (navParams.get('change') === true) {
+                    this.confirm = true;
+                    this.title = this.texts[this.textIdentifiers[1]];
+                }                       
+            });      
+        
     }
 
     ionViewWillEnter() {
@@ -54,14 +64,14 @@ export class PincodePage {
 
         if (fullLength && this.confirm) {
             this.token = this.hashedPin();                        
-            this.title = "Confirm PIN";
+            this.title = this.texts[this.textIdentifiers[2]];
             this.confirm = false;
             this.reset();
         } else if (fullLength && this.verify(this.token)) {
             this.close(true);
         } else if (fullLength) {
             this.toastController.create({
-                message : 'PIN mismatch, please try again!' ,
+                message : this.texts[this.textIdentifiers[3]] ,
                 duration : 3000
             }).present();
             this.reset();

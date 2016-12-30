@@ -1,7 +1,7 @@
 <ion-header>
     <ion-navbar>
         <button ion-button menuToggle="left"><ion-icon name="menu"></ion-icon></button>
-        <ion-title>Settings</ion-title>
+        <ion-title>{{ 'TITLE.SETTINGS' | translate }}</ion-title>
         <bitpocket-logo></bitpocket-logo>
     </ion-navbar>
 </ion-header>
@@ -9,31 +9,31 @@
 <ion-content>
     <ion-list>
         <button menu-item ion-item (click)="openPage(0)">
-            <h2>General Settings</h2>
-            <p>General settings for BitPocket</p>
+            <h2>{{ 'LIST_HEADING.GENERAL_SETTINGS' | translate }}</h2>
+            <p>{{ 'LIST_TEXT.GENERAL_SETTINGS' | translate }}</p>
         </button>
         <button menu-item ion-item (click)="openPage(1)">
-            <h2>Currency</h2>
-            <p>Select currency and exchange rate</p>
+            <h2>{{ 'LIST_HEADING.CURRENCY' | translate }}</h2>
+            <p>{{ 'LIST_TEXT.CURRENCY' | translate }}</p>
         </button>
         <ion-item menu-item>
             <ion-label (click)="openPage(2)">
-                <h2>Static Address</h2>
-                <p>Static address to receive payments</p>
+                <h2>{{ 'LIST_HEADING.STATIC_ADDRESS' | translate }}</h2>
+                <p>{{ 'LIST_TEXT.STATIC_ADDRESS' | translate }}</p>
             </ion-label>
             <ion-toggle (ionChange)="addressTypeCheckChanged()" [(ngModel)]="addressTypesChecked[0]" *ngIf="addressTypesEnabled[0]" item-right></ion-toggle>
         </ion-item>
         <ion-item menu-item>
             <ion-label (click)="openPage(3)">
-                <h2>Master Public Key</h2>
-                <p>Derive new address for each payment</p>
+                <h2>{{ 'LIST_HEADING.MASTER_PUBLIC_KEY' | translate }}</h2>
+                <p>{{ 'LIST_TEXT.MASTER_PUBLIC_KEY' | translate }}</p>
             </ion-label>
             <ion-toggle (ionChange)="addressTypeCheckChanged()" [(ngModel)]="addressTypesChecked[1]" *ngIf="addressTypesEnabled[1]" item-right></ion-toggle>
         </ion-item>
         <ion-item>
             <ion-label (click)="changePin()">
-                <h2>Change PIN</h2>
-                <p>Enter and confirm a new PIN code</p>
+                <h2>{{ 'LIST_HEADING.PIN' | translate }}</h2>
+                <p>{{ 'LIST_TEXT.PIN' | translate }}</p>
             </ion-label>
         </ion-item>
     </ion-list>

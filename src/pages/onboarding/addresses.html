@@ -4,20 +4,20 @@
         <img src="assets/img/bitpocket_appicon_white1024x1024.png" alt="ICON">
     </div>
 
-    <h2>Onboarding</h2>
+    <h2>{{ 'TITLE.ONBOARDING' | translate }}</h2>
 
     <div class="info">
         <ion-card>
             <ion-card-content>
-                <p>A <b>bitcoin address</b> or <b>master public key (xpub key)</b> is required to let you accept bitcoin payments. Please add the requested information to get started!</p>
+                <p [innerHTML]="'TEXT.ONBOARDING' | translate"></p>
             </ion-card-content>
         </ion-card>
         <ion-card>
             <ion-item>
-                <ion-label>Address type</ion-label>
+                <ion-label>{{ 'LIST_HEADING.ADDRESS_TYPE' | translate }}</ion-label>
                 <ion-select [(ngModel)]="addressType">
-                    <ion-option value="static-address">Static address</ion-option>
-                    <ion-option value="master-public-key">Master public key</ion-option>
+                    <ion-option value="static-address">{{ 'LIST_HEADING.STATIC_ADDRESS' | translate }}</ion-option>
+                    <ion-option value="master-public-key">{{ 'LIST_HEADING.MASTER_PUBLIC_KEY' | translate }}</ion-option>
                 </ion-select>
             </ion-item>
             <ion-item *ngIf="addressType">
@@ -27,7 +27,7 @@
         </ion-card>
 
         <button ion-button icon-right class="text-uppercase button-large" (click)="start()">
-            Continue <ion-icon name="arrow-forward"></ion-icon> 
+            {{ 'BUTTON.CONTINUE' | translate }} <ion-icon name="arrow'-forward"></ion-icon> 
         </button>
     </div>
 

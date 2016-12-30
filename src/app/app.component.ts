@@ -30,11 +30,19 @@ export class BitPocketApp {
 
     constructor(platform: Platform, private app:App, private config:Config, private currency:Currency, private dbHelper:DatabaseHelper, private history: History, private translate: TranslateService) {
         
-        translate.setDefaultLang('de');
-        
+        translate.setDefaultLang('en');
+        let langs = ['de','en'];
+        let langIndex = langs.indexOf(translate.getBrowserLang()); 
+
+        if (langIndex == -1) {
+            translate.use('en');
+        } else {
+            translate.use(langs[langIndex]);
+        }
+
         let menuItemLangIdentifiers = ['MENU.PAYMENT', 'MENU.HISTORY', 'MENU.SETTINGS'];
         translate.get(menuItemLangIdentifiers)
-            .subscribe((res:Array<string>) => { console.log(res);
+            .subscribe((res:Array<string>) => {
                 this.menuItems[0] = { name:res[menuItemLangIdentifiers[0]], icon:'keypad' , page:AmountPage };        
                 this.menuItems[1] = { name:res[menuItemLangIdentifiers[1]], icon:'list', page:HistoryPage };
                 this.menuItems[2] = { name:res[menuItemLangIdentifiers[2]], icon:'options', page:SettingsPage };

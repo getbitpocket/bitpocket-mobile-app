@@ -1,6 +1,6 @@
 <ion-header>
     <ion-navbar>
-        <ion-title>General Settings</ion-title>
+        <ion-title>{{ 'TITLE.GENERAL' | translate }}</ion-title>
         <bitpocket-logo></bitpocket-logo>
     </ion-navbar>
 </ion-header>
@@ -8,15 +8,15 @@
 <ion-content>
 
     <ion-list>
-        <ion-list-header>Merchant Information</ion-list-header>
+        <ion-list-header>{{ 'LIST_HEADING.MERCHANT_INFORMATION' | translate }}</ion-list-header>
         <ion-item>
-            <ion-label floating>Merchant Name (Payment Request Label)</ion-label>
+            <ion-label floating>{{ 'LIST_TEXT.MERCHANT_NAME' | translate }}</ion-label>
             <ion-input type="text" [(ngModel)]="paymentRequestLabel"></ion-input>
         </ion-item>
     </ion-list>
     
     <ion-list radio-group [(ngModel)]="selectedFormat" (ionChange)="inputChanged()">
-        <ion-list-header>Currency Format</ion-list-header>
+        <ion-list-header>{{ 'LIST_HEADING.CURRENCY_FORMAT' | translate }}</ion-list-header>
         <ion-item>
             <ion-label>#,###.## (e.g. 11,500.00)</ion-label>
             <ion-radio [checked]="currencyFormat === 'us'" value="us"></ion-radio>
@@ -28,17 +28,17 @@
     </ion-list>
     
     <ion-list radio-group [(ngModel)]="selectedUnit" (ionChange)="inputChanged()">
-        <ion-list-header>Bitcoin Unit</ion-list-header>        
+        <ion-list-header>{{ 'LIST_HEADING.BITCOIN_UNIT' | translate }}</ion-list-header>        
         <ion-item>
-            <ion-label>Bitcoin (BTC)</ion-label>
+            <ion-label>{{ 'LIST_TEXT.BITCOIN' | translate }}</ion-label>
             <ion-radio [checked]="selectedUnit === 'BTC'" value="BTC"></ion-radio>
         </ion-item>        
         <ion-item>
-            <ion-label>Milli-Bitcoin (mBTC)</ion-label>
+            <ion-label>{{ 'LIST_TEXT.MILLI_BITCOIN' | translate }}</ion-label>
             <ion-radio [checked]="selectedUnit === 'mBTC'" value="mBTC"></ion-radio>
         </ion-item>        
         <ion-item>
-            <ion-label>Bits (bits)</ion-label>
+            <ion-label>{{ 'LIST_TEXT.BITS' | translate }}</ion-label>
             <ion-radio [checked]="selectedUnit === 'bits'" value="bits"></ion-radio>
         </ion-item>
     </ion-list>

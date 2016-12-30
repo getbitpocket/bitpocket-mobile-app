@@ -10,10 +10,7 @@ declare var navigator:any;
 })
 export class OfflinePage {
 
-    text:any = {};
-
     constructor(private menuController:MenuController) {
-        this.text.no_internet = "No Internet Connection";
     }
 
     ionViewWillEnter() {

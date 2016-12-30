@@ -1,13 +1,13 @@
 <ion-header>
     <ion-navbar>
-        <ion-title>Static address</ion-title>
+        <ion-title>{{ 'TITLE.STATIC_ADDRESS' | translate }}</ion-title>
         <bitpocket-logo></bitpocket-logo>
     </ion-navbar>
 </ion-header>
 <ion-content no-scroll>
     <ion-list>
         <ion-item dark>
-            <ion-label floating>Static Address</ion-label>
+            <ion-label floating>{{ 'LIST_HEADING.STATIC_ADDRESS' | translate }}</ion-label>
             <ion-input padding-right type="text" [(ngModel)]="address"></ion-input>
             <button ion-button clear item-right (click)="scan()"><ion-icon name="qr-scanner"></ion-icon></button>
         </ion-item>

@@ -1,13 +1,13 @@
 <ion-header>
     <ion-navbar>    
         <button ion-button menuToggle="left"><ion-icon name="menu"></ion-icon></button>
-        <ion-title>Transaction History</ion-title>
+        <ion-title>{{ 'TITLE.HISTORY' | translate }}</ion-title>
         <bitpocket-logo></bitpocket-logo>
     </ion-navbar>
 </ion-header>
 <ion-content class="history">
     <ion-list *ngIf="transactions.length > 0">
-        <ion-list-header>Transactions</ion-list-header>
+        <ion-list-header>{{ 'HEADING.HISTORY' | translate  }}</ion-list-header>
         <ion-item-sliding *ngFor="let transaction of transactions; let i = index">
             <ion-item>
                 <ion-icon [class.unconfirmed]="transaction.confirmations < 6" [class.confirmed]="transaction.confirmations >= 6" name="checkmark-circle" item-left></ion-icon>
@@ -17,17 +17,17 @@
             <ion-item-options>
                 <button ion-button color="danger" (click)="deleteTransaction(i)">
                     <ion-icon name="trash"></ion-icon>
-                    Remove
+                    {{ 'BUTTON.REMOVE' | translate }}
                 </button>
                 <button ion-button color="primary" (click)="openTransaction(transaction.txid)">
                     <ion-icon name="search"></ion-icon>
-                    Details
+                    {{ 'BUTTON.DETAILS' | translate }}
                 </button>                
             </ion-item-options>
         </ion-item-sliding>
     </ion-list>
 
-    <div *ngIf="transactions.length <= 0" class="no-transactions">No Transactions yet...</div>
+    <div *ngIf="transactions.length <= 0" class="no-transactions">{{ 'TEXT.NO_TRANSACTIONS' | translate }}</div>
 
     <ion-infinite-scroll [enabled]="moreContentAvailable" (ionInfinite)="loadTransactions($event)">
         <ion-infinite-scroll-content loadingSpinner="bubbles"></ion-infinite-scroll-content>
