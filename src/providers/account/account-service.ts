@@ -1,3 +1,4 @@
+import { Config } from './../config';
 import {Injectable} from '@angular/core';
 import * as regex from 'crypto-regex';
 import * as bitcoin from 'bitcoinjs-lib';
@@ -19,7 +20,9 @@ export const REGEX_TPUB_KEY        = new RegExp("^(" + regex['testnet-tpub-key']
 @Injectable()
 export class AccountService {
 
-    constructor(protected repository:Repository) {}
+    constructor(
+        protected config:Config,
+        protected repository:Repository) {}
 
     parseXpubKeyInput(input: string) : Account {
         try {
@@ -134,6 +137,37 @@ export class AccountService {
         return new Promise<void> ((resolve, reject) => {
             resolve(this.repository.removeDocument(id));
         });
+    }
+
+    getDefaultAddress() : Promise<string> {
+        return new Promise<string> ((resolve, reject) => {
+            this.config.get(Config.CONFIG_KEY_DEFAULT_ACCOUNT)
+                .then(accountId => {
+                    return this.getAccount(accountId);
+                }).then(account => {
+                    try {
+                        let address = this.getNextAddress(account);
+                        resolve(address);
+                    } catch (e) {
+                        reject();
+                    }                   
+                }).catch(() => {
+                    reject();
+                });
+        });        
+    }
+
+    getNextAddress(account:Account, index=1) : string {
+        if(/.*?-static-address/.test(account.type)) {
+            return account.data;
+        } else if (/bitcoin-xpub-key/.test(account.type)) {
+            // TODO: retrieve next index correctly...
+            return bitcoin.HDNode.fromBase58(account.type).derive(0).derive(index).getAddress();
+        } else if (/testnet-tpub-key/.test(account.type)) {
+            return bitcoin.HDNode.fromBase58(account.type, [bitcoin.networks.testnet]).derive(0).derive(index).getAddress();
+        }
+
+        throw new Error('unknown account type');
     }
 
 }

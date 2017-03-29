@@ -1,7 +1,7 @@
-import {Component, ChangeDetectorRef} from '@angular/core';
+import { AccountService } from './../../providers/account/account-service';
+import {Component} from '@angular/core';
 import {NavParams,NavController} from 'ionic-angular';
 import {Address} from '../../providers/address';
-import {Payment} from '../../providers/payment/payment';
 import {BitcoinUnit} from '../../providers/currency/bitcoin-unit';
 import {PaymentResultPage} from './payment-result';
 import {Config} from '../../providers/config';
@@ -10,6 +10,7 @@ import * as bip21 from 'bip21';
 import {Transaction} from '../../api/transaction';
 import * as payment from '../../api/payment-service';
 import * as qrcode from 'qrcode-generator';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     templateUrl : 'payment.html'
@@ -29,14 +30,21 @@ export class PaymentPage {
     address: string;
     readableAmount: string;
 
-    constructor(private addressService: Address, private paymentService: Payment, private currencyService: Currency, private config: Config, private params: NavParams, private navigation:NavController, private changeDetector:ChangeDetectorRef) {              
-        this.amount = params.data.bitcoinAmount;
+    constructor(
+        private accountService: AccountService,
+        private translation: TranslateService ,
+        private currencyService: Currency,
+        private config: Config,
+        private params: NavParams,
+        private navigation:NavController) {     
+
+        this.amount = params.data.amount;
                       
         Promise.all<any>([
             this.config.get('currency') ,
-            this.config.get('currency-format-s') ,
+            this.translation.get('FORMAT.CURRENCY_S').toPromise() ,
             this.config.get('bitcoin-unit') , 
-            this.addressService.getAddress() ,
+            this.accountService.getDefaultAddress() ,
             this.currencyService.getSelectedCurrencyRate() ,
             this.config.get('payment-request-label')
         ]).then(promised => {            
@@ -58,12 +66,12 @@ export class PaymentPage {
             qr.make();
             this.qrImage = qr.createImgTag(5,5); 
             
-            this.changeDetector.detectChanges();
-            this.initPaymentCheck();
+            // this.initPaymentCheck();
         });          
     }
 
     initPaymentCheck() {
+        /*
         let paymentRequest = {
             address : this.address ,
             bitcoinAmount : this.amount.to('BTC') ,
@@ -71,6 +79,7 @@ export class PaymentPage {
             currency : this.currency
         };
 
+        
         this.paymentService.startPaymentStatusCheck(null);
         this.paymentService
             .on('payment-status:'+payment.PAYMENT_STATUS_RECEIVED, (transaction) => {
@@ -80,7 +89,8 @@ export class PaymentPage {
             .on('payment-status:'+payment.PAYMENT_STATUS_TIMEOUT, (paymentRequest) => {
                 console.debug('PaymentPage: payment timeout');
                 this.paymentError(payment.PAYMENT_STATUS_TIMEOUT, paymentRequest);
-            });        
+            });       
+        */
     }
     
     paymentError(status: string, transaction: Transaction) {
@@ -103,7 +113,7 @@ export class PaymentPage {
     }
 
     ionViewWillLeave() {
-        this.paymentService.stopPaymentStatusCheck();
+        // this.paymentService.stopPaymentStatusCheck();
     }    
     
 }

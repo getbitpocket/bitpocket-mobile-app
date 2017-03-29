@@ -174,12 +174,12 @@ export class AmountPage {
         
         if (this.entryInBTC) {
             this.navigation.push(PaymentPage,{
-                bitcoinAmount : BitcoinUnit.from(amount,this.bitcoinUnit)
+                amount: BitcoinUnit.from(amount,this.bitcoinUnit)
             });                   
         } else {
             this.currencyService.getSelectedCurrencyRate().then(rate => {
                 this.navigation.push(PaymentPage,{
-                    bitcoinAmount: BitcoinUnit.fromFiat(amount,rate) ,                
+                    amount: BitcoinUnit.fromFiat(amount,rate) ,                
                 });
             });
         }    

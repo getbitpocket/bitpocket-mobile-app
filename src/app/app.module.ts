@@ -26,11 +26,9 @@ import {PincodePage} from '../pages/pincode/pincode';
 import { AccountFormPage } from '../pages/account/account-form';
 
 // Providers
-import {DatabaseHelper} from '../providers/database-helper';
 import {Repository} from '../providers/repository';
 import {Config} from '../providers/config';
 import {Currency} from '../providers/currency/currency';
-import {Payment} from '../providers/payment/payment';
 import {AccountService} from '../providers/account/account-service';
 import {QRScanner} from '../providers/qrscanner/qrscanner';
 import { TransactionService } from './../providers/transaction/transaction-service';
@@ -44,7 +42,6 @@ import {BlockchainExchangeService} from '../providers/currency/blockchain';
 import {BitcoinAverageExchangeService} from '../providers/currency/bitcoinaverage';
 
 // Payment Services
-import {ElectrumPaymentService} from '../providers/payment/electrum';
 
 // Components, Directives
 import {DynamicFontSize} from '../components/dynamic-font-size';
@@ -111,13 +108,10 @@ export function createTranslateLoader(http: Http) {
     Repository ,
     Config ,
     Currency ,
-    Payment ,
     AccountService ,
     QRScanner,
     BlockchainExchangeService ,
     BitcoinAverageExchangeService ,
-    ElectrumPaymentService ,
-    DatabaseHelper,
     TransactionService
   ]
 })

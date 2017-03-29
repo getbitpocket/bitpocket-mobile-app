@@ -8,7 +8,7 @@ import {
 
 describe('Bitcoin Account', () => {
 
-    let account = new AccountService(null);
+    let account = new AccountService(null, null);
 
     it('should correctly parse account address input', () => {
         let address = "15mKKb2eos1hWa6tisdPwwDC1a5J1y9nma";
@@ -35,7 +35,7 @@ describe('Bitcoin Account', () => {
 
 describe('Testnet Account', () => {
 
-    let account = new AccountService(null);
+    let account = new AccountService(null, null);
 
     it('should correctly parse account address input', () => {
         let address = "mipcBbFg9gMiCh81Kj8tqqdgoZub1ZJRfn";

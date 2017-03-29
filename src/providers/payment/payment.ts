@@ -3,7 +3,6 @@ import {Injectable} from '@angular/core';
 import * as payment from '../../api/payment-service';
 import {PaymentRequest} from '../../api/payment-request';
 import {Transaction} from '../../api/transaction';
-import {Address} from '../address';
 import {EventEmitter} from 'events';
 
 // Payment Services
@@ -33,7 +32,7 @@ export class Payment extends EventEmitter {
         this.service = paymentService;
     }
     
-    constructor(private address: Address) {        
+    constructor() {        
         super();
         
         // TODO: make this configurable, currently only one provider available
