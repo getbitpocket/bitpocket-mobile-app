@@ -5,18 +5,19 @@ import {StatusBar, Splashscreen, Network} from 'ionic-native';
 // Pages
 import {AmountPage} from '../pages/amount/amount';
 import {SettingsPage} from '../pages/settings/settings';
-import {HistoryPage} from '../pages/history/history';
-import {AddressesPage} from '../pages/onboarding/addresses';
+import {AccountCreationPage} from '../pages/onboarding/account-creation';
 import {OfflinePage} from '../pages/onboarding/offline';
+import { AccountPage } from './../pages/account/account';
+
 // import {PincodePage} from '../pages/pincode/pincode';
 
 // Providers
-import {DatabaseHelper} from '../providers/database-helper';
+import {Repository} from '../providers/repository';
 import {Config} from '../providers/config';
 import {Currency} from '../providers/currency/currency';
-import {History} from '../providers/history/history';
+import {AccountService} from './../providers/account/account-service';
 
-import { TranslateService } from 'ng2-translate/ng2-translate';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
     templateUrl: 'app.html'
@@ -28,7 +29,14 @@ export class BitPocketApp {
     rootPage: any;// = PincodePage;
     menuItems:Array<{name:string,icon:string,page:any}> = [];
 
-    constructor(platform: Platform, private app:App, private config:Config, private currency:Currency, private dbHelper:DatabaseHelper, private history: History, private translate: TranslateService) {
+    constructor(
+        platform: Platform,
+        private app:App,
+        private config:Config,
+        private currency:Currency,
+        private repository:Repository,
+        private accountService:AccountService,
+        private translate: TranslateService) {
         
         translate.setDefaultLang('en');
         let langs = ['de','en'];
@@ -40,11 +48,11 @@ export class BitPocketApp {
             translate.use(langs[langIndex]);
         }
 
-        let menuItemLangIdentifiers = ['MENU.PAYMENT', 'MENU.HISTORY', 'MENU.SETTINGS'];
+        let menuItemLangIdentifiers = ['MENU.PAYMENT', 'MENU.ACCOUNTS', 'MENU.SETTINGS'];
         translate.get(menuItemLangIdentifiers)
             .subscribe((res:Array<string>) => {
                 this.menuItems[0] = { name:res[menuItemLangIdentifiers[0]], icon:'keypad' , page:AmountPage };        
-                this.menuItems[1] = { name:res[menuItemLangIdentifiers[1]], icon:'list', page:HistoryPage };
+                this.menuItems[1] = { name:res[menuItemLangIdentifiers[1]], icon:'list', page:AccountPage };
                 this.menuItems[2] = { name:res[menuItemLangIdentifiers[2]], icon:'options', page:SettingsPage };
             });
         
@@ -68,7 +76,7 @@ export class BitPocketApp {
     }
 
     isOnline() {
-        if (Network.connection != 'none') {
+        if (Network['connection'] != 'none') {
             return true;
         } else {
             return false;
@@ -93,19 +101,18 @@ export class BitPocketApp {
 
     initNavState() {
         if (this.isOnline()) {
-            Promise.all<any>([
-                this.config.isSet('address-type') ,
-                this.config.isSet('static-address') ,
-                this.config.isSet('master-public-key') ,
-            ]).then(promised => {        
-                if (promised[0] && (promised[1] || promised[2])) {
-                    this.nav.setRoot(AmountPage);
-                } else {
-                    this.nav.setRoot(AddressesPage);
-                }
-                
-                this.hideSplashscreen();
-            });
+            this.accountService.getAccounts()
+                .then((accounts) => {   
+                    if (accounts.length > 0) {
+                        this.nav.setRoot(AmountPage);
+                    } else {
+                        this.nav.setRoot(AccountCreationPage);
+                    }                    
+                    this.hideSplashscreen();
+                }).catch(() => {
+                    this.nav.setRoot(AccountCreationPage);
+                    this.hideSplashscreen();
+                });
         } else {
             this.nav.setRoot(OfflinePage);
             this.hideSplashscreen();
@@ -114,7 +121,7 @@ export class BitPocketApp {
     
     initApp() {
         Promise.all<any>([
-            this.dbHelper.initDb() ,
+            this.repository.init() ,
             this.config.initConfig()
         ]).then(() => {
             this.triggerUpdateTask();

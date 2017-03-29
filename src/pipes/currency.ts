@@ -3,8 +3,8 @@ import {Pipe, PipeTransform} from '@angular/core';
 @Pipe({
     name: 'bitpocketCurrency'
 })
-export class CurrencyPipe implements PipeTransform {
-    transform(value, [separator=".",thousandsDelimiter=",",precision=2,symbol=""]) : string {
+export class BitpocketCurrencyPipe implements PipeTransform {
+    transform(value, separator=".", thousandsDelimiter=",", precision=2, symbol="") : string {
                  
         symbol = symbol === "" ? "" : (symbol + " ");
                  

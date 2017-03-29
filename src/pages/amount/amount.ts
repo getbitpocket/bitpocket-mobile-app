@@ -1,9 +1,10 @@
-import {Component, ChangeDetectorRef} from '@angular/core';
+import {Component} from '@angular/core';
 import {NavController, LoadingController, Platform, Loading} from 'ionic-angular';
 import {PaymentPage} from '../payment/payment';
 import {Config} from '../../providers/config';
 import {Currency} from '../../providers/currency/currency';
 import {BitcoinUnit} from '../../providers/currency/bitcoin-unit';
+import {TranslateService} from '@ngx-translate/core'
 
 const POSITION_DIGITS = 'digits';
 const POSITION_DECIMALS = 'decimals';
@@ -27,7 +28,13 @@ export class AmountPage {
     currency:string;
     bitcoinUnit:string;
             
-    constructor(private platform: Platform, private currencyService: Currency, private config: Config, private navigation:NavController, private loading: LoadingController, private changeDetector:ChangeDetectorRef) {                                   
+    constructor(
+        private translation: TranslateService,
+        private platform: Platform,
+        private currencyService: Currency,
+        private config: Config,
+        private navigation:NavController,
+        private loading: LoadingController) {                                   
     }
 
     startLoading() {
@@ -44,7 +51,7 @@ export class AmountPage {
     ionViewWillEnter() {
         Promise.all<any>([
             this.config.get('currency') ,
-            this.config.get('currency-format-s') ,
+            this.translation.get('FORMAT.CURRENCY_S').toPromise() ,
             this.config.get('bitcoin-unit') ,
             this.currencyService.getSelectedCurrencyRate()
         ]).then(settings => {
@@ -155,7 +162,6 @@ export class AmountPage {
                 let decimalsCount = BitcoinUnit.decimalsCount(this.bitcoinUnit);
                 this.exchangedAmount = this.currencyService.formatNumber(amount, this.separator, decimalsCount, 2);
             }            
-            this.changeDetector.detectChanges();
         });        
     }
 

@@ -15,19 +15,7 @@
         </ion-item>
     </ion-list>
     
-    <ion-list radio-group [(ngModel)]="selectedFormat" (ionChange)="inputChanged()">
-        <ion-list-header>{{ 'LIST_HEADING.CURRENCY_FORMAT' | translate }}</ion-list-header>
-        <ion-item>
-            <ion-label>#,###.## (e.g. 11,500.00)</ion-label>
-            <ion-radio [checked]="currencyFormat === 'us'" value="us"></ion-radio>
-        </ion-item>
-        <ion-item>
-            <ion-label>#.###,## (e.g. 11.500,00)</ion-label>
-            <ion-radio [checked]="currencyFormat === 'de'" value="de"></ion-radio>
-        </ion-item>
-    </ion-list>
-    
-    <ion-list radio-group [(ngModel)]="selectedUnit" (ionChange)="inputChanged()">
+    <ion-list radio-group [(ngModel)]="selectedUnit">
         <ion-list-header>{{ 'LIST_HEADING.BITCOIN_UNIT' | translate }}</ion-list-header>        
         <ion-item>
             <ion-label>{{ 'LIST_TEXT.BITCOIN' | translate }}</ion-label>

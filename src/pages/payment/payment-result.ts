@@ -6,9 +6,9 @@ import {Transaction} from '../../api/transaction';
 import {Config} from '../../providers/config';
 import {Currency} from '../../providers/currency/currency';
 import * as payment from '../../api/payment-service';
-import {BitcoinUnit} from '../../providers/currency/bitcoin-unit';
+// import {BitcoinUnit} from '../../providers/currency/bitcoin-unit';
 
-import { TranslateService } from 'ng2-translate/ng2-translate';
+import {TranslateService} from '@ngx-translate/core';
 
 let PAYMENT_STATUS_MESSAGES = {};
 PAYMENT_STATUS_MESSAGES[payment.PAYMENT_STATUS_TIMEOUT]  = 'Payment request timed out, please start again';
@@ -72,7 +72,7 @@ export class PaymentResultPage {
         ]).then(promised => {
             this.bitcoinUnit = promised[0];
             this.currency = this.transaction.currency;
-            this.bitcoinAmount = this.currencyService.formatNumber(BitcoinUnit.from(this.transaction.bitcoinAmount,'BTC').to(promised[0]), promised[1], BitcoinUnit.decimalsCount(this.bitcoinUnit));
+            // this.bitcoinAmount = this.currencyService.formatNumber(BitcoinUnit.from(this.transaction.bitcoinAmount,'BTC').to(promised[0]), promised[1], BitcoinUnit.decimalsCount(this.bitcoinUnit));
             this.fiatAmount    = this.currencyService.formatNumber(this.transaction.fiatAmount, promised[1]);
             this.changeDetector.detectChanges();
         });

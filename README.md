@@ -13,4 +13,6 @@ After successful installation of the required global modules, do a `npm i` insid
  - `ionic run (android|ios)` can be used to test the app on a connected device
  - `ionic emulate (android|ios)` can be used to test the app on a emulator/simulator
 
+## Translations
 
+Currently English and German 

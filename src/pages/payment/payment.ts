@@ -2,7 +2,6 @@ import {Component, ChangeDetectorRef} from '@angular/core';
 import {NavParams,NavController} from 'ionic-angular';
 import {Address} from '../../providers/address';
 import {Payment} from '../../providers/payment/payment';
-import {History} from '../../providers/history/history';
 import {BitcoinUnit} from '../../providers/currency/bitcoin-unit';
 import {PaymentResultPage} from './payment-result';
 import {Config} from '../../providers/config';
@@ -30,7 +29,7 @@ export class PaymentPage {
     address: string;
     readableAmount: string;
 
-    constructor(private addressService: Address, private historyService: History, private paymentService: Payment, private currencyService: Currency, private config: Config, private params: NavParams, private navigation:NavController, private changeDetector:ChangeDetectorRef) {              
+    constructor(private addressService: Address, private paymentService: Payment, private currencyService: Currency, private config: Config, private params: NavParams, private navigation:NavController, private changeDetector:ChangeDetectorRef) {              
         this.amount = params.data.bitcoinAmount;
                       
         Promise.all<any>([
@@ -72,7 +71,7 @@ export class PaymentPage {
             currency : this.currency
         };
 
-        this.paymentService.startPaymentStatusCheck(paymentRequest);
+        this.paymentService.startPaymentStatusCheck(null);
         this.paymentService
             .on('payment-status:'+payment.PAYMENT_STATUS_RECEIVED, (transaction) => {
                 console.debug('PaymentPage: payment received');

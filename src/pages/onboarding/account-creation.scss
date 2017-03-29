@@ -1,0 +1,16 @@
+.logo {
+    margin-top:10vh;
+    text-align:center;
+    img {
+        display: inline-block;
+        height: 5rem;    
+    }
+}
+  
+.title {
+    color: $basic-color-white;
+    font-size: $font-size-x-medium;
+    font-weight: 300;
+    display: block;
+    text-align:center;
+}

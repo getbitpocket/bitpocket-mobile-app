@@ -1,4 +1,3 @@
-import {describe,it,inject,expect} from '@angular/core/testing';
 import {BitcoinUnit} from './bitcoin-unit'
 
 describe('Bitcoin Unit', () => {

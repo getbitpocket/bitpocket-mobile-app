@@ -1,9 +1,13 @@
 {
+    "FORMAT.DATETIME" : "dd.MM.y HH:mm",
+    "FORMAT.CURRENCY_T" : ".",
+    "FORMAT.CURRENCY_S" : ",",
 
     "MENU.PAYMENT"  : "Zahlung" ,
-    "MENU.HISTORY"  : "Transaktionen" ,
+    "MENU.ACCOUNTS" : "Konten" ,
     "MENU.SETTINGS" : "Einstellungen" ,
 
+    "TITLE.ACCOUNTS" : "Konten",
     "TITLE.REQUEST_AMOUNT" : "Zahlung anfordern",
     "TITLE.HISTORY" : "Transaktionen",
     "TITLE.SETTINGS" : "Einstellungen",
@@ -18,6 +22,7 @@
     "TITLE.PAYMENT_RESULT" : "Zahlungsdetails",
     "TITLE.SCANNING" : "Scannen",
     "TITLE.ONBOARDING" : "Starten",
+    "TITLE.INVALID_INPUT" : "Falsche Eingabe",
 
     "HEADING.HISTORY" : "Transaktionen",
 
@@ -26,6 +31,17 @@
     "TEXT.NO_INTERNET" : "Keine Internet Verbindung",
     "TEXT.WAITING_FOR_PAYMENT" : "Auf Zahlungseingang warten",
     "TEXT.ONBOARDING" : "Eine <b>Bitcoin Adresse</b> oder ein <b>Generalschlüssel (xpub key)</b> wird benötigt um ein Konto anzulegen. Informationen eingeben und loslegen!",
+    "TEXT.INVALID_ACCOUNT_INPUT" : "Die Eingabe ist keine gültige Adresse oder Generalschlüssel (xpub key)",
+    "TEXT.LOADING_TRANSACTIONS" : "Transaktionen laden",
+    "TEXT.ACCOUNT_TYPE" : "Bitcoin Adresse oder Generalschlüssel (xpub)",
+    "TEXT.NAME" : "Name",
+    "TEXT.DEFAULT_ACCOUNT" : "Aktives Konto" ,
+    "TEXT.REMOVE_ACCOUNT" : "Account löschen",
+    "TEXT.REMOVE_ACCOUNT_QUESTION" : "Soll das Konto gelöscht werden?",
+    "TEXT.bitcoin-static-address" : "Bitcoin Adresse",
+    "TEXT.bitcoin-xpub-key" : "Bitcoin Generalschlüssel",
+    "TEXT.testnet-static-address" : "Testnet Adresse",
+    "TEXT.testnet-xpub-key" : "Testnet Generalschlüssel",
 
     "BUTTON.REQUEST_AMOUNT" : "Zahlung",
     "BUTTON.RESET" : "Löschen" ,
@@ -34,11 +50,13 @@
     "BUTTON.CONTINUE" : "Weiter" ,
     "BUTTON.TRY_AGAIN" : "Nochmals versuchen" ,
     "BUTTON.SHOW_DETAILS" : "Details anzeigen",
+    "BUTTON.EDIT" : "Editieren",
+    "BUTTON.HISTORY" : "Transaktionen",
+    "BUTTON.OK" : "Ok",
+    "BUTTON.CANCEL" : "Abbrechen",
     
     "LIST_HEADING.GENERAL_SETTINGS" : "Allgemeine Einstellungen",
     "LIST_HEADING.CURRENCY" : "Währung",
-    "LIST_HEADING.STATIC_ADDRESS" : "Statische Adresse",
-    "LIST_HEADING.MASTER_PUBLIC_KEY" : "Generalschlüssel",
     "LIST_HEADING.PIN" : "PIN ändern",
     "LIST_HEADING.EXCHANGE_SERVICE" : "Bitcoin Wechselkurs",
     "LIST_HEADING.AVAILABLE_CURRENCIES" : "Verfügbare Währungen",

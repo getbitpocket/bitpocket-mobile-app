@@ -1,8 +1,10 @@
 <ion-header>
     <ion-navbar>
-        <button ion-button menuToggle="left"><ion-icon name="menu"></ion-icon></button>
+        <button start ion-button menuToggle><ion-icon name="menu"></ion-icon></button> 
         <ion-title>{{ 'TITLE.REQUEST_AMOUNT' | translate }}</ion-title>
-        <bitpocket-logo></bitpocket-logo>    
+        <ion-buttons end>
+            <bitpocket-logo></bitpocket-logo>         
+        </ion-buttons>
     </ion-navbar>
 </ion-header>
 <ion-content no-scroll>
@@ -38,24 +40,33 @@
         </div>
 
         <div class="numpad">
-            <button ion-button color="number" class="numpad-button border-right" (click)="numberInput('1')">1</button>
-            <button ion-button color="number" class="numpad-button border-right" (click)="numberInput('2')">2</button>
-            <button ion-button color="number" class="numpad-button" (click)="numberInput('3')">3</button>
+            <div class="numpad-row">
+                <button ion-button color="number" class="numpad-button border-right" (click)="numberInput('1')">1</button>
+                <button ion-button color="number" class="numpad-button border-right" (click)="numberInput('2')">2</button>
+                <button ion-button color="number" class="numpad-button" (click)="numberInput('3')">3</button>
+            </div>
+            <div class="numpad-row">
+                <button ion-button color="number" class="numpad-button border-right" (click)="numberInput('4')">4</button>
+                <button ion-button color="number" class="numpad-button border-right" (click)="numberInput('5')">5</button>
+                <button ion-button color="number" class="numpad-button" (click)="numberInput('6')">6</button>
+            </div>
+            <div class="numpad-row">
+                <button ion-button color="number" class="numpad-button border-right" (click)="numberInput('7')">7</button>
+                <button ion-button color="number" class="numpad-button border-right" (click)="numberInput('8')">8</button>
+                <button ion-button color="number" class="numpad-button" (click)="numberInput('9')">9</button>
+            </div>
+            <div class="numpad-row">
+                <button ion-button color="number-decimals" class="numpad-button" (click)="switchInput('decimals')">{{ separator }}</button>
+                <button ion-button color="number" class="numpad-button border-right" (click)="numberInput('0')">0</button>
+                <button ion-button color="number-backspaceinput" class="numpad-button border-right" (click)="backspaceInput()"><ion-icon name="backspace"></ion-icon></button>
+            </div>
+            <div class="numpad-row">
+                <div class="numpad-button-row">
+                    <button ion-button color="numpad-reset" class="numpad-primary-button text-uppercase" (click)="resetAmount()">{{ 'BUTTON.RESET' | translate }}</button>
+                    <button ion-button color="numpad-request" class="numpad-primary-button text-uppercase" (click)="requestPayment()">{{ 'BUTTON.REQUEST_AMOUNT' | translate }}</button>
+                </div>
+            </div>           
             
-            <button ion-button color="number" class="numpad-button border-right" (click)="numberInput('4')">4</button>
-            <button ion-button color="number" class="numpad-button border-right" (click)="numberInput('5')">5</button>
-            <button ion-button color="number" class="numpad-button" (click)="numberInput('6')">6</button>
-            
-            <button ion-button color="number" class="numpad-button border-right" (click)="numberInput('7')">7</button>
-            <button ion-button color="number" class="numpad-button border-right" (click)="numberInput('8')">8</button>
-            <button ion-button color="number" class="numpad-button" (click)="numberInput('9')">9</button>
-            
-            <button ion-button color="number-decimals" class="numpad-button" (click)="switchInput('decimals')">{{ separator }}</button>
-            <button ion-button color="number" class="numpad-button border-right" (click)="numberInput('0')">0</button>
-            <button ion-button color="number-backspaceinput" class="numpad-button border-right" (click)="backspaceInput()"><ion-icon name="backspace"></ion-icon></button>
-            
-            <button ion-button color="numpad-reset" class="numpad-primary-button text-uppercase" (click)="resetAmount()">{{ 'BUTTON.RESET' | translate }}</button>
-            <button ion-button color="numpad-request" class="numpad-primary-button text-uppercase" (click)="requestPayment()">{{ 'BUTTON.REQUEST_AMOUNT' | translate }}</button>
         </div>
     
 </ion-content>

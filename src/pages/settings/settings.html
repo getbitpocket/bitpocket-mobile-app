@@ -16,20 +16,6 @@
             <h2>{{ 'LIST_HEADING.CURRENCY' | translate }}</h2>
             <p>{{ 'LIST_TEXT.CURRENCY' | translate }}</p>
         </button>
-        <ion-item menu-item>
-            <ion-label (click)="openPage(2)">
-                <h2>{{ 'LIST_HEADING.STATIC_ADDRESS' | translate }}</h2>
-                <p>{{ 'LIST_TEXT.STATIC_ADDRESS' | translate }}</p>
-            </ion-label>
-            <ion-toggle (ionChange)="addressTypeCheckChanged()" [(ngModel)]="addressTypesChecked[0]" *ngIf="addressTypesEnabled[0]" item-right></ion-toggle>
-        </ion-item>
-        <ion-item menu-item>
-            <ion-label (click)="openPage(3)">
-                <h2>{{ 'LIST_HEADING.MASTER_PUBLIC_KEY' | translate }}</h2>
-                <p>{{ 'LIST_TEXT.MASTER_PUBLIC_KEY' | translate }}</p>
-            </ion-label>
-            <ion-toggle (ionChange)="addressTypeCheckChanged()" [(ngModel)]="addressTypesChecked[1]" *ngIf="addressTypesEnabled[1]" item-right></ion-toggle>
-        </ion-item>
         <ion-item>
             <ion-label (click)="changePin()">
                 <h2>{{ 'LIST_HEADING.PIN' | translate }}</h2>

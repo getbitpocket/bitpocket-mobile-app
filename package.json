@@ -1,41 +1,64 @@
 {
-  "name": "bitpocket-mobile-ap",
+  "name": "bitpocket-mobile-app",
   "author": "Stefan Huber",
-  "description": "bitpocket-mobile-app: An Ionic project",
+  "version": "1.1.0",
+  "license": "BSD-2-Clause",
+  "bugs": "https://github.com/getbitpocket/bitpocket-mobile-app/issues",
+  "description": "Bitpocket mobile app",
   "homepage": "http://www.bitpocket.at/",
   "scripts": {
     "ionic:build": "ionic-app-scripts build",
-    "ionic:serve": "ionic-app-scripts serve"
+    "ionic:serve": "ionic-app-scripts serve",
+    "test": "karma start ./config/karma.conf.js"
   },
   "config": {
     "ionic_uglifyjs": "./config/uglifyjs.config.js"
   },
   "dependencies": {
-    "@angular/common": "2.2.1",
-    "@angular/compiler": "2.2.1",
-    "@angular/compiler-cli": "2.2.1",
-    "@angular/core": "2.2.1",
-    "@angular/forms": "2.2.1",
-    "@angular/http": "2.2.1",
-    "@angular/platform-browser": "2.2.1",
-    "@angular/platform-browser-dynamic": "2.2.1",
-    "@angular/platform-server": "2.2.1",
-    "@ionic/storage": "1.1.6",
-    "@types/cordova-plugin-qrscanner": "^1.0.29",
-    "@types/node": "^6.0.49",
+    "@angular/common": "2.4.8",
+    "@angular/compiler": "2.4.8",
+    "@angular/compiler-cli": "2.4.8",
+    "@angular/core": "2.4.8",
+    "@angular/forms": "2.4.8",
+    "@angular/http": "2.4.8",
+    "@angular/platform-browser": "2.4.8",
+    "@angular/platform-browser-dynamic": "2.4.8",
+    "@angular/platform-server": "2.4.8",
+    "@ionic/storage": "2.0.0",
+    "@ngx-translate/core": "^6.0.0",
+    "@ngx-translate/http-loader": "0.0.3",
     "bip21": "^1.1.2",
     "bitcoinjs-lib": "^2.3.0",
-    "ionic-angular": "2.0.0-rc.4",
-    "ionic-native": "2.2.11",
+    "crypto-regex": "^0.2.0",
+    "ionic-angular": "2.2.0",
+    "ionic-native": "2.4.1",
     "ionicons": "3.0.0",
-    "ng2-translate": "^5.0.0",
+    "pouchdb": "^6.1.2",
+    "pouchdb-upsert": "^2.1.0",
     "qrcode-generator": "^1.0.7",
-    "rxjs": "5.0.0-beta.12",
-    "zone.js": "0.6.26"
+    "rxjs": "5.0.1",
+    "sw-toolbox": "3.4.0",
+    "zone.js": "0.7.2"
   },
   "devDependencies": {
-    "@ionic/app-scripts": "0.0.47",
-    "typescript": "2.0.9"
+    "@ionic/app-scripts": "1.1.4",
+    "@ionic/cli-build-ionic-angular": "0.0.3",
+    "@ionic/cli-plugin-cordova": "0.0.9",
+    "@types/jasmine": "^2.5.41",
+    "@types/node": "^7.0.8",
+    "@types/cordova-plugin-qrscanner": "^1.0.29",
+    "angular2-template-loader": "^0.6.2",
+    "html-loader": "^0.4.5",
+    "jasmine": "^2.5.3",
+    "karma": "^1.5.0",
+    "karma-chrome-launcher": "^2.0.0",
+    "karma-jasmine": "^1.1.0",
+    "karma-jasmine-html-reporter": "^0.2.2",
+    "karma-sourcemap-loader": "^0.3.7",
+    "karma-webpack": "^2.0.3",
+    "null-loader": "^0.1.1",
+    "ts-loader": "^2.0.3",
+    "typescript": "2.1.6"
   },
   "cordovaPlugins": [
     "ionic-plugin-keyboard",
@@ -43,10 +66,6 @@
     "cordova-plugin-whitelist",
     "cordova-plugin-splashscreen",
     "cordova-plugin-inappbrowser",
-    {
-      "locator": "https://github.com/getbitpocket/electrum-network-plugin",
-      "id": "electrum-network-plugin"
-    },
     "cordova-plugin-qrscanner"
   ],
   "cordovaPlatforms": []

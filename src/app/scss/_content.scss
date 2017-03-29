@@ -1,13 +1,12 @@
-ion-content {
+ion-nav ion-content, ion-modal ion-content {
   background: url(../assets/img/background.png) no-repeat center center;
   background-size: cover;
 }
 
-ion-content[no-scroll] {
+[no-scroll] {
   .scroll-content {
     overflow: hidden;
   }  
-
   ::-webkit-scrollbar,
     *::-webkit-scrollbar {
       display: none;

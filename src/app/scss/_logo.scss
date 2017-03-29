@@ -1,7 +1,6 @@
 bitpocket-logo {
-    position: absolute;
-    padding:0.8rem;
-    right:1rem;
+    display:block;
+    padding-right:1rem;
 
     img {
         max-width:2rem;
@@ -16,11 +15,4 @@ bitpocket-logo {
         @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
         @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
     }    
-}
-
-.ios bitpocket-logo {
-    bottom:0.2rem;
-}
-.md bitpocket-logo {
-    bottom:0.8rem;
 }

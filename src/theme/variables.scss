@@ -27,7 +27,7 @@ $menu-md-box-shadow: 0 0 10px   $menu-md-box-shadow-color;
 
 $toolbar-md-text-color:     $basic-design-color;
 
-$list-md-background-color:  white;
+$list-background-color:   white;
 $list-md-text-color:        $basic-design-color;
 $list-md-header-color:	    $basic-color-white;
 $list-md-header-font-size:  $font-size-small;
@@ -52,9 +52,9 @@ $card-md-text-color:        $basic-design-color;
 $card-md-title-text-color:  $basic-design-color;
 
 // sizes
-$screen-s-max: 359px; /* iPhone 5 - 5s Portrait */
-$screen-m-max: 374px; /* Galaxy S3, S5, Note II,  - Portrait 360 bis 374*/
-$screen-l-max: 767px; /* iPhone 6, 6s, 6Plus, Nexus 5X, Nexus 6P,  - Portrait 374 bis 767*/
+$bitpocket-xs-min: 360px;
+$bitpocket-sm-min: 576px;
+$bitpocket-md-min: 768px;
 
 $colors: (
   primary:      #333,
@@ -105,7 +105,9 @@ $colors: (
   )
 );
 
+$text-input-highlight-color-valid: map-get($colors, primary);
+
 @import "ionic.theme.default";
 
 $ionicons-font-path: "../assets/fonts";
-@import "ionicons";
+@import "ionic.ionicons";

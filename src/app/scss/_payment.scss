@@ -2,17 +2,7 @@
     display:flex;  
     flex-flow:row wrap;
     color: white;
-    margin: 1rem 2rem;   
-
-    @media(max-width: $screen-l-max) {
-        margin: 2rem 4rem;
-    }
-    @media(max-width: $screen-m-max) {
-        margin: 2rem 4rem;
-    }
-    @media(max-width: $screen-s-max) {
-        margin: 0.8rem 1.8rem;
-    }
+    margin: 2vh 8vw 0 8vw;
     
     .payment-amount {
         line-height: 0;

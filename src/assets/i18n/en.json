@@ -1,9 +1,13 @@
 {
+    "FORMAT.DATETIME" : "M/d/y hh:mm a",
+    "FORMAT.CURRENCY_T" : ",",
+    "FORMAT.CURRENCY_S" : ".",
 
     "MENU.PAYMENT"  : "Payment" ,
-    "MENU.HISTORY"  : "History" ,
+    "MENU.ACCOUNTS" : "Accounts" ,
     "MENU.SETTINGS" : "Settings" ,
 
+    "TITLE.ACCOUNTS" : "Accounts",
     "TITLE.REQUEST_AMOUNT" : "Request payment",
     "TITLE.HISTORY" : "Transaction History",
     "TITLE.SETTINGS" : "Settings",
@@ -18,6 +22,7 @@
     "TITLE.PAYMENT_RESULT" : "Payment result",
     "TITLE.SCANNING" : "Scanning",
     "TITLE.ONBOARDING" : "Onboarding",
+    "TITLE.INVALID_INPUT" : "Invalid input",
     
     "HEADING.HISTORY" : "Transactions",
 
@@ -26,6 +31,17 @@
     "TEXT.NO_INTERNET" : "No Internet Connection",
     "TEXT.WAITING_FOR_PAYMENT" : "Waiting for payment",
     "TEXT.ONBOARDING" : "A <b>bitcoin address</b> or <b>master public key (xpub key)</b> is required to let you accept bitcoin payments. Please add the requested information to get started!",
+    "TEXT.INVALID_ACCOUNT_INPUT" : "Please recheck your input, this is no valid address or xpub key.",
+    "TEXT.LOADING_TRANSACTIONS" : "Loading transactions",
+    "TEXT.ACCOUNT_TYPE" : "Bitcoin address or master public key (xpub)",
+    "TEXT.NAME" : "Name",
+    "TEXT.DEFAULT_ACCOUNT" : "Active account" ,
+    "TEXT.REMOVE_ACCOUNT" : "Remove account",
+    "TEXT.REMOVE_ACCOUNT_QUESTION" : "Should the account be removed?",
+    "TEXT.bitcoin-static-address" : "Bitcoin address",
+    "TEXT.bitcoin-xpub-key" : "Bitcoin master public key",
+    "TEXT.testnet-static-address" : "Testnet address",
+    "TEXT.testnet-xpub-key" : "Testnet master public key",
 
     "BUTTON.REQUEST_AMOUNT" : "Request amount",
     "BUTTON.RESET" : "Reset" ,
@@ -34,11 +50,13 @@
     "BUTTON.CONTINUE" : "Continue" ,
     "BUTTON.TRY_AGAIN" : "Try again" ,
     "BUTTON.SHOW_DETAILS" : "Show details",
+    "BUTTON.EDIT" : "Edit",
+    "BUTTON.HISTORY" : "Transactions",
+    "BUTTON.OK" : "Ok",
+    "BUTTON.CANCEL" : "Cancel",
 
     "LIST_HEADING.GENERAL_SETTINGS" : "General settings",
     "LIST_HEADING.CURRENCY" : "Currency",
-    "LIST_HEADING.STATIC_ADDRESS" : "Static address",
-    "LIST_HEADING.MASTER_PUBLIC_KEY" : "Master public key",
     "LIST_HEADING.PIN" : "Change PIN",
     "LIST_HEADING.EXCHANGE_SERVICE" : "Bitcoin Exchange Services",
     "LIST_HEADING.AVAILABLE_CURRENCIES" : "Available currencies",

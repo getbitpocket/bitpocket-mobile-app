@@ -1,59 +1,67 @@
 
 .numpad {
     display: flex;
-    flex-flow: row wrap;
-    justify-content: space-between;
-    align-content: space-between;
-    height: 65%;
-    padding: 0 3.0rem;
-
-    @media(max-width: $screen-l-max) {
-        padding: 0 2.0rem;
-    }
-    @media(max-width: $screen-m-max) {
-        padding: 0 3.0rem;
-    }
-    @media(max-width: $screen-s-max) {
-        padding: 0 3.0rem;
-    }
+    flex-flow: column;
+    justify-content: center;
 
     .button-number-backspaceinput {
         font-size: $font-size-x-small;
     }
 }
 
-.numpad-primary-button {
-    font-size: $font-size-base;
-    border-radius: $button-border-radius;
-    margin: 2%;
-    flex: 1 1 45%;
+.numpad-row {
+    display:flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
 
-    &:nth-child(13) {
-        flex: 1 1 30%;
+.numpad-button-row {
+    display:flex;
+    justify-content: space-between;
+    margin-top:20px;
+    flex: 0 1 232px;
+    @media(min-width: $bitpocket-xs-min) {
+        flex: 0 1 244px;
     }
-    &:nth-child(14) {
-        flex: 1 1 60%;
+    @media(min-width: $bitpocket-sm-min) {
+        flex: 0 1 280px;
+    }
+    @media(min-width: $bitpocket-md-min) {
+        flex: 0 1 300px;
     }
 }
 
+.numpad-primary-button {
+    font-size: $font-size-base;
+    border-radius: $button-border-radius;
+    flex: 1 1 45%;
+}
+
+.numpad-primary-button + .numpad-primary-button {
+    margin-left:15px;
+}
+
 .numpad-button {
-    flex: 0 1 100px;
-    margin: 0 6%;
-    padding: 0;
-    height: 100px;
+    flex: 0 1 60px;
+    height: 60px;
+    margin: 5px 13px;
+    padding:0;
     font-size: $font-size-x-medium;
     border-radius: 100%;
 
-    @media(max-width: $screen-l-max) {
+    @media(min-width: $bitpocket-xs-min) {
+        flex: 0 1 64px;
+        height: 64px;
+    }
+    @media(min-width: $bitpocket-sm-min) {
         flex: 0 1 70px;
         height: 70px;
+        margin:10px 15px;
     }
-    @media(max-width: $screen-m-max) {
-        flex: 0 1 60px;
-        height: 60px;
-    }
-    @media(max-width: $screen-s-max) {
-        flex: 0 1 50px;
-        height: 50px;
+    @media(min-width: $bitpocket-md-min) {
+        flex: 0 1 80px;
+        height: 80px;
     }
 }

@@ -1,9 +1,8 @@
 import {Injectable} from '@angular/core';
-import {BitcoinUnit} from '../currency/bitcoin-unit';
+// import {BitcoinUnit} from '../currency/bitcoin-unit';
 import * as payment from '../../api/payment-service';
 import {PaymentRequest} from '../../api/payment-request';
 import {Transaction} from '../../api/transaction';
-import {History} from '../history/history';
 import {Address} from '../address';
 import {EventEmitter} from 'events';
 
@@ -34,7 +33,7 @@ export class Payment extends EventEmitter {
         this.service = paymentService;
     }
     
-    constructor(private history: History, private address: Address) {        
+    constructor(private address: Address) {        
         super();
         
         // TODO: make this configurable, currently only one provider available
@@ -42,6 +41,7 @@ export class Payment extends EventEmitter {
     }
     
     checkPayment(paymentRequest: PaymentRequest) {
+        /*
         if (this.waitingTimeCount >= this.maxWaitingTime) {
             this.emit('payment-status:' + payment.PAYMENT_STATUS_TIMEOUT, paymentRequest);
             return;
@@ -89,7 +89,7 @@ export class Payment extends EventEmitter {
                 this.emit('payment-status:' + payment.PAYMENT_STATUS_NOT_RECEIVED, paymentRequest);
                 setTimeout(() => { this.checkPayment(paymentRequest) }, this.checkInterval);
             });
-
+            */
         return this;
     }
 
@@ -109,6 +109,7 @@ export class Payment extends EventEmitter {
 
     updateConfirmations() : Promise<any> {
       return new Promise<Array<Transaction>>((resolve,reject) => {
+          /*
             this.history.findUnconfirmedTransactions().then(transactions => {
                 if (transactions.length <= 0) {
                     resolve();
@@ -126,7 +127,9 @@ export class Payment extends EventEmitter {
                         resolve();
                     });
                 }
+                
             });
+            */
         });        
     }
     

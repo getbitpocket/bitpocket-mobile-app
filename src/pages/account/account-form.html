@@ -1,0 +1,36 @@
+<ion-header>
+    <ion-navbar>    
+        <button ion-button menuToggle="left"><ion-icon name="menu"></ion-icon></button>
+        <ion-title>{{ 'TITLE.ACCOUNTS' | translate }}</ion-title>
+        <bitpocket-logo></bitpocket-logo>
+    </ion-navbar>
+</ion-header>
+<ion-content no-scroll>
+    <ion-list>
+        
+        <ion-item dark>
+            <ion-label floating>{{ 'TEXT.NAME' | translate }}</ion-label>
+            <ion-input type="text" [(ngModel)]="account.name"></ion-input>
+        </ion-item>
+        
+        <ion-item dark>
+            <ion-label floating>{{ 'TEXT.' + account.type | translate }}</ion-label>
+            <ion-input [disabled]="!accountEnabled" [readonly]="!accountEnabled" type="text" [(ngModel)]="account.data"></ion-input>
+            <button *ngIf="accountEnabled" ion-button clear item-right (click)="scan()"><ion-icon name="qr-scanner"></ion-icon></button>
+        </ion-item>
+
+        <ion-item dark>            
+            <ion-toggle [disabled]="!canChangeDefaultAccount" [(ngModel)]="accountDefault"></ion-toggle>
+            <ion-label>{{ 'TEXT.DEFAULT_ACCOUNT' | translate }}</ion-label>
+        </ion-item>
+                
+    </ion-list>
+
+    <ion-card *ngIf="!accountEnabled && canChangeDefaultAccount">
+        <ion-item>         
+            <h2 item-left>{{ 'TEXT.REMOVE_ACCOUNT' | translate }}</h2>   
+            <button (click)="remove()" item-right color="danger" ion-button>{{ 'BUTTON.REMOVE' | translate }}</button>
+        </ion-item>        
+    </ion-card>
+
+</ion-content>

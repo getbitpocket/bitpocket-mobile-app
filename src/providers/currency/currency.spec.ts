@@ -1,10 +1,8 @@
-import {describe, it, expect, beforeEachProviders, inject, beforeEach} from '@angular/core/testing';
-import {provide, Type, Injector} from '@angular/core';
 import {Currency} from './currency';
 import {Config} from '../config';
 
 
-describe('Currency Provider', () => {
+describe('Currency', () => {
 
     let currencyService: Currency = new Currency(null,null);
 
