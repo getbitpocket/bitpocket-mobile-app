@@ -3,6 +3,10 @@
   "author": "Stefan Huber",
   "version": "1.1.0",
   "license": "BSD-2-Clause",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/getbitpocket/bitpocket-mobile-app.git"
+  },
   "bugs": "https://github.com/getbitpocket/bitpocket-mobile-app/issues",
   "description": "Bitpocket mobile app",
   "homepage": "http://www.bitpocket.at/",
@@ -34,9 +38,11 @@
     "ionic-native": "2.4.1",
     "ionicons": "3.0.0",
     "pouchdb": "^6.1.2",
+    "pouchdb-find": "^0.10.5",
     "pouchdb-upsert": "^2.1.0",
     "qrcode-generator": "^1.0.7",
     "rxjs": "5.0.1",
+    "socket.io": "^1.7.3",
     "sw-toolbox": "3.4.0",
     "zone.js": "0.7.2"
   },
@@ -47,6 +53,7 @@
     "@types/cordova-plugin-qrscanner": "^1.0.29",
     "@types/jasmine": "^2.5.41",
     "@types/node": "^7.0.8",
+    "@types/socket.io": "^1.4.29",
     "angular2-template-loader": "^0.6.2",
     "html-loader": "^0.4.5",
     "jasmine": "^2.5.3",
