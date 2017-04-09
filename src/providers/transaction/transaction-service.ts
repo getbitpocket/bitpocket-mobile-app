@@ -1,4 +1,5 @@
-import { ACCOUNT_TYPE_TESTNET_ADDRESS, ACCOUNT_TYPE_TESTNET_TPUB_KEY } from './../account/account-service';
+import { TransactionFilter } from './../../api/transaction-filter';
+import { CryptocurrencyService, TESTNET } from './../currency/cryptocurrency-service';
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Transaction } from './../../api/transaction';
@@ -7,18 +8,20 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class TransactionService {
 
-    TESTNET_URL = "https://test-insight.bitpay.com/api";
-    BITCOIN_URL = "https://insight.bitpay.com/api";
+    TESTNET_URL = "https://test-insight.bitpay.com";
+    BITCOIN_URL = "https://insight.bitpay.com";
 
-    constructor(protected http:Http) {}
+    constructor(
+        protected http:Http,
+        protected cryptocurrencyService: CryptocurrencyService) {}
 
-    findTransactions(filter:any) : Promise<Array<Transaction>> {
+    findTransactions(filter:TransactionFilter) : Promise<Array<Transaction>> {
         return new Promise((resolve, reject) => {
             this.http.get(this.buildUrl(filter))
                 .map(response => response.json())
                 .subscribe(response => {
                     resolve(this.parseTransactions(filter.addresses, response));
-                });
+                },() => { reject(); });
         });
     }
 
@@ -64,25 +67,30 @@ export class TransactionService {
 
     parseTransactions(addresses:string[], json:any) : Transaction[] {
         let output = [];
+        let items = [];
 
         if (json.items && json.items.length) {
-            for (let item of json.items) {              
-
-                let tx:any = this.parseTransactionInputs(item.vin, addresses);
-                if (!tx) {
-                    tx = this.parseTransactionOutputs(item.vout, addresses);
-                }
-                
-                if (tx) {
-                    tx.currency = "BTC";
-                    tx.txid = item.txid;
-                    tx.confirmations = parseInt(item.confirmations);
-                    tx.timestamp = parseInt(item.time);
-                    output.push(tx);
-                }
-            }
+            items = json.items;
+        } else {
+            items.push(json);
         }
 
+        for (let item of items) {              
+
+            let tx:any = this.parseTransactionInputs(item.vin, addresses);
+            if (!tx) {
+                tx = this.parseTransactionOutputs(item.vout, addresses);
+            }
+            
+            if (tx) {
+                tx.currency = "BTC";
+                tx._id = item.txid;
+                tx.confirmations = parseInt(item.confirmations);
+                tx.timestamp = parseInt(item.time);
+                output.push(tx);
+            }
+        }
+        
         return output;
     } 
 
@@ -99,17 +107,30 @@ export class TransactionService {
         return -1;
     }
 
+    baseUrl(input:string) {
+        let output = this.cryptocurrencyService.parseInput(input);        
+
+        if (output.currency == TESTNET) {
+            return this.TESTNET_URL;
+        } else {
+            return this.BITCOIN_URL;
+        }
+    }
+
     buildUrl(filter:any = {}) : string {
-        let url = this.BITCOIN_URL;
-        if (filter.type == ACCOUNT_TYPE_TESTNET_ADDRESS || filter.type == ACCOUNT_TYPE_TESTNET_TPUB_KEY) {
-            url = this.TESTNET_URL;
-        }
-
+        let url = "";
+        
         if (filter.addresses && filter.addresses.length > 0) {          
-            url += '/addrs/' + filter.addresses.join(',') + '/txs';            
+            url = this.baseUrl(filter.addresses[0]) + "/api";
+
+            if (filter.txid) {
+                url += '/tx/' + filter.txid;
+            } else {
+                url += '/addrs/' + filter.addresses.join(',') + '/txs';
+            }                        
         }
 
-        if (filter.from && filter.to) {
+        if (filter.from >= 0 && filter.to > 0) {
             url += '?from=' + filter.from + '&to=' + filter.to;
         }
 

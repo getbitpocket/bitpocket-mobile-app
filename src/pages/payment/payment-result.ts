@@ -1,21 +1,12 @@
-import {Component, ChangeDetectorRef} from '@angular/core';
+import {Component} from '@angular/core';
 import {NavParams,NavController} from 'ionic-angular';
 import {AmountPage} from '../amount/amount';
 import {HistoryPage} from '../history/history';
-import {Transaction} from '../../api/transaction';
 import {Config} from '../../providers/config';
 import {Currency} from '../../providers/currency/currency';
-import * as payment from '../../api/payment-service';
-// import {BitcoinUnit} from '../../providers/currency/bitcoin-unit';
-
+import {BitcoinUnit} from '../../providers/currency/bitcoin-unit';
 import {TranslateService} from '@ngx-translate/core';
-
-let PAYMENT_STATUS_MESSAGES = {};
-PAYMENT_STATUS_MESSAGES[payment.PAYMENT_STATUS_TIMEOUT]  = 'Payment request timed out, please start again';
-PAYMENT_STATUS_MESSAGES[payment.PAYMENT_STATUS_RECEIVED] = 'Your payment was successfully processed';
-PAYMENT_STATUS_MESSAGES[payment.PAYMENT_STATUS_SERVICE_ERROR] = 'Bitcoin Network currently not accessable';
-PAYMENT_STATUS_MESSAGES[payment.PAYMENT_STATUS_NOT_RECEIVED] = 'Payment not received';
-PAYMENT_STATUS_MESSAGES[payment.PAYMENT_STATUS_ERROR] = 'Payment error';
+import { PaymentRequest } from './../../api/payment-request';
 
 @Component({
     templateUrl : 'payment-result.html'
@@ -26,12 +17,12 @@ export class PaymentResultPage {
     resultClass = { "transaction-success" : false , "transaction-failed" : true };
     resultText : string = "";
     success : boolean = false;
-    transaction:Transaction;
+    paymentRequest:PaymentRequest;
     
     currency:string = "";
-    fiatAmount:string = "";
-    bitcoinAmount:string = "";
-    bitcoinUnit:string = "";
+    amount:string = "";
+    referenceCurrency = "";
+    referenceAmount = "";
 
     waiting:boolean = true;
     
@@ -47,11 +38,16 @@ export class PaymentResultPage {
         this.nav.setRoot(HistoryPage);
     }
     
-    constructor(private translate: TranslateService, private currencyService: Currency, private config: Config, private params: NavParams, private nav: NavController, private changeDetector: ChangeDetectorRef) {
+    constructor(
+        private translate: TranslateService,
+        private currencyService: Currency,
+        private config: Config,
+        private params: NavParams,
+        private nav: NavController) {
         this.success = (params.data.success === true);
-        this.transaction = params.data.transaction;
+        this.paymentRequest = params.data.paymentRequest;
 
-        translate.get('PAYMENT_STATUS.' + params.data.status)
+        translate.get('PAYMENT_STATUS.' + this.paymentRequest.status)
             .subscribe((res:string) => {
                 this.resultText = res;
             });
@@ -68,20 +64,19 @@ export class PaymentResultPage {
         
         Promise.all<any>([
             this.config.get('bitcoin-unit') ,
-            this.config.get('currency-format-s')
+            this.translate.get('FORMAT.CURRENCY_S').toPromise()
         ]).then(promised => {
-            this.bitcoinUnit = promised[0];
-            this.currency = this.transaction.currency;
-            // this.bitcoinAmount = this.currencyService.formatNumber(BitcoinUnit.from(this.transaction.bitcoinAmount,'BTC').to(promised[0]), promised[1], BitcoinUnit.decimalsCount(this.bitcoinUnit));
-            this.fiatAmount    = this.currencyService.formatNumber(this.transaction.fiatAmount, promised[1]);
-            this.changeDetector.detectChanges();
+            this.currency = promised[0];
+            this.referenceCurrency = this.paymentRequest.referenceCurrency;
+            this.amount = this.currencyService.formatNumber(BitcoinUnit.from(this.paymentRequest.amount,'BTC').to(promised[0]), promised[1], BitcoinUnit.decimalsCount(this.currency));
+            this.referenceAmount = this.currencyService.formatNumber(this.paymentRequest.referenceAmount, promised[1]);
         });
 
         setTimeout(() => {
             if (this.waiting) {
                 nav.setRoot(AmountPage);
             }
-        }, 7000);                          
+        }, 30000);                          
     }
     
 }

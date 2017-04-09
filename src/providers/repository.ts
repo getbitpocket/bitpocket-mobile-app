@@ -13,6 +13,20 @@ export class Repository {
         return this._db;
     }
 
+    addOrEditDocument(doc:any) : Promise<any> {
+        if (doc._id) {
+            return this.db.upsert(doc._id, (oldDoc) => {                
+                return doc;
+            });
+        } else {
+            return this.addDocument(doc);
+        }        
+    }
+
+    addDocumentIfNotExists(doc:any) : Promise<any> {
+        return this.db.putIfNotExists(doc);
+    }
+
     addDocument(doc:any) : Promise<any> {
         return this.db.post(doc);
     }
@@ -32,18 +46,24 @@ export class Repository {
     }
 
     findByDocumentType(doctype:string) : Promise<Array<any>> {
-        let options = {
-            include_docs : true
-        };
-
-        if (doctype != "") {
-            options['key'] = doctype;
-        }
-
         return new Promise<Array<any>>((resolve, reject) => {
             this._db
-                .query('index_doctype/doctype', options)
+                .find({
+                    selector : {
+                        doctype : doctype
+                    }
+                })
                 .then((res) => {                                
+                    resolve(this.prepareDocuments(res));
+                }).catch(error => {
+                    reject(error);
+                });
+        });
+    }
+
+    findDocuments(query) : Promise<Array<any>> {
+        return new Promise<Array<any>> ((resolve, reject) => {
+            this.db.find(query).then((res) => {                                
                     resolve(this.prepareDocuments(res));
                 }).catch(error => {
                     reject(error);
@@ -55,24 +75,25 @@ export class Repository {
         
         this._db = new PouchDB(this._dbname);
 
-        return this.db.putIfNotExists("_design/index_doctype", {
-            views : {
-                doctype : {
-                    map : (function(doc) {
-                        if (doc && doc['doctype']) { emit(doc['doctype']); }
-                    }).toString()
+        return Promise.all([        
+            this.db.createIndex({
+                index : {
+                    fields : ['doctype']
                 }
-            }
-        });        
+            }),
+            this.db.createIndex({
+                index : {
+                    fields : ['confirmations','timestamp','address']
+                }
+            })
+        ]);
     }
 
     prepareDocuments(res) : Array<any> {
         let docs = [];
 
-        if (res.total_rows > 0) {
-            for(let row of res.rows) {
-                docs.push(row.doc);
-            }
+        if (res.docs && res.docs.length > 0) {
+            docs = res.docs;
         }
 
         return docs;

@@ -1,17 +1,10 @@
 export interface Transaction {        
-    txid: string;    
+    _id: string; // txid    
     currency: string;
     address: string;        
     amount: number;
     incomming: boolean;
-
     timestamp?: number;        
-    confirmations?: number;
-
-    referenceCurrency?: string;
-    referenceAmount?: number;
-
-    // TODO: remove/deprecated
-    fiatAmount?:number;
-    
+    confirmations?: number;    
+    account?: string;
 }

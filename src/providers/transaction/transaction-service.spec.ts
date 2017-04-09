@@ -3,7 +3,7 @@ import {data} from './insight-transaction-data';
 
 describe('Transaction Service', () => {
 
-    let transactionService = new TransactionService(null);
+    let transactionService = new TransactionService(null, null);
 
     it('should build correct urls', () => {
         expect(transactionService.buildUrl({

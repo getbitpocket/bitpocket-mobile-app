@@ -1,9 +1,10 @@
+import { TransactionStorageService } from './../../providers/transaction/transaction-storage-service';
 import { Account } from './../../api/account';
 import { BitcoinUnit } from './../../providers/currency/bitcoin-unit';
 import {Component} from '@angular/core';
 import { NavController, LoadingController, NavParams } from 'ionic-angular';
 import {Currency} from '../../providers/currency/currency';
-import { TransactionService } from './../../providers/transaction/transaction-service';
+import { AccountSyncService } from './../../providers/account/account-sync-service';
 import {Config} from '../../providers/config';
 import {Transaction} from '../../api/transaction';
 import {TranslateService} from '@ngx-translate/core'
@@ -31,7 +32,8 @@ export class HistoryPage {
         private config: Config,
         private currency: Currency,
         private loading: LoadingController,
-        private transactionService:TransactionService,
+        private transactionStorageService:TransactionStorageService,
+        private accountSyncService:AccountSyncService,
         private nav: NavController,
         private translation: TranslateService) {    
         
@@ -56,6 +58,8 @@ export class HistoryPage {
                 });
                 this.loader.present();
 
+                return this.accountSyncService.syncAccount(this.account);
+            }).then(() => {
                 return this.findTransactions();
             }).then((transactions) => {
                 this.transactions = transactions;
@@ -86,11 +90,10 @@ export class HistoryPage {
     }
 
     findTransactions() {
-        return this.transactionService.findTransactions({
+        return this.transactionStorageService.retrieveTransactions({
             from : this.transactions.length ,
-            to : this.transactions.length + 20 ,
-            addresses : [this.account.data] ,
-            type : this.account.type
+            to : this.transactions.length + 10 ,
+            addresses : [this.account.data]
         });
     }
 

@@ -1,3 +1,4 @@
+import { AccountSyncService } from './../../providers/account/account-sync-service';
 import {Component} from '@angular/core';
 import {NavController, AlertController, MenuController} from 'ionic-angular';
 import {TranslateService} from '@ngx-translate/core'
@@ -15,6 +16,7 @@ export class AccountCreationPage {
     accountInput:string = "";
 
     constructor(
+        private accountSyncService: AccountSyncService ,
         private qrscanner:QRScanner,
         private config: Config,
         private accountService: AccountService,
@@ -35,12 +37,14 @@ export class AccountCreationPage {
     start() {
         try {
             let account = this.accountService.parseAccountInput(this.accountInput);
+            account.index = 0;
             account.name = "Bitcoin";
             this.accountService.addAccount(account)
                 .then(account => {
                     return this.config.set(Config.CONFIG_KEY_DEFAULT_ACCOUNT, account._id);
-                })
-                .then(() => {
+                }).then(() => {
+                    return this.accountSyncService.syncAccount(account);
+                }).then(() => {
                     this.nav.setRoot(AmountPage);
                 }).catch(e => {
                     console.error(e);

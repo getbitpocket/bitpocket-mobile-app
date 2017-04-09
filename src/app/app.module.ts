@@ -5,7 +5,12 @@ import { IonicApp, IonicModule } from 'ionic-angular';
 // Pouch DB
 import PouchDB from 'pouchdb';
 import pouchdbUpsert from 'pouchdb-upsert';
+import pouchFind from 'pouchdb-find';
 PouchDB.plugin(pouchdbUpsert);
+PouchDB.plugin(pouchFind);
+PouchDB.debug.enable('pouchdb:find');
+window['PouchDB'] = PouchDB;
+
 
 // Main Component
 import { BitPocketApp } from './app.component';
@@ -31,7 +36,11 @@ import {Config} from '../providers/config';
 import {Currency} from '../providers/currency/currency';
 import {AccountService} from '../providers/account/account-service';
 import {QRScanner} from '../providers/qrscanner/qrscanner';
-import { TransactionService } from './../providers/transaction/transaction-service';
+import {TransactionService} from './../providers/transaction/transaction-service';
+import { CryptocurrencyService } from './../providers/currency/cryptocurrency-service';
+import { PaymentService } from './../providers/payment/payment-service';
+import { TransactionStorageService } from './../providers/transaction/transaction-storage-service';
+import { AccountSyncService } from './../providers/account/account-sync-service';
 
 // Translations
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
@@ -109,10 +118,14 @@ export function createTranslateLoader(http: Http) {
     Config ,
     Currency ,
     AccountService ,
+    AccountSyncService ,
+    TransactionStorageService ,
     QRScanner,
     BlockchainExchangeService ,
     BitcoinAverageExchangeService ,
-    TransactionService
+    TransactionService,
+    CryptocurrencyService,
+    PaymentService
   ]
 })
 export class AppModule {}

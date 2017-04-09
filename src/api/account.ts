@@ -4,4 +4,5 @@ export interface Account {
     type:string;
     data:any;
     default?:boolean;
+    index?:number;
 }

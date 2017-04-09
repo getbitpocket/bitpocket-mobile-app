@@ -7,16 +7,16 @@
 <ion-content [ngClass]="getResultClasses()" no-scroll>
         
         <div class="payment-specification">
-            <div class="payment-currency vertical-align">{{ currency }}</div>
+            <div class="payment-currency vertical-align">{{ referenceCurrency }}</div>
             <div class="payment-amount">
                 <div class="active">
-                    <span dynamicFontSize [content]="fiatAmount" maxFontSize="50" minFontSize="1">{{ fiatAmount }}</span>
+                    <span dynamicFontSize [content]="fiatAmount" maxFontSize="50" minFontSize="1">{{ referenceAmount }}</span>
                 </div>
             </div>
-            <div class="payment-currency vertical-align">{{ bitcoinUnit }}</div>
+            <div class="payment-currency vertical-align">{{ currency }}</div>
             <div class="payment-amount">
                 <div>
-                    <span dynamicFontSize [content]="fiatAmount" maxFontSize="25" minFontSize="1">{{ bitcoinAmount }}</span>
+                    <span dynamicFontSize [content]="fiatAmount" maxFontSize="25" minFontSize="1">{{ amount }}</span>
                 </div>
             </div>
         </div>

@@ -43,7 +43,7 @@
     "TEXT.testnet-static-address" : "Testnet address",
     "TEXT.testnet-xpub-key" : "Testnet master public key",
 
-    "BUTTON.REQUEST_AMOUNT" : "Request amount",
+    "BUTTON.REQUEST_AMOUNT" : "Request",
     "BUTTON.RESET" : "Reset" ,
     "BUTTON.REMOVE" : "Remove" ,
     "BUTTON.DETAILS" : "Details" ,
