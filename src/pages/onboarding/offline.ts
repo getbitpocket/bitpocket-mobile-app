@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {MenuController} from 'ionic-angular';
-import {Splashscreen} from 'ionic-native';
+import { SplashScreen } from '@ionic-native/splash-screen';
 
 declare var document:any;
 declare var navigator:any;
@@ -10,7 +10,9 @@ declare var navigator:any;
 })
 export class OfflinePage {
 
-    constructor(private menuController:MenuController) {
+    constructor(
+        protected splashscreen: SplashScreen,
+        protected menuController:MenuController) {
     }
 
     ionViewWillEnter() {
@@ -22,7 +24,7 @@ export class OfflinePage {
     }
 
     retry() {
-        Splashscreen.show();
+        this.splashscreen.show();
         window.location.reload();
     }
 }

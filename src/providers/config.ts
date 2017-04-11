@@ -2,8 +2,11 @@ import {Injectable} from '@angular/core';
 import {Storage} from '@ionic/storage';
 
 @Injectable()
-export class Config extends Storage {
+export class Config {
 
+    constructor(
+        protected storage: Storage
+    ) {}
 
     static CONFIG_KEY_CURRENCY = 'currency';
     static CONFIG_KEY_CURRENCY_SYMBOL = 'symbol';
@@ -13,10 +16,6 @@ export class Config extends Storage {
     static CONFIG_KEY_EXCHANGE_RATE = 'rate';
     static CONFIG_KEY_PIN = 'pin';
     static CONFIG_KEY_DEFAULT_ACCOUNT = 'default-account';
-        
-    constructor() {
-        super();
-    }
 
     initConfig() : Promise<boolean> {
         return new Promise<boolean>((resolve,reject) => {
@@ -38,7 +37,7 @@ export class Config extends Storage {
 
     isSet(key:string) : Promise<boolean> {
         return new Promise<boolean>((resolve,reject) => {
-            this.get(key).then(storedValue => {
+            this.storage.get(key).then(storedValue => {
                 if (storedValue === null || storedValue === undefined) {
                     resolve(false);
                 }
@@ -55,14 +54,21 @@ export class Config extends Storage {
         return new Promise<boolean>((resolve,reject) => {
             this.isSet(key).then(status => {
                 if (!status) {
-                    this.set(key,value);                    
+                    this.storage.set(key,value);                    
                 }
                 resolve(true);
             }).catch(() => {
                 resolve(false);
             });
-        });
-        
+        });        
     }    
+
+    set(key:string, value:any) : Promise<any> {
+        return this.storage.set(key, value);
+    }
+
+    get(key:string) : Promise<any> {
+        return this.storage.get(key);
+    }
         
 }

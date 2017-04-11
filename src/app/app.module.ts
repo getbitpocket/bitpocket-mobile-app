@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
 import { Http, HttpModule } from '@angular/http';
+import { IonicStorageModule } from '@ionic/storage';
 import { IonicApp, IonicModule } from 'ionic-angular';
 
 // Pouch DB
@@ -10,7 +12,6 @@ PouchDB.plugin(pouchdbUpsert);
 PouchDB.plugin(pouchFind);
 PouchDB.debug.enable('pouchdb:find');
 window['PouchDB'] = PouchDB;
-
 
 // Main Component
 import { BitPocketApp } from './app.component';
@@ -41,6 +42,11 @@ import { CryptocurrencyService } from './../providers/currency/cryptocurrency-se
 import { PaymentService } from './../providers/payment/payment-service';
 import { TransactionStorageService } from './../providers/transaction/transaction-storage-service';
 import { AccountSyncService } from './../providers/account/account-sync-service';
+
+// Ionic Native
+import { StatusBar } from '@ionic-native/status-bar';
+import { Network } from '@ionic-native/network';
+import { SplashScreen } from '@ionic-native/splash-screen';
 
 // Translations
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
@@ -86,8 +92,10 @@ export function createTranslateLoader(http: Http) {
     BitpocketUnitPipe
   ],
   imports: [
-    IonicModule.forRoot(BitPocketApp) ,
+    BrowserModule,
     HttpModule,
+    IonicModule.forRoot(BitPocketApp) ,    
+    IonicStorageModule.forRoot(),
     TranslateModule.forRoot({
       loader : {
         provide: TranslateLoader,
@@ -125,7 +133,10 @@ export function createTranslateLoader(http: Http) {
     BitcoinAverageExchangeService ,
     TransactionService,
     CryptocurrencyService,
-    PaymentService
+    PaymentService,
+    SplashScreen,
+    Network,
+    StatusBar
   ]
 })
 export class AppModule {}

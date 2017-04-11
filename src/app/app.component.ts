@@ -1,6 +1,8 @@
 import {Platform, App, Nav, Menu} from 'ionic-angular';
 import {Component, ViewChild} from '@angular/core';
-import {StatusBar, Splashscreen, Network} from 'ionic-native';
+import { StatusBar } from '@ionic-native/status-bar';
+import { SplashScreen } from '@ionic-native/splash-screen';
+import { Network } from '@ionic-native/network';
 
 // Pages
 import {AmountPage} from '../pages/amount/amount';
@@ -30,13 +32,16 @@ export class BitPocketApp {
     menuItems:Array<{name:string,icon:string,page:any}> = [];
 
     constructor(
-        platform: Platform,
-        private app:App,
-        private config:Config,
-        private currency:Currency,
-        private repository:Repository,
-        private accountService:AccountService,
-        private translate: TranslateService) {
+        protected platform: Platform,
+        protected statusBar: StatusBar,
+        protected splashScreen: SplashScreen,
+        protected network: Network,
+        protected app:App,
+        protected config:Config,
+        protected currency:Currency,
+        protected repository:Repository,
+        protected accountService:AccountService,
+        protected translate: TranslateService) {
         
         translate.setDefaultLang('en');
         let langs = ['de','en'];
@@ -57,26 +62,26 @@ export class BitPocketApp {
             });
         
         platform.ready().then(() => {
-            StatusBar.styleDefault();
+            this.statusBar.styleDefault();
             
             if (this.rootPage === undefined) {
                 this.initApp();
             }
                         
             // watch network for a disconnect
-            Network.onDisconnect().subscribe(() => {
+            this.network.onDisconnect().subscribe(() => {
                 this.nav.setRoot(OfflinePage);
             });
 
             // watch network for a connection
-            Network.onConnect().subscribe(() => {
+            this.network.onConnect().subscribe(() => {
                 this.initNavState();
             });            
         });
     }
 
     isOnline() {
-        if (Network['connection'] != 'none') {
+        if (this.network.type != 'none') {
             return true;
         } else {
             return false;
@@ -95,7 +100,7 @@ export class BitPocketApp {
 
     hideSplashscreen() {
         setTimeout(() => {
-            Splashscreen.hide();
+            this.splashScreen.hide();
         }, 2000);
     }
 
