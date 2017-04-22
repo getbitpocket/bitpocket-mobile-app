@@ -33,6 +33,7 @@
     "TEXT.ONBOARDING" : "A <b>bitcoin address</b> or <b>master public key (xpub key)</b> is required to let you accept bitcoin payments. Please add the requested information to get started!",
     "TEXT.INVALID_ACCOUNT_INPUT" : "Please recheck your input, this is no valid address or xpub key.",
     "TEXT.LOADING_TRANSACTIONS" : "Loading transactions",
+    "TEXT.LOADING_CURRENCIES" : "Loading currencies",
     "TEXT.ACCOUNT_TYPE" : "Bitcoin address or master public key (xpub)",
     "TEXT.NAME" : "Name",
     "TEXT.DEFAULT_ACCOUNT" : "Active account" ,
@@ -41,7 +42,7 @@
     "TEXT.bitcoin-static-address" : "Bitcoin address",
     "TEXT.bitcoin-xpub-key" : "Bitcoin master public key",
     "TEXT.testnet-static-address" : "Testnet address",
-    "TEXT.testnet-xpub-key" : "Testnet master public key",
+    "TEXT.testnet-tpub-key" : "Testnet master public key",
 
     "BUTTON.REQUEST_AMOUNT" : "Request",
     "BUTTON.RESET" : "Reset" ,

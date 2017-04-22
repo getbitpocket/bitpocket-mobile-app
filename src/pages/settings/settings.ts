@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {NavController, ModalController, Modal} from 'ionic-angular';
 
 // providers
-import {Config} from '../../providers/config';
+import {Config} from '../../providers/index';
 
 // pages
 import {GeneralPage} from './general/general';

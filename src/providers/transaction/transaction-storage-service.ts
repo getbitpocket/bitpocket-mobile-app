@@ -23,17 +23,24 @@ export class TransactionStorageService {
     }
 
     retrieveTransactions(transactionFilter: TransactionFilter) : Promise<Transaction[]> {
+        let selector:any = {
+            timestamp : { '$gt':null }
+        };
+
+        if (transactionFilter.account && /static-address/.test(transactionFilter.account.type)) {
+            selector.address = { '$eq':transactionFilter.account.data };
+        } else if (transactionFilter.account && /pub-key/.test(transactionFilter.account.type)) {
+            selector.account = { '$eq': transactionFilter.account._id };
+        } else if (transactionFilter.addresses) {
+            selector.address = { '$in':transactionFilter.addresses };
+        }
+
         return new Promise((resolve, reject) => {
             let query = {
-                selector : {
-                    address : {
-                        '$in' : transactionFilter.addresses
-                    } ,
-                    timestamp : { '$gt':null }
-                },
-                sort : [{ timestamp : 'desc' }] ,
+                selector : selector,
+                // sort : [{ timestamp : 'desc' }] ,
                 limit : transactionFilter.to - transactionFilter.from ,
-                skip : transactionFilter.from > 0 ? transactionFilter.from : undefined
+                skip : transactionFilter.from > 0 ? transactionFilter.from : 0
             };
 
             resolve(this.repository.findDocuments(query));

@@ -1,8 +1,7 @@
-import { PaymentRequestHandler } from './../../api/payment-request-handler';
 import {Injectable} from '@angular/core';
-import { InsightPaymentRequestHandler } from './insight-payment-request-handler';
-import { TransactionService } from './../transaction/transaction-service';
+import { TransactionService, InsightPaymentRequestHandler } from '../index';
 import { PaymentRequest } from './../../api/payment-request';
+import { PaymentRequestHandler } from './../../api/payment-request-handler';
 import * as payment from '../../api/payment-service';
 
 @Injectable()

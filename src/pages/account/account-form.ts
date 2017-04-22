@@ -1,10 +1,8 @@
 import {Component} from '@angular/core';
-import {TranslateService} from '@ngx-translate/core'
 import {NavParams,NavController,AlertController} from 'ionic-angular';
-import {AccountService} from './../../providers/account/account-service';
-import {QRScanner} from './../../providers/qrscanner/qrscanner';
+import {TranslateService} from '@ngx-translate/core'
 import { Account } from './../../api/account';
-import { Config } from './../../providers/config';
+import { Config, AccountService, QRScanner } from './../../providers/index';
 
 @Component({
     templateUrl : 'account-form.html'
@@ -41,8 +39,7 @@ export class AccountFormPage {
                 this.account = promised[0];
                 this.accountDefault = promised[0]._id == promised[1];
                 this.accountEnabled = false;
-                console.log(promised[2]);
-                this.canChangeDefaultAccount = promised[2].length > 1;
+                this.canChangeDefaultAccount = promised[2].length > 1 && !this.accountDefault;
             });
         }
     }

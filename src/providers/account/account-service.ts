@@ -1,8 +1,6 @@
-import { CryptocurrencyService } from './../currency/cryptocurrency-service';
-import { Config } from './../config';
 import {Injectable} from '@angular/core';
 import { Account } from '../../api/account';
-import { Repository } from './../repository';
+import { Config, CryptocurrencyService, Repository } from './../index';
 import * as bitcoin from 'bitcoinjs-lib';
 
 export const ACCOUNT_TYPE_BITCOIN_ADDRESS  = "bitcoin-static-address";
@@ -76,12 +74,29 @@ export class AccountService {
 
     removeAccount(id:string) : Promise<void> {
         return new Promise<void> ((resolve, reject) => {
-            resolve(this.repository.removeDocument(id));
+            Promise.all([
+                this.getAccounts() ,
+                this.config.get(Config.CONFIG_KEY_DEFAULT_ACCOUNT)
+            ]).then((promised:any) => {
+                if (promised[0].length > 1 && id != promised[1]) {
+                    resolve(this.repository.removeDocument(id));
+                } else if (promised[0].length > 1 && id == promised[1]) {
+                    // select an account which is not the default Account, and set it as the default account
+                    for (let i = 0; i < promised[0].length; i++) {
+                        if (promised[0][i]._id != id) {
+                            this.config.set(Config.CONFIG_KEY_DEFAULT_ACCOUNT, promised[0][i]._id);
+                            break;
+                        }
+                    }
+                    resolve(this.repository.removeDocument(id));
+                } else {
+                    reject();
+                }
+            });            
         });
     }
 
     getDefaultAddress() : Promise<string> {
-        
         return new Promise<string> ((resolve, reject) => {
             this.config.get(Config.CONFIG_KEY_DEFAULT_ACCOUNT)
                 .then(accountId => {
@@ -99,14 +114,13 @@ export class AccountService {
         });        
     }
 
-    getNextAddress(account:Account, index=1) : string {
-        if(/.*?-static-address/.test(account.type)) {            
+    getNextAddress(account:Account) : string {
+        if(/static-address/.test(account.type)) {            
             return account.data;
         } else if (/bitcoin-xpub-key/.test(account.type)) {
-            // TODO: retrieve next index correctly...
-            return bitcoin.HDNode.fromBase58(account.type).derive(0).derive(index).getAddress();
+            return bitcoin.HDNode.fromBase58(account.data).derive(0).derive(account.index).getAddress();
         } else if (/testnet-tpub-key/.test(account.type)) {
-            return bitcoin.HDNode.fromBase58(account.type, [bitcoin.networks.testnet]).derive(0).derive(index).getAddress();
+            return bitcoin.HDNode.fromBase58(account.data, [bitcoin.networks.testnet]).derive(0).derive(account.index).getAddress();
         }
 
         throw new Error('unknown account type');

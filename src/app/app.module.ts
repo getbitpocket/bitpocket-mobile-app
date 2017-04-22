@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler  } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { Http, HttpModule } from '@angular/http';
-import { IonicStorageModule } from '@ionic/storage';
-import { IonicApp, IonicModule } from 'ionic-angular';
+import { IonicStorageModule, Storage } from '@ionic/storage';
+import { IonicApp, IonicModule, IonicErrorHandler, ModalController } from 'ionic-angular';
 
 // Pouch DB
 import PouchDB from 'pouchdb';
@@ -32,16 +32,29 @@ import {PincodePage} from '../pages/pincode/pincode';
 import { AccountFormPage } from '../pages/account/account-form';
 
 // Providers
-import {Repository} from '../providers/repository';
-import {Config} from '../providers/config';
-import {Currency} from '../providers/currency/currency';
-import {AccountService} from '../providers/account/account-service';
-import {QRScanner} from '../providers/qrscanner/qrscanner';
-import {TransactionService} from './../providers/transaction/transaction-service';
-import { CryptocurrencyService } from './../providers/currency/cryptocurrency-service';
-import { PaymentService } from './../providers/payment/payment-service';
-import { TransactionStorageService } from './../providers/transaction/transaction-storage-service';
-import { AccountSyncService } from './../providers/account/account-sync-service';
+import {
+  Config,
+  Repository,
+  QRScanner,
+  CurrencyService,
+  AccountService,
+  TransactionService,
+  CryptocurrencyService,
+  PaymentService,
+  TransactionStorageService,
+  AccountSyncService,
+  provideCurrencyService,
+  provideAccountService,
+  provideAccountSyncService,
+  provideTransactionService,
+  provideTransactionStorageService,
+  providePaymentService,
+  provideCryptocurrencyService,
+  provideRepository,
+  provideConfig,
+  provideQRScanner,
+  provideBitcoinAverageExchangeService
+} from '../providers/index';
 
 // Ionic Native
 import { StatusBar } from '@ionic-native/status-bar';
@@ -53,10 +66,7 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 // Exchange Services
-import {BlockchainExchangeService} from '../providers/currency/blockchain';
-import {BitcoinAverageExchangeService} from '../providers/currency/bitcoinaverage';
-
-// Payment Services
+import { BitcoinAverageExchangeService } from '../providers/currency/bitcoinaverage-service';
 
 // Components, Directives
 import {DynamicFontSize} from '../components/dynamic-font-size';
@@ -65,6 +75,7 @@ import {Logo} from '../components/logo';
 // Pipes
 import { BitpocketCurrencyPipe } from '../pipes/currency';
 import { BitpocketUnitPipe } from './../pipes/unit';
+import { BitpocketFiatPipe } from './../pipes/fiat';
 
 export function createTranslateLoader(http: Http) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -89,7 +100,8 @@ export function createTranslateLoader(http: Http) {
     DynamicFontSize ,
     Logo,
     BitpocketCurrencyPipe ,
-    BitpocketUnitPipe
+    BitpocketUnitPipe ,
+    BitpocketFiatPipe
   ],
   imports: [
     BrowserModule,
@@ -122,18 +134,18 @@ export function createTranslateLoader(http: Http) {
     QRScannerPage
   ],
   providers: [
-    Repository ,
-    Config ,
-    Currency ,
-    AccountService ,
-    AccountSyncService ,
-    TransactionStorageService ,
-    QRScanner,
-    BlockchainExchangeService ,
-    BitcoinAverageExchangeService ,
-    TransactionService,
-    CryptocurrencyService,
-    PaymentService,
+    { provide: ErrorHandler, useClass: IonicErrorHandler } ,
+    { provide: CurrencyService, useFactory: provideCurrencyService, deps: [Config, BitcoinAverageExchangeService] } ,
+    { provide: AccountService, useFactory: provideAccountService, deps: [CryptocurrencyService, Config, Repository] } ,
+    { provide: AccountSyncService, useFactory: provideAccountSyncService, deps: [TransactionService, TransactionStorageService, AccountService, CryptocurrencyService] } ,
+    { provide: TransactionService, useFactory: provideTransactionService, deps: [Http, CryptocurrencyService] } ,
+    { provide: TransactionStorageService, useFactory: provideTransactionStorageService, deps: [Repository] } ,
+    { provide: PaymentService, useFactory: providePaymentService, deps: [TransactionService] } ,
+    { provide: CryptocurrencyService, useFactory: provideCryptocurrencyService } ,  
+    { provide: Repository, useFactory:provideRepository } ,
+    { provide:Config, useFactory:provideConfig, deps:[Storage] } ,
+    { provide:QRScanner, useFactory:provideQRScanner, deps:[ModalController] },
+    { provide:BitcoinAverageExchangeService, useFactory:provideBitcoinAverageExchangeService, deps:[Http] },
     SplashScreen,
     Network,
     StatusBar

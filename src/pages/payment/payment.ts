@@ -1,16 +1,13 @@
-import { PaymentRequestHandler } from './../../api/payment-request-handler';
-import { PAYMENT_STATUS_RECEIVED, PAYMENT_STATUS_TIMEOUT, PaymentRequest } from './../../api/payment-request';
-import { PaymentService } from './../../providers/payment/payment-service';
-import { AccountService } from './../../providers/account/account-service';
 import { Component} from '@angular/core';
 import {NavParams,NavController} from 'ionic-angular';
-import {BitcoinUnit} from '../../providers/currency/bitcoin-unit';
+import { TranslateService } from '@ngx-translate/core';
+import { PaymentRequestHandler } from './../../api/payment-request-handler';
+import { PAYMENT_STATUS_RECEIVED, PAYMENT_STATUS_TIMEOUT, PaymentRequest } from './../../api/payment-request';
+import { PaymentService, AccountService, BitcoinUnit, Config, CurrencyService } from './../../providers/index';
 import {PaymentResultPage} from './payment-result';
-import {Config} from '../../providers/config';
-import {Currency} from '../../providers/currency/currency';
+import {AmountPage} from '../amount/amount';
 import * as bip21 from 'bip21';
 import * as qrcode from 'qrcode-generator';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     templateUrl : 'payment.html'
@@ -37,7 +34,7 @@ export class PaymentPage {
         private paymentService: PaymentService ,
         private accountService: AccountService,
         private translation: TranslateService ,
-        private currencyService: Currency,
+        private currencyService: CurrencyService ,
         private config: Config,
         private params: NavParams,
         private navigation:NavController) {     
@@ -56,7 +53,7 @@ export class PaymentPage {
             this.bitcoinUnit   = promised[2];
             this.address       = promised[3];
             this.currencyRate  = promised[4];
-
+console.log(this.address);
             this.paymentRequest = {            
                 address : this.address ,
                 amount : this.amount.to('BTC') ,
@@ -80,6 +77,7 @@ export class PaymentPage {
 
             this.initPaymentCheck();
         }).catch((e) => {
+            this.navigation.setRoot(AmountPage);
             console.error(e);
         });          
     }

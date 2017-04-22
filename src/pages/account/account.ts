@@ -2,8 +2,7 @@ import { HistoryPage } from './../history/history';
 import { AccountFormPage } from './account-form';
 import { NavController } from 'ionic-angular';
 import {Component} from '@angular/core';
-import { AccountService, ACCOUNT_TYPE_TESTNET_ADDRESS } from './../../providers/account/account-service';
-import { Config } from './../../providers/config';
+import { Config, AccountService } from './../../providers/index';
 
 @Component({
     templateUrl : 'account.html'

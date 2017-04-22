@@ -1,10 +1,7 @@
-import { AccountSyncService } from './../../providers/account/account-sync-service';
 import {Component} from '@angular/core';
 import {NavController, AlertController, MenuController} from 'ionic-angular';
 import {TranslateService} from '@ngx-translate/core'
-import {AccountService } from './../../providers/account/account-service';
-import {Config} from '../../providers/config';
-import {QRScanner} from '../../providers/qrscanner/qrscanner';
+import {Config, AccountService, QRScanner, AccountSyncService} from '../../providers/index';
 import {AmountPage} from '../amount/amount';
 import 'rxjs/add/operator/toPromise';
 

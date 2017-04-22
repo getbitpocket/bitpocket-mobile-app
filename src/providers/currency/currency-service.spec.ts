@@ -1,10 +1,8 @@
-import {Currency} from './currency';
-import {Config} from '../config';
-
+import {CurrencyService} from './currency-service';
 
 describe('Currency', () => {
 
-    let currencyService: Currency = new Currency(null,null);
+    let currencyService: CurrencyService = new CurrencyService(null,null);
 
     it('format Currency', () => {        
         expect(currencyService.formatNumber(10,',')).toEqual('10,00');

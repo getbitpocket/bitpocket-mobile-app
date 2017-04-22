@@ -1,11 +1,7 @@
-import { TransactionStorageService } from './../../providers/transaction/transaction-storage-service';
-import { Account } from './../../api/account';
-import { BitcoinUnit } from './../../providers/currency/bitcoin-unit';
 import {Component} from '@angular/core';
+import { Account } from './../../api/account';
+import { BitcoinUnit, TransactionStorageService, CurrencyService, Config, AccountSyncService } from './../../providers/index';
 import { NavController, LoadingController, NavParams } from 'ionic-angular';
-import {Currency} from '../../providers/currency/currency';
-import { AccountSyncService } from './../../providers/account/account-sync-service';
-import {Config} from '../../providers/config';
 import {Transaction} from '../../api/transaction';
 import {TranslateService} from '@ngx-translate/core'
 
@@ -25,12 +21,15 @@ export class HistoryPage {
     currencySymbol:string = "BTC";
     dateTimeFormat: any;
 
+    referenceCurrencySymbol:string = "";
+    referenceCurrencyRate:number = 0;
+
     loader:any;
     
     constructor(
         private navParams: NavParams,
         private config: Config,
-        private currency: Currency,
+        private currencyService: CurrencyService,
         private loading: LoadingController,
         private transactionStorageService:TransactionStorageService,
         private accountSyncService:AccountSyncService,
@@ -44,17 +43,21 @@ export class HistoryPage {
                 translation.get('FORMAT.CURRENCY_T').toPromise() ,
                 translation.get('FORMAT.CURRENCY_S').toPromise() ,
                 translation.get('FORMAT.DATETIME').toPromise() ,
-                config.get('bitcoin-unit') ,
-                translation.get('TEXT.LOADING_TRANSACTIONS').toPromise()
+                translation.get('TEXT.LOADING_TRANSACTIONS').toPromise() ,
+                config.get(Config.CONFIG_KEY_BITCOIN_UNIT) ,
+                this.currencyService.getSelectedCurrency() ,
+                this.currencyService.getSelectedCurrencyRate()
             ]).then(promised => {
                 this.currencyThousandsPoint = promised[0];
                 this.currencySeparator = promised[1];
                 this.dateTimeFormat = promised[2];
-                this.currencySymbol = promised[3];
-                this.currencyPrecision = BitcoinUnit.decimalsCount(promised[3]);
+                this.currencySymbol = promised[4];
+                this.currencyPrecision = BitcoinUnit.decimalsCount(promised[4]);
+                this.referenceCurrencySymbol = promised[5];
+                this.referenceCurrencyRate = promised[6];
 
                 this.loader = this.loading.create({
-                    content: promised[4]
+                    content: promised[3]
                 });
                 this.loader.present();
 
@@ -93,7 +96,7 @@ export class HistoryPage {
         return this.transactionStorageService.retrieveTransactions({
             from : this.transactions.length ,
             to : this.transactions.length + 10 ,
-            addresses : [this.account.data]
+            account : this.account
         });
     }
 

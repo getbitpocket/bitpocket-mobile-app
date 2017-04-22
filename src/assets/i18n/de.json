@@ -33,6 +33,7 @@
     "TEXT.ONBOARDING" : "Eine <b>Bitcoin Adresse</b> oder ein <b>Generalschlüssel (xpub key)</b> wird benötigt um ein Konto anzulegen. Informationen eingeben und loslegen!",
     "TEXT.INVALID_ACCOUNT_INPUT" : "Die Eingabe ist keine gültige Adresse oder Generalschlüssel (xpub key)",
     "TEXT.LOADING_TRANSACTIONS" : "Transaktionen laden",
+    "TEXT.LOADING_CURRENCIES" : "Währungen laden",
     "TEXT.ACCOUNT_TYPE" : "Bitcoin Adresse oder Generalschlüssel (xpub)",
     "TEXT.NAME" : "Name",
     "TEXT.DEFAULT_ACCOUNT" : "Aktives Konto" ,
@@ -41,7 +42,7 @@
     "TEXT.bitcoin-static-address" : "Bitcoin Adresse",
     "TEXT.bitcoin-xpub-key" : "Bitcoin Generalschlüssel",
     "TEXT.testnet-static-address" : "Testnet Adresse",
-    "TEXT.testnet-xpub-key" : "Testnet Generalschlüssel",
+    "TEXT.testnet-tpub-key" : "Testnet Generalschlüssel",
 
     "BUTTON.REQUEST_AMOUNT" : "Zahlung",
     "BUTTON.RESET" : "Löschen" ,

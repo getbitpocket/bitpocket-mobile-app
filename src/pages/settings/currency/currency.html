@@ -6,18 +6,11 @@
         </ion-buttons>
     </ion-navbar>
 </ion-header>
-<ion-content>
-    <ion-list radio-group  [(ngModel)]="selectedExchange">
-        <ion-list-header>{{ 'LIST_HEADING.EXCHANGE_SERVICE' | translate }}</ion-list-header>
-        <ion-item *ngFor="let service of exchangeServices">
-            <ion-label>{{ service.name }}</ion-label>
-            <ion-radio [value]="service.code" (ionSelect)="exchangeChanged()"></ion-radio>
-        </ion-item>
-    </ion-list>   
+<ion-content>    
     <ion-list radio-group [(ngModel)]="selectedCurrency">
         <ion-list-header>{{ 'LIST_HEADING.AVAILABLE_CURRENCIES' | translate }}</ion-list-header>
         <ion-item *ngFor="let currency of availableCurrencies">
-            <ion-label>{{ currency.code }} ({{ currency.symbol }})</ion-label>
+            <ion-label>{{ currency.code }}</ion-label>
             <ion-radio [value]="currency.code"></ion-radio>
         </ion-item>
     </ion-list> 

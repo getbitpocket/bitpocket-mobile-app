@@ -1,24 +1,17 @@
 import {Http} from '@angular/http';
 import {Injectable} from '@angular/core';
-import * as currency from './currency';
 import {CurrencyExchangeRate} from '../../api/currency-exchange-rate';
 import {CurrencyExchangeService} from '../../api/currency-exchange-service';
 
 @Injectable()
 export class BitcoinAverageExchangeService implements CurrencyExchangeService {
         
-    constructor(private http:Http) {
+    constructor(protected http:Http) {
     }
 
-    prepareOne(code, json:any) : CurrencyExchangeRate {
-        let symbol = code;
-        if (currency.CURRENCY_SYMBOLS[code]) {
-            symbol = currency.CURRENCY_SYMBOLS[code];
-        }
-
+    prepareOne(code, json:any) : CurrencyExchangeRate {        
         return {
             code   : code ,
-            symbol : symbol ,
             rate   : json.last
         };
     }
@@ -28,7 +21,7 @@ export class BitcoinAverageExchangeService implements CurrencyExchangeService {
         
         for (let code in json) {
             if (json.hasOwnProperty(code)) {
-                output.push(this.prepareOne(code,json[code]))
+                output.push(this.prepareOne(code.slice(-3),json[code]))
             }
         }
         
@@ -42,7 +35,7 @@ export class BitcoinAverageExchangeService implements CurrencyExchangeService {
     getExchangeRates() : Promise<Array<CurrencyExchangeRate>> {
         return new Promise((resolve, reject) => {
             try {
-                this.http.get('https://api.bitcoinaverage.com/ticker/global/all')
+                this.http.get('https://apiv2.bitcoinaverage.com/indices/global/ticker/short?crypto=BTC')
                     .subscribe(
                         response => {
                             if (response.status === 200) {
@@ -62,11 +55,11 @@ export class BitcoinAverageExchangeService implements CurrencyExchangeService {
     getExchangeRate(code:string) : Promise<CurrencyExchangeRate> {
         return new Promise((resolve, reject) => {
             try {
-                this.http.get('https://api.bitcoinaverage.com/ticker/global/' + code)
+                this.http.get('https://apiv2.bitcoinaverage.com/indices/global/ticker/short?crypto=BTC&fiats=' + code)
                     .subscribe(
                         response => {
                             if (response.status === 200) {                                
-                                resolve(this.prepareOne(code, response.json()));
+                                resolve(this.prepareOne(code, response.json()['BTC' + code]));
                             } else {
                                 reject();
                             }

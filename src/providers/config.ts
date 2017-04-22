@@ -8,11 +8,10 @@ export class Config {
         protected storage: Storage
     ) {}
 
+    static CONFIG_KEY_PAYMENT_REQUEST_LABEL = 'payment-request-label';
     static CONFIG_KEY_CURRENCY = 'currency';
-    static CONFIG_KEY_CURRENCY_SYMBOL = 'symbol';
     static CONFIG_KEY_BITCOIN_UNIT = 'bitcoin-unit';
     static CONFIG_KEY_BLOCKCHAIN_EXPLORER = 'blockchain-explorer';
-    static CONFIG_KEY_EXCHANGE_SERVICE = 'exchange';
     static CONFIG_KEY_EXCHANGE_RATE = 'rate';
     static CONFIG_KEY_PIN = 'pin';
     static CONFIG_KEY_DEFAULT_ACCOUNT = 'default-account';
@@ -21,10 +20,8 @@ export class Config {
         return new Promise<boolean>((resolve,reject) => {
             Promise.all<any>([
                 this.initialize(Config.CONFIG_KEY_EXCHANGE_RATE,-1),
-                this.initialize(Config.CONFIG_KEY_EXCHANGE_SERVICE,'blockchain'),
                 this.initialize(Config.CONFIG_KEY_BLOCKCHAIN_EXPLORER,'blockchain'),
                 this.initialize(Config.CONFIG_KEY_CURRENCY,'EUR'),
-                this.initialize(Config.CONFIG_KEY_CURRENCY_SYMBOL,'€'),
                 this.initialize(Config.CONFIG_KEY_BITCOIN_UNIT,'mBTC'),
                 this.initialize(Config.CONFIG_KEY_PIN,'')
             ]).then(() => {

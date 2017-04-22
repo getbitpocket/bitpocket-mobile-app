@@ -1,9 +1,7 @@
 import {Component} from '@angular/core';
 import {NavController, LoadingController, Platform, Loading} from 'ionic-angular';
 import {PaymentPage} from '../payment/payment';
-import {Config} from '../../providers/config';
-import {Currency} from '../../providers/currency/currency';
-import {BitcoinUnit} from '../../providers/currency/bitcoin-unit';
+import {Config, CurrencyService, BitcoinUnit} from '../../providers/index';
 import {TranslateService} from '@ngx-translate/core'
 
 const POSITION_DIGITS = 'digits';
@@ -31,7 +29,7 @@ export class AmountPage {
     constructor(
         private translation: TranslateService,
         private platform: Platform,
-        private currencyService: Currency,
+        private currencyService: CurrencyService,
         private config: Config,
         private navigation:NavController,
         private loading: LoadingController) {                                   
@@ -50,9 +48,9 @@ export class AmountPage {
 
     ionViewWillEnter() {
         Promise.all<any>([
-            this.config.get('currency') ,
+            this.config.get(Config.CONFIG_KEY_CURRENCY) ,
             this.translation.get('FORMAT.CURRENCY_S').toPromise() ,
-            this.config.get('bitcoin-unit') ,
+            this.config.get(Config.CONFIG_KEY_BITCOIN_UNIT) ,
             this.currencyService.getSelectedCurrencyRate()
         ]).then(settings => {
             this.currency    = settings[0];

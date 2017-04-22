@@ -2,11 +2,10 @@ import {Component} from '@angular/core';
 import {NavParams,NavController} from 'ionic-angular';
 import {AmountPage} from '../amount/amount';
 import {HistoryPage} from '../history/history';
-import {Config} from '../../providers/config';
-import {Currency} from '../../providers/currency/currency';
+import {CurrencyService, Config} from '../../providers/index';
 import {BitcoinUnit} from '../../providers/currency/bitcoin-unit';
 import {TranslateService} from '@ngx-translate/core';
-import { PaymentRequest } from './../../api/payment-request';
+import {PaymentRequest} from './../../api/payment-request';
 
 @Component({
     templateUrl : 'payment-result.html'
@@ -40,7 +39,7 @@ export class PaymentResultPage {
     
     constructor(
         private translate: TranslateService,
-        private currencyService: Currency,
+        private currencyService: CurrencyService,
         private config: Config,
         private params: NavParams,
         private nav: NavController) {

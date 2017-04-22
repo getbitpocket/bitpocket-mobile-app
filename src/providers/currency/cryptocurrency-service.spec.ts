@@ -1,7 +1,5 @@
 import {
     CryptocurrencyService,
-    BITCOIN,
-    TESTNET,
     BITCOIN_ADDRESS,
     BITCOIN_XPUB_KEY,
     TESTNET_ADDRESS,

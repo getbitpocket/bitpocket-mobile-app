@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {Config} from '../../../providers/config';
+import {Config} from '../../../providers/index';
 
 @Component({
     templateUrl : 'general.html'
@@ -15,17 +15,17 @@ export class GeneralPage {
 
     ionViewWillEnter() {
         Promise.all<string>([
-            this.config.get('bitcoin-unit') ,
-            this.config.get('payment-request-label')
+            this.config.get(Config.CONFIG_KEY_BITCOIN_UNIT) ,
+            this.config.get(Config.CONFIG_KEY_PAYMENT_REQUEST_LABEL)
         ]).then(promised => {
-            this.selectedUnit        = promised[0];
+            this.selectedUnit = promised[0];
             this.paymentRequestLabel = promised[1];
         });
     }
 
     ionViewWillLeave() {
-        this.config.set('bitcoin-unit', this.selectedUnit);
-        this.config.set('payment-request-label', this.paymentRequestLabel);
+        this.config.set(Config.CONFIG_KEY_BITCOIN_UNIT, this.selectedUnit);
+        this.config.set(Config.CONFIG_KEY_PAYMENT_REQUEST_LABEL, this.paymentRequestLabel);
     } 
         
 }

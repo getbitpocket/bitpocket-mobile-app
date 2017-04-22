@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {Loading, NavController, LoadingController} from 'ionic-angular';
-import {Currency} from '../../../providers/currency/currency';
+import { CurrencyService } from '../../../providers/index';
+import {TranslateService} from '@ngx-translate/core'
 
 @Component({
     templateUrl : 'currency.html'
@@ -8,52 +9,42 @@ import {Currency} from '../../../providers/currency/currency';
 export class CurrencyPage {     
           
     currencies:Array<{code:string}>;    
-    exchangeServices:Array<{code:string,name:string}>;
-    selectedExchange:string;
     selectedCurrency:string;
     availableCurrencies:Array<any>;
     loader: Loading;
 
     startLoading() {
-        this.loader = this.loadingController.create({
-            content : "Loading Currencies..."
-        });
-        this.loader.present();
+        this.translateService.get("TEXT.LOADING_CURRENCIES").toPromise()
+            .then((text) => {
+                this.loader = this.loadingController.create({
+                    content : text
+                });
+                this.loader.present();
+            });           
     }
 
     stopLoading() {
         this.loader.dismiss();
     }
     
-    constructor(private currencyService:Currency, private nav:NavController, private loadingController:LoadingController) {        
-        this.exchangeServices = currencyService.getAvailabeServices();        
+    constructor(
+        protected translateService:TranslateService,
+        protected currencyService:CurrencyService,
+        protected nav:NavController,
+        protected loadingController:LoadingController) {        
         this.startLoading();
 
         Promise.all<any>([
-            currencyService.getSelectedService() ,
             currencyService.getSelectedCurrency() ,
             currencyService.getAvailableCurrencies()
         ]).then(selections => {
-            this.selectedExchange    = selections[0];
-            this.selectedCurrency    = selections[1];
-            this.availableCurrencies = selections[2];
+            this.selectedCurrency    = selections[0];
+            this.availableCurrencies = selections[1];
             this.stopLoading();
         });
     }
-
-    exchangeChanged() {
-        this.startLoading();
-        this.currencyService.setSelectedService(this.selectedExchange)
-            .then(() => {               
-                this.currencyService.getAvailableCurrencies().then((currencies) => {       
-                    this.stopLoading();
-                    this.availableCurrencies = currencies;
-                });
-            });        
-    }
     
     ionViewWillLeave() {
-        this.currencyService.setSelectedService(this.selectedExchange);
         this.currencyService.setSelectedCurrency(this.selectedCurrency);
     }  
        

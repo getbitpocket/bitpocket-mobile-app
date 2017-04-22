@@ -2,13 +2,12 @@ import {Injectable} from '@angular/core';
 import {ModalController, Modal} from 'ionic-angular';
 import {QRScannerPage} from '../../pages/qrscanner/qrscanner';
 
-
 @Injectable()
 export class QRScanner {
     
     protected modal:Modal;
 
-    constructor(private modalController:ModalController) {          
+    constructor(protected modalController:ModalController) {          
     }
 
     scan(validate: (text:any) => any = (text) => { return text; }) : Promise<any> { 

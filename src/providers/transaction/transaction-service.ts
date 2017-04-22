@@ -1,5 +1,5 @@
 import { TransactionFilter } from './../../api/transaction-filter';
-import { CryptocurrencyService, TESTNET } from './../currency/cryptocurrency-service';
+import { CryptocurrencyService, TESTNET } from './../index';
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Transaction } from './../../api/transaction';

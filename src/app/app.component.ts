@@ -14,10 +14,7 @@ import { AccountPage } from './../pages/account/account';
 // import {PincodePage} from '../pages/pincode/pincode';
 
 // Providers
-import {Repository} from '../providers/repository';
-import {Config} from '../providers/config';
-import {Currency} from '../providers/currency/currency';
-import {AccountService} from './../providers/account/account-service';
+import {Repository, Config, CurrencyService, AccountService} from '../providers';
 
 import {TranslateService} from '@ngx-translate/core';
 
@@ -38,7 +35,7 @@ export class BitPocketApp {
         protected network: Network,
         protected app:App,
         protected config:Config,
-        protected currency:Currency,
+        protected currency:CurrencyService,
         protected repository:Repository,
         protected accountService:AccountService,
         protected translate: TranslateService) {

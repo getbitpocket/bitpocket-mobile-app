@@ -1,9 +1,6 @@
-import { CryptocurrencyService } from './../currency/cryptocurrency-service';
-import { AccountService } from './account-service';
-import { Account } from './../../api/account';
-import { TransactionStorageService } from './../transaction/transaction-storage-service';
 import { Injectable } from '@angular/core';
-import { TransactionService } from './../transaction/transaction-service';
+import { CryptocurrencyService, TransactionService, TransactionStorageService, AccountService } from './../index';
+import { Account } from './../../api/account';
 
 @Injectable()
 export class AccountSyncService {
@@ -31,14 +28,14 @@ export class AccountSyncService {
         return new Promise<any>((resolve, reject) => {
             try {
                 if (!account.index) {
-                    account.index = 0;
+                    account.index = 1;
                 }
 
                 let address = this.cryptocurrencyService.deriveAddress(account.data, account.index);
                 this.syncAddress(address, 0, account._id)
-                    .then(count => {
-                        account.index += account.index + 1;
-                        if (count > 0) {                            
+                    .then(count => {                
+                        if (count > 0) {             
+                            account.index = (account.index + 1);         
                             resolve(this.syncXpubKey(account));
                         } else {
                             resolve(this.accountService.editAccount(account));

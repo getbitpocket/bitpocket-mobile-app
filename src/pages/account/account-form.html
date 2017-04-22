@@ -28,7 +28,7 @@
                 
     </ion-list>
 
-    <ion-card *ngIf="!accountEnabled && canChangeDefaultAccount">
+    <ion-card *ngIf="!accountDefault && canChangeDefaultAccount">
         <ion-item>         
             <h2 item-left>{{ 'TEXT.REMOVE_ACCOUNT' | translate }}</h2>   
             <button (click)="remove()" item-right color="danger" ion-button>{{ 'BUTTON.REMOVE' | translate }}</button>
