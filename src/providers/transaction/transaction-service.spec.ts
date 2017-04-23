@@ -1,16 +1,16 @@
-import { TransactionService } from './transaction-service';
+import { TransactionService, CryptocurrencyService } from '../index';
 import {data} from './insight-transaction-data';
 
 describe('Transaction Service', () => {
 
-    let transactionService = new TransactionService(null, null);
+    let transactionService = new TransactionService(null, new CryptocurrencyService());
 
     it('should build correct urls', () => {
         expect(transactionService.buildUrl({
-            addresses : ['ad1','ad2','ad3'] ,
+            addresses : ['152f1muMCNa7goXYhYAQC61hxEgGacmncB','12ni9ddt4WHfEQriVN7DajDBd1JbKL9yUZ','1FS4FF2SYdHf3PGfSbjpdYcUiUYxiVLy73'] ,
             to : 15 ,
             from : 5
-        })).toEqual('https://insight.bitpay.com/api/addrs/ad1,ad2,ad3/txs?from=5&to=15');
+        })).toEqual('https://insight.bitpay.com/api/addrs/152f1muMCNa7goXYhYAQC61hxEgGacmncB,12ni9ddt4WHfEQriVN7DajDBd1JbKL9yUZ,1FS4FF2SYdHf3PGfSbjpdYcUiUYxiVLy73/txs?from=5&to=15');
     });
 
     it('should find address input', () => {
