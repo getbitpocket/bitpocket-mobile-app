@@ -27,3 +27,4 @@ After successful installation of the required global modules, do a `npm i` insid
 
  - English ()
  - German ()
+ - Polish ()
