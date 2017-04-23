@@ -16,7 +16,7 @@
     "test": "karma start ./config/karma.conf.js"
   },
   "config": {
-    "ionic_uglifyjs": "./config/uglifyjs.config.js"
+    "ionic_uglifyjs": "./config/uglifyjs.conf.js"
   },
   "dependencies": {
     "@angular/common": "4.0.0",
