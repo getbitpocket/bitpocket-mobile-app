@@ -25,5 +25,5 @@ After successful installation of the required global modules, do a `npm i` insid
 
 ## Translations
 
- - English ()
- - German ()
+ - [English](https://github.com/getbitpocket/bitpocket-mobile-app/blob/master/src/assets/i18n/en.json)
+ - [German](https://github.com/getbitpocket/bitpocket-mobile-app/blob/master/src/assets/i18n/de.json)
