@@ -96,12 +96,18 @@ export class AccountService {
         });
     }
 
-    getDefaultAddress() : Promise<string> {
-        return new Promise<string> ((resolve, reject) => {
+    getDefaultAccount() : Promise<Account> {
+        return new Promise<Account> ((resolve, reject) => {
             this.config.get(Config.CONFIG_KEY_DEFAULT_ACCOUNT)
                 .then(accountId => {
-                    return this.getAccount(accountId);
-                }).then(account => {
+                    resolve(this.getAccount(accountId));
+                });
+        });
+    }
+
+    getDefaultAddress() : Promise<string> {
+        return new Promise<string> ((resolve, reject) => {
+            this.getDefaultAccount().then(account => {
                     try {
                         let address = this.getNextAddress(account);
                         resolve(address);
