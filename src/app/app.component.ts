@@ -41,7 +41,7 @@ export class BitPocketApp {
         protected translate: TranslateService) {
         
         translate.setDefaultLang('en');
-        let langs = ['de','en'];
+        let langs = ['de','en','pl'];
         let langIndex = langs.indexOf(translate.getBrowserLang()); 
 
         if (langIndex == -1) {
