@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
-import {NavParams,NavController,AlertController} from 'ionic-angular';
+import {NavParams,NavController,AlertController,ModalController,Modal} from 'ionic-angular';
+import { PincodePage } from "../pincode/pincode";
 import {TranslateService} from '@ngx-translate/core'
 import { Account } from './../../api/account';
 import { Config, AccountService, QRScanner } from './../../providers/index';
@@ -21,6 +22,7 @@ export class AccountFormPage {
     canChangeDefaultAccount = false;
 
     constructor(
+        protected modalController:ModalController,
         protected qrscanner: QRScanner ,
         protected accountService: AccountService,
         protected navParams: NavParams,
@@ -86,6 +88,27 @@ export class AccountFormPage {
                         alert.present();                
                         this.account.data = "";                        
                     });
+            });
+        });
+    }
+
+    ionViewCanEnter() : Promise<void> {
+        return new Promise<void>((resolve, reject) => {          
+            this.config.get(Config.CONFIG_KEY_PIN).then(value => {
+                if (value === '') {
+                    resolve();
+                } else {                    
+                    let modal:Modal = this.modalController.create(PincodePage, { token : value, closable : true });
+
+                    modal.present();
+                    modal.onDidDismiss(data => {
+                        if (data && data.success) {
+                            resolve();
+                        } else {
+                            reject();
+                        }
+                    })
+                }
             });
         });
     }
