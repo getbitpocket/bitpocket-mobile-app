@@ -72,7 +72,6 @@ export class HistoryPage {
             console.debug("History Error: ", e);
             this.loader.dismiss();
         }       
-
     }
 
     addTransactions(transactions: Array<Transaction>) {
@@ -89,7 +88,11 @@ export class HistoryPage {
     }
 
     openTransaction(txid: string) {
-        window.open('https://blockchain.info/tx/' + txid, '_system');
+        if (/testnet/.test(this.account.type)) {
+            window.open('https://tbtc.blockr.io/tx/info/' + txid, '_system');
+        } else {
+            window.open('https://blockchain.info/tx/' + txid, '_system');
+        }        
     }
 
     findTransactions() {

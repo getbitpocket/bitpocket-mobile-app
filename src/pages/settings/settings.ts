@@ -34,7 +34,7 @@ export class SettingsPage {
                 }
             }
 
-            this.config.get('pin').then(value => {
+            this.config.get(Config.CONFIG_KEY_PIN).then(value => {
                 if (value === '') {
                     resolve();
                 } else {                    

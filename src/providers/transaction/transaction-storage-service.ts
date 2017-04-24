@@ -24,21 +24,24 @@ export class TransactionStorageService {
 
     retrieveTransactions(transactionFilter: TransactionFilter) : Promise<Transaction[]> {
         let selector:any = {
-            timestamp : { '$gt':null }
+            '$and' : [
+                { 'timestamp' : { '$gt':null } }
+            ]
+            
         };
 
         if (transactionFilter.account && /static-address/.test(transactionFilter.account.type)) {
-            selector.address = { '$eq':transactionFilter.account.data };
+            selector.$and.push({ 'address' : { '$eq':transactionFilter.account.data }});
         } else if (transactionFilter.account && /pub-key/.test(transactionFilter.account.type)) {
-            selector.account = { '$eq': transactionFilter.account._id };
+            selector.$and.push({ 'account' : { '$eq': transactionFilter.account._id }});
         } else if (transactionFilter.addresses) {
-            selector.address = { '$in':transactionFilter.addresses };
+            selector.$and.push({ 'address' : { '$in':transactionFilter.addresses }});
         }
 
         return new Promise((resolve, reject) => {
             let query = {
                 selector : selector,
-                // sort : [{ timestamp : 'desc' }] ,
+                sort : [{ timestamp : 'desc' }] ,
                 limit : transactionFilter.to - transactionFilter.from ,
                 skip : transactionFilter.from > 0 ? transactionFilter.from : 0
             };
