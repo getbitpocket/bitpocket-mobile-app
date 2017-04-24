@@ -1,4 +1,3 @@
-import { CurrencyService } from './../providers/index';
 import { BitcoinUnit } from './../providers/currency/bitcoin-unit';
 import {Pipe, PipeTransform} from '@angular/core';
 

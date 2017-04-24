@@ -78,16 +78,17 @@ export class Repository {
         return Promise.all([        
             this.db.createIndex({
                 index : {
-                    fields : ['doctype'] ,
-                    name : 'doctype' ,
-                    ddoc : 'index-doctype'
+                    fields : ['doctype']
                 }
-            }),
+            }) ,
             this.db.createIndex({
                 index : {
-                    fields : ['timestamp','address','confirmations','account'] ,
-                    name : 'transaction' ,
-                    ddoc : 'index-transaction'
+                    fields : ['timestamp','account']
+                }
+            }) ,
+            this.db.createIndex({
+                index : {
+                    fields : ['timestamp','address']
                 }
             })
         ]);
