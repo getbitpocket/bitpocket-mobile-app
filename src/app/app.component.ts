@@ -11,8 +11,6 @@ import {AccountCreationPage} from '../pages/onboarding/account-creation';
 import {OfflinePage} from '../pages/onboarding/offline';
 import { AccountPage } from './../pages/account/account';
 
-// import {PincodePage} from '../pages/pincode/pincode';
-
 // Providers
 import {Repository, Config, CurrencyService, AccountService} from '../providers';
 
@@ -25,7 +23,6 @@ export class BitPocketApp {
     @ViewChild(Nav) nav: Nav;   
     @ViewChild(Menu) menu: Menu; 
     
-    rootPage: any;// = PincodePage;
     menuItems:Array<{name:string,icon:string,page:any}> = [];
 
     constructor(
@@ -59,11 +56,8 @@ export class BitPocketApp {
             });
         
         platform.ready().then(() => {
-            this.statusBar.styleDefault();
-            
-            if (this.rootPage === undefined) {
-                this.initApp();
-            }
+            this.statusBar.styleDefault();            
+            this.initApp();
                         
             // watch network for a disconnect
             this.network.onDisconnect().subscribe(() => {

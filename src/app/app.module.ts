@@ -106,7 +106,11 @@ export function createTranslateLoader(http: Http) {
   imports: [
     BrowserModule,
     HttpModule,
-    IonicModule.forRoot(BitPocketApp) ,    
+    IonicModule.forRoot(BitPocketApp, {}, {
+      links: [
+        { component: AccountCreationPage, name: 'AccountCreationPage', segment: 'onboarding' }
+      ]
+    }) ,    
     IonicStorageModule.forRoot(),
     TranslateModule.forRoot({
       loader : {
