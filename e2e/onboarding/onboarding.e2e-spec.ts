@@ -20,7 +20,7 @@ describe('Onboarding', function() {
                 .then(() => {
                     return page.submit();
                 }).then(() => {
-                    browser.sleep(2000);
+                    browser.sleep(4000);
                     return page.isAmountPage();
                 }).then(amountPage => {
                     expect(amountPage).toBeTruthy();

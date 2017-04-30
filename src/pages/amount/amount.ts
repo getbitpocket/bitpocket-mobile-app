@@ -36,10 +36,13 @@ export class AmountPage {
     }
 
     startLoading() {
-        this.loader = this.loading.create({
-            content : "Loading Currencies..."
-        });
-        this.loader.present();
+        this.translation.get('"TEXT.LOADING_CURRENCIES').toPromise()
+            .then(text => {
+                this.loader = this.loading.create({
+                    content : text
+                });
+                this.loader.present();
+            });        
     }
 
     stopLoading() {

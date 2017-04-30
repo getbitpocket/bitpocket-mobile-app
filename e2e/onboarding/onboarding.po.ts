@@ -22,7 +22,6 @@ export class OnboardingPage {
 
     isAmountPage() {
         return browser.getCurrentUrl().then((url:string) => {
-            console.log(url);
             return /\/#\/amount$/.test(url);
         });
     }
