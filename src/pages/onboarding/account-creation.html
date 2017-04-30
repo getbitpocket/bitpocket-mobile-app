@@ -21,7 +21,7 @@
             <ion-col col-md-6>
                 <ion-card>                    
                     <ion-item>
-                        <ion-input type="text" [(ngModel)]="accountInput"></ion-input>
+                        <ion-input id="account-creation-input" type="text" [(ngModel)]="accountInput"></ion-input>
                         <button ion-button clear item-right (click)="scan()"><ion-icon name="qr-scanner"></ion-icon></button>
                     </ion-item>
                 </ion-card>
@@ -29,7 +29,7 @@
         </ion-row>
         <ion-row justify-content-center align-items-center>
             <ion-col col-md-6>
-                <button ion-button icon-right class="text-uppercase button-large" (click)="start()">
+                <button id="account-creation-button" ion-button icon-right class="text-uppercase button-large" (click)="start()">
                     {{ 'BUTTON.CONTINUE' | translate }} <ion-icon name="arrow'-forward"></ion-icon> 
                 </button>
             </ion-col>

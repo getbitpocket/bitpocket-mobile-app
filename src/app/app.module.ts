@@ -10,7 +10,7 @@ import pouchdbUpsert from 'pouchdb-upsert';
 import pouchFind from 'pouchdb-find';
 PouchDB.plugin(pouchdbUpsert);
 PouchDB.plugin(pouchFind);
-PouchDB.debug.enable('pouchdb:find');
+// PouchDB.debug.enable('pouchdb:find');
 window['PouchDB'] = PouchDB;
 
 // Main Component
@@ -108,7 +108,8 @@ export function createTranslateLoader(http: Http) {
     HttpModule,
     IonicModule.forRoot(BitPocketApp, {}, {
       links: [
-        { component: AccountCreationPage, name: 'AccountCreationPage', segment: 'onboarding' }
+        { component: AccountCreationPage, name: 'AccountCreationPage', segment: 'onboarding' } ,
+        { component: AmountPage, name: 'AmountPage', segment: 'amount' }
       ]
     }) ,    
     IonicStorageModule.forRoot(),

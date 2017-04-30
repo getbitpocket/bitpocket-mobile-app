@@ -11,11 +11,20 @@ export class OnboardingPage {
     }
 
     setOnboardingInput(input:string) {      
-        return element(by.css('.text-input')).sendKeys(input);
+        let el = element(by.css('#account-creation-input input[type="text"]'));
+        browser.sleep(100);
+        return el.sendKeys(input);        
     }
 
     submit() {
-        return element(by.css('.button-large')).click();
+        return element(by.css('button#account-creation-button')).click();
+    }
+
+    isAmountPage() {
+        return browser.getCurrentUrl().then((url:string) => {
+            console.log(url);
+            return /\/#\/amount$/.test(url);
+        });
     }
 
     hasAlert() {
