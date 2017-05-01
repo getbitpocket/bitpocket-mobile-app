@@ -53,7 +53,7 @@ export class PaymentPage {
             this.bitcoinUnit   = promised[2];
             this.address       = promised[3];
             this.currencyRate  = promised[4];
-console.log(this.address);
+
             this.paymentRequest = {            
                 address : this.address ,
                 amount : this.amount.to('BTC') ,
