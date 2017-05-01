@@ -35,19 +35,25 @@ export class CryptocurrencyService {
 
     parseXpubKeyInput(input: string) {
         try {
-            if (REGEX_XPUB_KEY.test(input) && (bitcoin.HDNode.fromBase58(input).toBase58() === input)) {
-                return {
-                    type : BITCOIN_XPUB_KEY ,
-                    currency : BITCOIN ,
-                    data : input.match(REGEX_XPUB_KEY)[1]
-                };
+            if (REGEX_XPUB_KEY.test(input)) {
+                input = input.match(REGEX_XPUB_KEY)[2];
+                if (bitcoin.HDNode.fromBase58(input).toBase58() === input) {
+                    return {
+                        type : BITCOIN_XPUB_KEY ,
+                        currency : BITCOIN ,
+                        data : input.match(REGEX_XPUB_KEY)[1]
+                    };
+                }                
             }
-            if (REGEX_TPUB_KEY.test(input) && (bitcoin.HDNode.fromBase58(input, [bitcoin.networks.testnet]).toBase58() === input)) {
-                return {
-                    type : TESTNET_TPUB_KEY ,
-                    currency : TESTNET ,
-                    data : input.match(REGEX_TPUB_KEY)[1]
-                }
+            if (REGEX_TPUB_KEY.test(input)) {
+                input = input.match(REGEX_TPUB_KEY)[2];
+                if ((bitcoin.HDNode.fromBase58(input, [bitcoin.networks.testnet]).toBase58() === input)) {
+                    return {
+                        type : TESTNET_TPUB_KEY ,
+                        currency : TESTNET ,
+                        data : input.match(REGEX_TPUB_KEY)[1]
+                    }
+                }                
             }
         } catch(e) {            
             console.error("error", e);

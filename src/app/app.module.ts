@@ -29,7 +29,7 @@ import {PaymentPage} from '../pages/payment/payment';
 import {PaymentResultPage} from '../pages/payment/payment-result';
 import {QRScannerPage} from '../pages/qrscanner/qrscanner';
 import {PincodePage} from '../pages/pincode/pincode';
-import { AccountFormPage } from '../pages/account/account-form';
+import {AccountFormPage} from '../pages/account/account-form';
 
 // Providers
 import {
@@ -38,7 +38,7 @@ import {
   QRScanner,
   CurrencyService,
   AccountService,
-  TransactionService,
+  InsightTransactionService,
   CryptocurrencyService,
   PaymentService,
   TransactionStorageService,
@@ -109,7 +109,9 @@ export function createTranslateLoader(http: Http) {
     IonicModule.forRoot(BitPocketApp, {}, {
       links: [
         { component: AccountCreationPage, name: 'AccountCreationPage', segment: 'onboarding' } ,
-        { component: AmountPage, name: 'AmountPage', segment: 'amount' }
+        { component: AmountPage, name: 'AmountPage', segment: 'amount' } ,
+        { component: AccountPage, name: 'AccountPage', segment: 'account' } ,
+        { component: AccountFormPage, name: 'AccountFormPage', segment: 'account-form' } ,
       ]
     }) ,    
     IonicStorageModule.forRoot(),
@@ -142,10 +144,10 @@ export function createTranslateLoader(http: Http) {
     { provide: ErrorHandler, useClass: IonicErrorHandler } ,
     { provide: CurrencyService, useFactory: provideCurrencyService, deps: [Config, BitcoinAverageExchangeService] } ,
     { provide: AccountService, useFactory: provideAccountService, deps: [CryptocurrencyService, Config, Repository] } ,
-    { provide: AccountSyncService, useFactory: provideAccountSyncService, deps: [TransactionService, TransactionStorageService, AccountService, CryptocurrencyService] } ,
-    { provide: TransactionService, useFactory: provideTransactionService, deps: [Http, CryptocurrencyService] } ,
+    { provide: AccountSyncService, useFactory: provideAccountSyncService, deps: [InsightTransactionService, TransactionStorageService, AccountService, CryptocurrencyService] } ,
+    { provide: InsightTransactionService, useFactory: provideTransactionService, deps: [Http, CryptocurrencyService] } ,
     { provide: TransactionStorageService, useFactory: provideTransactionStorageService, deps: [Repository] } ,
-    { provide: PaymentService, useFactory: providePaymentService, deps: [TransactionService] } ,
+    { provide: PaymentService, useFactory: providePaymentService, deps: [InsightTransactionService] } ,
     { provide: CryptocurrencyService, useFactory: provideCryptocurrencyService } ,  
     { provide: Repository, useFactory:provideRepository } ,
     { provide:Config, useFactory:provideConfig, deps:[Storage] } ,

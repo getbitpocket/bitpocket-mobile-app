@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import { TransactionService, InsightPaymentRequestHandler } from '../index';
+import { InsightTransactionService, InsightPaymentRequestHandler } from '../index';
 import { PaymentRequest } from './../../api/payment-request';
 import { PaymentRequestHandler } from './../../api/payment-request-handler';
 import * as payment from '../../api/payment-service';
@@ -8,7 +8,7 @@ import * as payment from '../../api/payment-service';
 export class PaymentService implements payment.PaymentService {
 
     constructor(
-        protected transactionService: TransactionService
+        protected transactionService: InsightTransactionService
     ) {}
 
     createPaymentRequestHandler(paymentRequest: PaymentRequest) : PaymentRequestHandler {

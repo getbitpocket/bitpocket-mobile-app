@@ -58,4 +58,12 @@ describe('Testnet', () => {
         expect(result.type).toEqual(TESTNET_TPUB_KEY);
     });
 
+    it('should parse tpub input from android wallet', () => {
+        let input = "tpubD8dWq6wHd9sXLeDZ8hiYixYvqApcRBgiYhtKVhEozbhMZBA4qgYtTXtfPWqWKdFXB2uKxptSZiR9LQ4kjNSBNmWfxPFhEByzJx3X9ry4mWw?c=1490794392&h=bip32";
+        let key = "tpubD8dWq6wHd9sXLeDZ8hiYixYvqApcRBgiYhtKVhEozbhMZBA4qgYtTXtfPWqWKdFXB2uKxptSZiR9LQ4kjNSBNmWfxPFhEByzJx3X9ry4mWw";
+        let result = service.parseInput("  " + input + "     ");
+        expect(result.data).toEqual(key);
+        expect(result.type).toEqual(TESTNET_TPUB_KEY);
+    });
+
 });

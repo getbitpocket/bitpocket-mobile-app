@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CryptocurrencyService, TransactionService, TransactionStorageService, AccountService } from './../index';
+import { CryptocurrencyService, InsightTransactionService, TransactionStorageService, AccountService } from './../index';
 import { Account } from './../../api/account';
 
 @Injectable()
@@ -8,7 +8,7 @@ export class AccountSyncService {
     readonly retrievalLength:number = 20;
 
     constructor(
-        protected transactionService: TransactionService ,
+        protected transactionService: InsightTransactionService ,
         protected transactionStorageService: TransactionStorageService ,
         protected accountService: AccountService ,
         protected cryptocurrencyService: CryptocurrencyService

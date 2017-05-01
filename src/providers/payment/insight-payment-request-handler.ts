@@ -1,5 +1,5 @@
 import { PaymentRequestHandler } from './../../api/payment-request-handler';
-import { TransactionService } from './../transaction/transaction-service';
+import { InsightTransactionService } from './../index';
 import { PaymentRequest, PAYMENT_STATUS_SERVICE_ERROR, PAYMENT_STATUS_RECEIVED } from './../../api/payment-request';
 import { EventEmitter } from 'events';
 import * as io from 'socket.io-client';
@@ -7,7 +7,7 @@ import * as io from 'socket.io-client';
 export class InsightPaymentRequestHandler extends EventEmitter implements PaymentRequestHandler {
 
     protected _paymentRequest: PaymentRequest;
-    protected transactionService: TransactionService;
+    protected transactionService: InsightTransactionService;
     protected socket: SocketIO.Socket;
 
     get paymentRequest() : PaymentRequest {
@@ -18,7 +18,7 @@ export class InsightPaymentRequestHandler extends EventEmitter implements Paymen
         super();
     }
 
-    static createPaymentRequestHandler(paymentRequest: PaymentRequest, transactionService: TransactionService) {
+    static createPaymentRequestHandler(paymentRequest: PaymentRequest, transactionService: InsightTransactionService) {
         let handler = new InsightPaymentRequestHandler();
         handler._paymentRequest = paymentRequest;
         handler.transactionService = transactionService;

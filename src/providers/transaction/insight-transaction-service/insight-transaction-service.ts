@@ -1,12 +1,13 @@
-import { TransactionFilter } from './../../api/transaction-filter';
-import { CryptocurrencyService, TESTNET } from './../index';
+import { TransactionService } from './../../../api/transaction-service';
+import { TransactionFilter } from './../../../api/transaction-filter';
+import { CryptocurrencyService, TESTNET } from './../../index';
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
-import { Transaction } from './../../api/transaction';
+import { Transaction } from './../../../api/transaction';
 import 'rxjs/add/operator/map';
 
 @Injectable()
-export class TransactionService {
+export class InsightTransactionService implements TransactionService {
 
     TESTNET_URL = "https://test-insight.bitpay.com";
     BITCOIN_URL = "https://insight.bitpay.com";

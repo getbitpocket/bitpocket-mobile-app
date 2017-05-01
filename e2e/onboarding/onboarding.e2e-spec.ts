@@ -16,9 +16,9 @@ describe('Onboarding', function() {
         });
 
         it('should create account and navigate to amount page', () => {
-            page.setOnboardingInput('n1RGwdbNTgNL868cRFCcimdCAQMft8HZKo')
+            page.setAccountCreationInput('n1RGwdbNTgNL868cRFCcimdCAQMft8HZKo')
                 .then(() => {
-                    return page.submit();
+                    return page.submitAccountCreation();
                 }).then(() => {
                     browser.sleep(4000);
                     return page.isAmountPage();
@@ -28,9 +28,9 @@ describe('Onboarding', function() {
         });
 
         it('should create a dialog error message', () => {
-            page.setOnboardingInput('no-valid-input')
+            page.setAccountCreationInput('no-valid-input')
                 .then(() => {                    
-                    return page.submit();
+                    return page.submitAccountCreation();
                 }).then(() => {
                     return page.hasAlert();
                 }).then(hasAlert => {

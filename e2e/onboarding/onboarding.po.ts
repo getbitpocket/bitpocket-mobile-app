@@ -1,24 +1,7 @@
 import { browser, element, by } from 'protractor';
+import { MainPage } from "./../main.po";
 
-export class OnboardingPage {
-
-    navigateTo(destination) {
-        return browser.get(destination);
-    }
-
-    getTitle() {
-        return browser.getTitle();
-    }
-
-    setOnboardingInput(input:string) {      
-        let el = element(by.css('#account-creation-input input[type="text"]'));
-        browser.sleep(100);
-        return el.sendKeys(input);        
-    }
-
-    submit() {
-        return element(by.css('button#account-creation-button')).click();
-    }
+export class OnboardingPage extends MainPage {
 
     isAmountPage() {
         return browser.getCurrentUrl().then((url:string) => {

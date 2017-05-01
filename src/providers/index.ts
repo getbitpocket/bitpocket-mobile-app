@@ -2,7 +2,7 @@ import { Storage } from '@ionic/storage';
 import { Http } from '@angular/http';
 import { ModalController } from 'ionic-angular';
 import { TransactionStorageService } from './transaction/transaction-storage-service';
-import { TransactionService } from './transaction/transaction-service';
+import { InsightTransactionService } from './transaction/insight-transaction-service/insight-transaction-service';
 import { QRScanner } from './qrscanner/qrscanner';
 import { PaymentService } from './payment/payment-service';
 import { InsightPaymentRequestHandler } from './payment/insight-payment-request-handler';
@@ -37,19 +37,19 @@ export function provideAccountService(cryptocurrencyService:CryptocurrencyServic
     return new AccountService(cryptocurrencyService, config, repository);
 }
 
-export function provideAccountSyncService(transactionService:TransactionService, transactionStorageService:TransactionStorageService, accountService:AccountService, cryptocurrencyService:CryptocurrencyService) {
+export function provideAccountSyncService(transactionService:InsightTransactionService, transactionStorageService:TransactionStorageService, accountService:AccountService, cryptocurrencyService:CryptocurrencyService) {
     return new AccountSyncService(transactionService, transactionStorageService, accountService, cryptocurrencyService);
 }
 
 export function provideTransactionService(http:Http, cryptocurrencyService:CryptocurrencyService) {
-    return new TransactionService(http, cryptocurrencyService);
+    return new InsightTransactionService(http, cryptocurrencyService);
 }
 
 export function provideTransactionStorageService(repository:Repository) {
     return new TransactionStorageService(repository);
 }
 
-export function providePaymentService(transactionService:TransactionService) {
+export function providePaymentService(transactionService:InsightTransactionService) {
     return new PaymentService(transactionService);
 }
 
@@ -85,7 +85,7 @@ export {
     InsightPaymentRequestHandler,
     PaymentService,
     QRScanner,
-    TransactionService,
+    InsightTransactionService,
     TransactionStorageService,
     BITCOIN,
     TESTNET,
