@@ -23,6 +23,13 @@ After successful installation of the required global modules, do a `npm i` insid
  - `ionic run (android|ios)` can be used to test the app on a connected device
  - `ionic emulate (android|ios)` can be used to test the app on a emulator/simulator
 
+## Testing
+
+BitPocket is developed alongside unit and e2e testing. Test can be run:
+
+ - `npm run test:unit` for unit tests
+ - `npm run test:e2e` for e2e tests
+
 ## Translations
 
  - [English](https://github.com/getbitpocket/bitpocket-mobile-app/blob/master/src/assets/i18n/en.json)
