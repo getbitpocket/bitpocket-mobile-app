@@ -67,7 +67,7 @@ export class AccountCreationPage {
         try {
             this.loading = true;
 
-            if (!!this.account) {
+            if (!this.account) {
                 this.account = this.parseAccount();
             }
             
