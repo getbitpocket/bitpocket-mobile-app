@@ -14,7 +14,7 @@ export class QRScannerPage {
     constructor(private toastController: ToastController, private viewController: ViewController, navParams: NavParams) {
         this.scanningError = toastController.create({
             message : 'There was a scanning error, please try again!' ,
-            duration: 3000
+            duration: 2000
         });
 
         this.validate = navParams.get('validate');
@@ -48,7 +48,7 @@ export class QRScannerPage {
         window['QRScanner'].scan((error, text) => {      
             if (error || !this.validate(text)) {               
                 this.scanningError.present();
-                setTimeout(this.setupScanner, 1500);
+                this.close();
             } else {                
                 this.close({
                     'text' : this.validate(text)
@@ -60,11 +60,11 @@ export class QRScannerPage {
     ionViewWillEnter() {
         this.setupScanner();
         window['QRScanner'].show();
-        window.document.getElementsByClassName('app-root').item(0).classList.add('hide');
+        window.document.querySelector('ion-app > .app-root').classList.add('hide');
     }
 
     ionViewWillLeave() {
-        window.document.getElementsByClassName('app-root').item(0).classList.remove('hide');
+        window.document.querySelector('ion-app > .app-root').classList.remove('hide');
         window['QRScanner'].destroy();
     }
 
@@ -75,6 +75,5 @@ export class QRScannerPage {
             return false;
         }
     }
-
 
 }

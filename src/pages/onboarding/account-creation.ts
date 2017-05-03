@@ -11,6 +11,8 @@ import 'rxjs/add/operator/toPromise';
 export class AccountCreationPage {
     
     accountInput:string = "";
+    account:any = null;
+    loading:boolean = false;
 
     constructor(
         private accountSyncService: AccountSyncService ,
@@ -24,6 +26,7 @@ export class AccountCreationPage {
     }
 
     ionViewWillEnter() {
+        this.loading = false;
         this.menuController.enable(false);
     }
 
@@ -31,42 +34,70 @@ export class AccountCreationPage {
         this.menuController.enable(true);
     }
 
-    start() {
+    parseAccount() {
         try {
             let account = this.accountService.parseAccountInput(this.accountInput);
             account.index = 0;
             account.name = "Bitcoin";
-            this.accountService.addAccount(account)
+            return account;            
+        } catch (e) {
+            this.accountInput = "";
+            console.error(e);
+            return false;
+        }        
+    }
+
+    triggerAlert() {
+        Promise.all<string>([
+            this.translate.get('TITLE.INVALID_INPUT').toPromise() ,
+            this.translate.get('TEXT.INVALID_ACCOUNT_INPUT').toPromise() ,
+            this.translate.get('BUTTON.OK').toPromise()
+        ]).then((texts) => {
+            let alert = this.alertController.create({
+                title: texts[0],
+                subTitle: texts[1],
+                buttons: [texts[2]]
+            });
+            alert.present();
+            this.loading = false;
+        });
+    }
+
+    start() {
+        try {
+            this.loading = true;
+
+            if (!!this.account) {
+                this.account = this.parseAccount();
+            }
+            
+            this.accountService.addAccount(this.account)
                 .then(account => {
                     return this.config.set(Config.CONFIG_KEY_DEFAULT_ACCOUNT, account._id);
                 }).then(() => {
-                    return this.accountSyncService.syncAccount(account);
+                    return this.accountSyncService.syncAccount(this.account);
                 }).then(() => {
                     this.nav.setRoot(AmountPage);
                 }).catch(e => {
+                    this.triggerAlert();
                     console.error(e);
                 });
         } catch (e) {
-            Promise.all<string>([
-                this.translate.get('TITLE.INVALID_INPUT').toPromise() ,
-                this.translate.get('TEXT.INVALID_ACCOUNT_INPUT').toPromise() ,
-                this.translate.get('BUTTON.OK').toPromise()
-            ]).then((texts) => {
-                let alert = this.alertController.create({
-                    title: texts[0],
-                    subTitle: texts[1],
-                    buttons: [texts[2]]
-                });
-                alert.present();
-                this.accountInput = "";
-            });
+            this.triggerAlert();
         }  
     }
 
     scan() {
         this.qrscanner.scan((text) => {
             this.accountInput = text;
-            this.start();
+            let account = this.parseAccount();
+            
+            if (account) {
+                this.account = account;
+                return true;
+            } else {                
+                return false;
+            }            
         });
     }
 

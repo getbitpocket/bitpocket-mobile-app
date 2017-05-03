@@ -29,8 +29,8 @@
         </ion-row>
         <ion-row justify-content-center align-items-center>
             <ion-col col-md-6>
-                <button id="account-creation-button" ion-button icon-right class="text-uppercase button-large" (click)="start()">
-                    {{ 'BUTTON.CONTINUE' | translate }} <ion-icon name="arrow'-forward"></ion-icon> 
+                <button [disabled]="loading" id="account-creation-button" ion-button icon-right class="text-uppercase button-large" (click)="start()">
+                    <ion-spinner *ngIf="loading" color="light"></ion-spinner> {{ 'BUTTON.CONTINUE' | translate }} <ion-icon name="arrow'-forward"></ion-icon> 
                 </button>
             </ion-col>
         </ion-row>

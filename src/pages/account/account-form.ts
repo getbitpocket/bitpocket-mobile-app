@@ -48,7 +48,14 @@ export class AccountFormPage {
 
     scan() {
         this.qrscanner.scan(text => {
-            this.account.data = text.trim();
+            try {
+                let account = this.accountService.parseAccountInput(text);
+                this.account.data = account.data;
+                return true;
+            } catch (e) {
+                console.error(e);
+                return false;
+            }                           
         });
     }
 
