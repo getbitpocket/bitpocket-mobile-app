@@ -1,11 +1,11 @@
 .history {
     
     .unconfirmed {
-        color: color($colors, unconfirmed);
+        color: yellow;
     }    
     
     .confirmed {
-        color: color($colors, confirmed);
+        color: green;
     }
 
     .no-transactions {

@@ -1,18 +1,22 @@
+// Ionic Variables and Theming. For more info, please see:
+// http://ionicframework.com/docs/v2/theming/
+$font-path: "../assets/fonts";
+
 @import "ionic.globals";
 
+
+// Shared Variables
+// --------------------------------------------------
+// To customize the look and feel of this app, you can override
+// the Sass variables found in Ionic's source scss files.
+// To view all the possible Ionic variables, see:
+// http://ionicframework.com/docs/v2/theming/overriding-ionic-variables/
+
 $font-family-base: 'Ubuntu', sans-serif;
-$font-family-md-base: $font-family-base;
-
-$basic-color-white:                       #FFF;
-$basic-color-black:                       #000;
-$basic-design-color:                      rgba(106,109,122,1);
-$basic-background-color-transparency:     rgba(255,255,255,0.2);
-
-$text-color:            #000;
-$background-color:      transparent;
 
 $button-border-radius:  6px;
 
+// font sizes
 $font-size-base:        1.5rem; //
 $font-size-small:       2.0rem; //
 $font-size-x-small:     2.5rem; //
@@ -21,93 +25,124 @@ $font-size-x-medium:    3.5rem; //
 $font-size-large:       4.0rem; //
 $font-size-x-large:     4.5rem; //
 
-$menu-md-background:            white;
-$menu-md-box-shadow-color:      rgba(0, 0, 0, .25);
-$menu-md-box-shadow: 0 0 10px   $menu-md-box-shadow-color;
-
-$toolbar-md-text-color:     $basic-design-color;
-
-$list-background-color:   white;
-$list-md-text-color:        $basic-design-color;
-$list-md-header-color:	    $basic-color-white;
-$list-md-header-font-size:  $font-size-small;
-$list-md-header-margin-bottom: 0;
-
-$toggle-md-active-color:    $basic-design-color;
-
-$button-md-color:           $basic-design-color;
-$toolbar-md-button-color:   $basic-design-color;
-
-$tabbar-md-item-icon-size: 2.8em;
-
-$radio-md-color-off:    rgba(106,109,122,0.5);
-$radio-md-color-on:     rgba(106,109,122,1);
-
-$checkbox-md-icon-background-color-on:    rgba(106,109,122,0.5);
-$checkbox-md-icon-background-color-off:   rgba(106,109,122,0.5);
-$checkbox-md-icon-border-color-on:        rgba(106,109,122,1);
-$checkbox-md-icon-border-color-off:       rgba(106,109,122,1);
-
-$card-md-text-color:        $basic-design-color;
-$card-md-title-text-color:  $basic-design-color;
-
 // sizes
 $bitpocket-xs-min: 360px;
 $bitpocket-sm-min: 576px;
 $bitpocket-md-min: 768px;
 
+
+// Named Color Variables
+// --------------------------------------------------
+// Named colors makes it easy to reuse colors on various components.
+// It's highly recommended to change the default colors
+// to match your app's branding. Ionic uses a Sass map of
+// colors so you can add, rename and remove colors as needed.
+// The "primary" color is the only required color in the map.
+
+$basic-color: rgba(106,109,122,1);
+$basic-color-transparency: rgba(255,255,255,0.2);
+ 
 $colors: (
-  primary:      #333,
-  secondary:    #6A6D7A,
-  danger:       #f53d3d,
-  success:      #008000,
-  light:        #f4f4f4,
-  dark:         #222,
-  white:        #FFF,
-  favorite:     #69BB7B,
-  confirmed:    green ,
-  unconfirmed:  yellow ,
+  primary:    $basic-color,
+  secondary:  #32db64,
+  danger:     #f53d3d,
+  light:      #f4f4f4,
+  dark:       #222,
   menu-item: (
-          base:     $basic-design-color,                         //-> Background
-          contrast: $basic-design-color,                         //-> Text
+          base:     $basic-color,
+          contrast: $basic-color
   ),
   menutoggle: (
-          base:     $basic-design-color,                         //-> Background
-          contrast: $basic-design-color,                         //-> Text
+          base:     $basic-color,
+          contrast: $basic-color
   ),
   number: (
-          base:     $basic-design-color,                         //-> Background
-          contrast: $basic-color-white,                          //-> Text
+          base:     $basic-color,
+          contrast: white
   ),
   number-decimals: (
-          base:     $basic-background-color-transparency,        //-> Background
-          contrast: $basic-color-white,                          //-> Text
+          base:     $basic-color-transparency,
+          contrast: white
   ),
   number-backspaceinput: (
-          base:     $basic-background-color-transparency,         //-> Background
-          contrast: $basic-color-white,                           //-> Text
+          base:     $basic-color-transparency,
+          contrast: white
   ),
   numpad-reset: (
-          base:     $basic-background-color-transparency,         //-> Background
-          contrast: $basic-color-white,                           //-> Text
+          base:     $basic-color-transparency,
+          contrast: white
   ),
   numpad-request: (
-          base:     $basic-color-white,                           //-> Background
-          contrast: $basic-design-color,                          //-> Text
+    base:     white,
+    contrast: $basic-color
   ),
   show-history: (
-          base:     $basic-color-white,                           //-> Background
-          contrast: $basic-design-color,                          //-> Text
+    base:     white,
+    contrast: $basic-color
   ),
   checkbox-style: (
-          base:     $basic-color-white,                           //-> Background
-          contrast: $basic-design-color,                          //-> Text
+    base:     white,
+    contrast: $basic-color
   )
 );
 
-$text-input-highlight-color-valid: map-get($colors, primary);
+$text-color: map-get($colors , primary);
+
+
+// App iOS Variables
+// --------------------------------------------------
+// iOS only Sass variables can go here
+
+$toolbar-ios-title-text-color: map-get($colors , primary); 
+
+
+// App Material Design Variables
+// --------------------------------------------------
+// Material Design only Sass variables can go here
+
+$font-family-md-base: $font-family-base;
+
+$toolbar-md-button-color:     map-get($colors , primary);
+$toolbar-md-title-text-color: map-get($colors , primary);
+
+$list-md-header-color:	    white;
+$list-md-header-font-size:  $font-size-small;
+$list-md-text-color:        map-get($colors , primary);
+
+$card-md-text-color:        map-get($colors , primary);
+$card-md-title-text-color:  map-get($colors , primary);
+
+$checkbox-md-icon-background-color-on:    rgba(map-get($colors , primary),0.5);
+$checkbox-md-icon-background-color-off:   rgba(map-get($colors , primary),0.5); 
+$checkbox-md-icon-border-color-on:        map-get($colors , primary);
+$checkbox-md-icon-border-color-off:       map-get($colors , primary);
+
+// App Windows Variables
+// --------------------------------------------------
+// Windows only Sass variables can go here
+
+
+
+
+// App Theme
+// --------------------------------------------------
+// Ionic apps can have different themes applied, which can
+// then be future customized. This import comes last
+// so that the above variables are used and Ionic's
+// default are overridden.
 
 @import "ionic.theme.default";
 
-$ionicons-font-path: "../assets/fonts";
+
+// Ionicons
+// --------------------------------------------------
+// The premium icon font for Ionic. For more info, please see:
+// http://ionicframework.com/docs/v2/ionicons/
+
 @import "ionic.ionicons";
+
+
+// Fonts
+// --------------------------------------------------
+
+@import "font";

@@ -11,7 +11,6 @@ export class QRScannerPage {
     protected scanningError: Toast;
     protected validate:any;
 
-
     constructor(private toastController: ToastController, private viewController: ViewController, navParams: NavParams) {
         this.scanningError = toastController.create({
             message : 'There was a scanning error, please try again!' ,

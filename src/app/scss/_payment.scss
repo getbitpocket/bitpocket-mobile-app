@@ -14,14 +14,9 @@
         font-size: $font-size-x-small;
         overflow: hidden;
         white-space: nowrap;
-        
-        span {
-            //transition: all 200ms ease;
-        }
 
         .active {            
             font-size: $font-size-x-large;  
-            // transition: all 200ms ease;                      
         }
     }
 

@@ -100,7 +100,20 @@ export class AccountService {
         return new Promise<Account> ((resolve, reject) => {
             this.config.get(Config.CONFIG_KEY_DEFAULT_ACCOUNT)
                 .then(accountId => {
-                    resolve(this.getAccount(accountId));
+                    return this.getAccount(accountId);                    
+                }).then(account => {
+                    resolve(account);
+                }).catch(() => {
+                    // stored default account id, is not available anymore
+                    return this.getAccounts()
+                }).then((accounts:any[]) => {
+                    if (accounts && accounts.length > 0) {
+                        return this.config.set(Config.CONFIG_KEY_DEFAULT_ACCOUNT, accounts[0]._id);
+                    } else {
+                        reject('no accounts available');
+                    }
+                }).then(() => {
+                    resolve(this.getDefaultAccount());
                 });
         });
     }

@@ -1,19 +1,22 @@
-import {Component, HostListener} from '@angular/core';
-import {NavController} from 'ionic-angular';
+import {Component} from '@angular/core';
+import {NavController, Config} from 'ionic-angular';
 import {AmountPage} from '../pages/amount/amount';
 
 @Component({
     selector: 'bitpocket-logo' ,
-    templateUrl: 'logo.html'
+    template: '<img [ngClass]="modeClass" (click)="click($event)" title="BitPocket Logo" src="assets/img/bitpocket_icon_135x135.svg">'
 })
 export class Logo {
 
-    constructor(private navigation:NavController) {}
+    modeClass:string = "";
 
-    @HostListener('click', ['$event'])
-    click(ev: UIEvent) {        
-        ev.preventDefault();
-        ev.stopPropagation();
+    constructor(
+        protected config:Config,
+        protected navigation:NavController) {
+            this.modeClass = config.get('mode', 'md');
+        }
+
+    click(ev: UIEvent) {      
         this.navigation.setRoot(AmountPage);
     }
 

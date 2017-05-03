@@ -112,6 +112,7 @@ export function createTranslateLoader(http: Http) {
         { component: AmountPage, name: 'AmountPage', segment: 'amount' } ,
         { component: AccountPage, name: 'AccountPage', segment: 'account' } ,
         { component: AccountFormPage, name: 'AccountFormPage', segment: 'account-form' } ,
+        { component: OfflinePage, name: 'OfflinePage', segment: 'offline' } ,
       ]
     }) ,    
     IonicStorageModule.forRoot(),

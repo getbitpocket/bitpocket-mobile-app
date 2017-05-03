@@ -1,13 +1,16 @@
-@import "scss/numpad";
 @import "scss/buttons";
 @import "scss/content";
-@import "scss/fonts";
 @import "scss/logo";
 @import "scss/md";
 @import "scss/menu";
 @import "scss/payment";
 @import "scss/utilities";
+@import "scss/numpad";
 
-.title-md {
+.toolbar-title-md {
     text-align:left !important;
+}
+
+.toolbar-title-ios {
+    padding-top:10px;
 }
