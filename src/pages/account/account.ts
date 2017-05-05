@@ -1,7 +1,7 @@
-import { HistoryPage } from './../history/history';
-import { AccountFormPage } from './account-form';
 import { NavController } from 'ionic-angular';
 import {Component} from '@angular/core';
+import { HistoryPage } from './../history/history';
+import { AccountFormPage } from '../account-form/account-form';
 import { Config, AccountService } from './../../providers/index';
 
 @Component({

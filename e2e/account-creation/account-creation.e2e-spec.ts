@@ -1,7 +1,7 @@
-import { OnboardingPage } from './onboarding.po';
+import { OnboardingPage } from './account-creation.po';
 import { browser, element, by, promise } from 'protractor';
 
-describe('Onboarding', function() {
+describe('Account Creation', function() {
     let page: OnboardingPage;
 
     beforeEach(() => {
@@ -11,7 +11,7 @@ describe('Onboarding', function() {
     describe('Create Account', () => {
 
         beforeEach(() => {
-            browser.get('/#/onboarding');
+            browser.get('/#/account-creation');
             browser.ignoreSynchronization = true;
         });
 

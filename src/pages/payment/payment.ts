@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { PaymentRequestHandler } from './../../api/payment-request-handler';
 import { PAYMENT_STATUS_RECEIVED, PAYMENT_STATUS_TIMEOUT, PaymentRequest } from './../../api/payment-request';
 import { PaymentService, AccountService, BitcoinUnit, Config, CurrencyService } from './../../providers/index';
-import {PaymentResultPage} from './payment-result';
+import {PaymentResultPage} from '../payment-result/payment-result';
 import {AmountPage} from '../amount/amount';
 import * as bip21 from 'bip21';
 import * as qrcode from 'qrcode-generator';

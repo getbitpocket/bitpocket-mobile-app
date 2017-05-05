@@ -40,5 +40,59 @@
             vertical-align: middle;
         }
     }
+}
 
+.payment-qr {
+    padding:0 6%;
+    text-align: center;
+    height: 35%;
+
+    div {
+        display:inline-block;            
+        background:white;
+        img {
+            margin:20px;
+        }
+    }
+}
+
+.payment-info {
+    color: white;
+    margin-top:95px;
+    text-align: center;
+    font-size: 1.2em;
+    .payment-text {
+        margin:0;
+    }        
+}
+
+.payment-result-box {
+    color:white;
+    height: 70%;
+    margin:0 10%;
+    text-align: center;
+
+    .payment-result-icon {
+        padding: 20% 10% 5% 10%;
+        font-size: 8.0rem;
+    }
+
+    .payment-result-text {
+        font-size: $font-size-small;
+    }
+
+}
+
+.payment-result-history {
+    position: absolute;
+    bottom: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    .button-show-history {
+        border-radius: $button-border-radius;
+    }
+}
+
+.transaction-failed .payment-result-history {
+    display:none;
 }

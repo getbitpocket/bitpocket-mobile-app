@@ -8,7 +8,7 @@
     "MENU.SETTINGS" : "Einstellungen" ,
 
     "TITLE.ACCOUNTS" : "Konten",
-    "TITLE.REQUEST_AMOUNT" : "Zahlung anfordern",
+    "TITLE.REQUEST_AMOUNT" : "Zahlung",
     "TITLE.HISTORY" : "Transaktionen",
     "TITLE.SETTINGS" : "Einstellungen",
     "TITLE.GENERAL" : "Allgemeine Einstellungen",
@@ -55,6 +55,7 @@
     "BUTTON.HISTORY" : "Transaktionen",
     "BUTTON.OK" : "Ok",
     "BUTTON.CANCEL" : "Abbrechen",
+    "BUTTON.BACK" : "Zurück",
     
     "LIST_HEADING.GENERAL_SETTINGS" : "Allgemeine Einstellungen",
     "LIST_HEADING.CURRENCY" : "Währung",

@@ -55,6 +55,7 @@
     "BUTTON.HISTORY" : "Transakcje",
     "BUTTON.OK" : "Ok",
     "BUTTON.CANCEL" : "Anuluj",
+    "BUTTON.BACK" : "Tył",
 
     "LIST_HEADING.GENERAL_SETTINGS" : "Ustawienia ogólne",
     "LIST_HEADING.CURRENCY" : "Waluta",

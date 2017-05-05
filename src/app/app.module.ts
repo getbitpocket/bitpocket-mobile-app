@@ -17,19 +17,19 @@ window['PouchDB'] = PouchDB;
 import { BitPocketApp } from './app.component';
 
 // Pages
-import {AccountPage} from '../pages/account/account';
 import {AmountPage} from '../pages/amount/amount';
-import {SettingsPage} from '../pages/settings/settings';
+import {AccountPage} from '../pages/account/account';
+import {AccountCreationPage} from '../pages/account-creation/account-creation';
+import {AccountFormPage} from '../pages/account-form/account-form';
+import {PaymentPage} from '../pages/payment/payment';
+import {PaymentResultPage} from '../pages/payment-result/payment-result';
 import {HistoryPage} from '../pages/history/history';
-import {AccountCreationPage} from '../pages/onboarding/account-creation';
-import {OfflinePage} from '../pages/onboarding/offline';
+import {SettingsPage} from '../pages/settings/settings';
 import {GeneralPage} from '../pages/settings/general/general';
 import {CurrencyPage} from '../pages/settings/currency/currency';
-import {PaymentPage} from '../pages/payment/payment';
-import {PaymentResultPage} from '../pages/payment/payment-result';
 import {QRScannerPage} from '../pages/qrscanner/qrscanner';
 import {PincodePage} from '../pages/pincode/pincode';
-import {AccountFormPage} from '../pages/account/account-form';
+import {OfflinePage} from '../pages/offline/offline';
 
 // Providers
 import {
@@ -108,7 +108,7 @@ export function createTranslateLoader(http: Http) {
     HttpModule,
     IonicModule.forRoot(BitPocketApp, {}, {
       links: [
-        { component: AccountCreationPage, name: 'AccountCreationPage', segment: 'onboarding' } ,
+        { component: AccountCreationPage, name: 'AccountCreationPage', segment: 'account-creation' } ,
         { component: AmountPage, name: 'AmountPage', segment: 'amount' } ,
         { component: AccountPage, name: 'AccountPage', segment: 'account' } ,
         { component: AccountFormPage, name: 'AccountFormPage', segment: 'account-form' } ,
