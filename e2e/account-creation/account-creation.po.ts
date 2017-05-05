@@ -10,7 +10,10 @@ export class OnboardingPage extends MainPage {
     }
 
     hasAlert() {
-        return element(by.css('ion-alert')).isDisplayed();
+        browser.sleep(1000)
+            .then(() => {
+                return element(by.css('button[ion-button="alert-button"]')).click();
+            });        
     }
   
 }

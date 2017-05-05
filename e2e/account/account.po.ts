@@ -4,15 +4,19 @@ import { MainPage } from './../main.po';
 export class AccountPage extends MainPage {
 
     navigateNewAccountPage() {
-        return element(by.css('ion-fab button')).click()
+        return browser.sleep(1000)
             .then(() => {
+                return element(by.css('ion-fab button')).click()
+            }).then(() => {
                 return browser.sleep(500);
             });
     }
 
     countAccounts() {
-        return element.all(by.css('.scroll-content ion-card'))
-            .then(items => {
+        return browser.sleep(1000)
+            .then(() : any => {
+                 return element.all(by.css('.scroll-content ion-card'));
+            }).then(items => {
                 return items.length;
             });
     }
@@ -21,9 +25,6 @@ export class AccountPage extends MainPage {
         return element.all(by.css('ion-navbar .back-button'))
             .then(items => {
                 return items[items.length - 1].click();
-            })
-            .then(() => {
-                return browser.sleep(500);
             });
     }
 

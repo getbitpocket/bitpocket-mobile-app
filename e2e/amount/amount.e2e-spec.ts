@@ -5,15 +5,16 @@ describe('Amount', function() {
     let page: AmountPage;
 
     beforeEach(() => {
+        browser.restartSync();
         page = new AmountPage();
     });
 
     describe('Amount', () => {
 
         beforeEach(() => {
+            browser.ignoreSynchronization = true;
             page.createAccount('n1RGwdbNTgNL868cRFCcimdCAQMft8HZKo')
-                .then(() => {
-                    browser.ignoreSynchronization = true;
+                .then(() => {                    
                     browser.get('/#/amount');   
                 });         
         });
