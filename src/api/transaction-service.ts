@@ -3,6 +3,6 @@ import { Transaction } from './transaction';
 
 export interface TransactionService {
 
-    findTransactions(filter:TransactionFilter) : Promise<Array<Transaction>>;
+    findTransactions(filter:TransactionFilter) : Promise<Transaction[]>;
 
 }

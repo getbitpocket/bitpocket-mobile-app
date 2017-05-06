@@ -113,6 +113,12 @@ export function createTranslateLoader(http: Http) {
         { component: AccountPage, name: 'AccountPage', segment: 'account' } ,
         { component: AccountFormPage, name: 'AccountFormPage', segment: 'account-form' } ,
         { component: OfflinePage, name: 'OfflinePage', segment: 'offline' } ,
+        { component: SettingsPage, name: 'SettiongsPage', segment: 'settings' } ,
+        { component: CurrencyPage, name: 'CurrencyPage', segment: 'currency' } ,
+        { component: GeneralPage, name: 'GeneralPage', segment :'general' } ,
+        { component: HistoryPage, name: 'HistoryPage', segment: 'history' } ,
+        { component: PaymentPage, name: 'PaymentPage', segment: 'payment' } ,
+        { component: PaymentResultPage, name: 'PaymentResultPage', segment: 'payment-result' }
       ]
     }) ,    
     IonicStorageModule.forRoot(),

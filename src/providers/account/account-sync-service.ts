@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CryptocurrencyService, InsightTransactionService, TransactionStorageService, AccountService } from './../index';
 import { Account } from './../../api/account';
+import { Transaction } from './../../api/transaction';
 
 @Injectable()
 export class AccountSyncService {
@@ -53,7 +54,7 @@ export class AccountSyncService {
                 addresses: [address] ,
                 from: index ,
                 to : (index + this.retrievalLength)
-            }).then(transactions => {
+            }).then((transactions:Transaction[]) => {
                 let promises = [];                
                 for (let i = 0; i < transactions.length; i++) {
                     // add accountId for retrieval of xpub releated transactions
@@ -64,7 +65,7 @@ export class AccountSyncService {
                     promises.push(new Promise<any>((resolve, reject) => {
                         this.transactionStorageService
                             .retrieveTransaction(transactions[i]._id)
-                            .then(transaction => {
+                            .then((transaction:Transaction) => {
                                 let store = false;
 
                                 if (transaction.confirmations < 6) {
@@ -88,7 +89,7 @@ export class AccountSyncService {
                     }));                    
                 }
                 return Promise.all(promises);                
-            }).then(promises => {
+            }).then((promises:any) => {
                 if (!Array.isArray(promises)) {
                     promises = [];
                 }

@@ -16,7 +16,7 @@ export class InsightTransactionService implements TransactionService {
         protected http:Http,
         protected cryptocurrencyService: CryptocurrencyService) {}
 
-    findTransactions(filter:TransactionFilter) : Promise<Array<Transaction>> {
+    findTransactions(filter:TransactionFilter) : Promise<Transaction[]> {
         return new Promise((resolve, reject) => {
             this.http.get(this.buildUrl(filter))
                 .map(response => response.json())
