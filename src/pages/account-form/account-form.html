@@ -16,7 +16,7 @@
         <ion-item dark>
             <ion-label floating>{{ 'TEXT.' + account.type | translate }}</ion-label>
             <ion-input [disabled]="!accountEnabled" [readonly]="!accountEnabled" type="text" [(ngModel)]="account.data"></ion-input>
-            <button *ngIf="accountEnabled" ion-button clear item-right (click)="scan()"><ion-icon name="qr-scanner"></ion-icon></button>
+            <button *ngIf="accountEnabled" class="button-qr-scanner" ion-button clear item-right (click)="scan()"><ion-icon name="qr-scanner"></ion-icon></button>
         </ion-item>
 
         <ion-item dark>            
