@@ -26,6 +26,10 @@
         overflow: hidden;
         min-height: 50px;
 
+        .checkbox-disabled {
+            opacity: 1 !important;
+        }
+
         &.vertical-align {
             line-height:50px;
         }

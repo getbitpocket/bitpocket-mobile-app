@@ -7,9 +7,9 @@
 </ion-header>
 <ion-content no-scroll>
         <div class="payment-specification">
-            <div class="payment-currency">
-                <ion-checkbox checkbox-style [(ngModel)]="entryInFiat" (click)="changeInputCurrency('Fiat')"></ion-checkbox>
-                <ion-label (click)="changeInputCurrency('Fiat')">{{ currency }}</ion-label>
+            <div class="payment-currency" (click)="changeInputCurrency('FIAT')">
+                <ion-checkbox [disabled]="true" checkbox-style [(ngModel)]="entryInFiat" ></ion-checkbox>
+                <ion-label>{{ currency }}</ion-label>
             </div>
             <div class="payment-amount">
                 <div [ngClass]="{active:entryInFiat}">
@@ -19,9 +19,9 @@
                     <span dynamicFontSize [content]="exchangedAmount" maxFontSize="25" minFontSize="1" *ngIf="entryInBTC">{{ exchangedAmount }}</span>
                 </div>
             </div>
-            <div class="payment-currency">
-                <ion-checkbox checkbox-style [(ngModel)]="entryInBTC" (click)="changeInputCurrency('BTC')"></ion-checkbox>
-                <ion-label (click)="changeInputCurrency('BTC')">{{ bitcoinUnit }}</ion-label>
+            <div class="payment-currency" (click)="changeInputCurrency('BTC')">
+                <ion-checkbox [disabled]="true" checkbox-style [(ngModel)]="entryInBTC"></ion-checkbox>
+                <ion-label >{{ bitcoinUnit }}</ion-label>
             </div>
             <div class="payment-amount">
                 <div [ngClass]="{active:entryInBTC}">

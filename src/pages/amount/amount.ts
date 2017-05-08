@@ -73,8 +73,14 @@ export class AmountPage {
     }
 
     changeInputCurrency(inputCurrency: string) {
-        this.entryInBTC  = !this.entryInBTC;
-        this.entryInFiat = !this.entryInFiat;
+        if (inputCurrency == 'BTC') {
+            this.entryInBTC  = true;
+            this.entryInFiat = false;
+        } else {
+            this.entryInBTC  = false;
+            this.entryInFiat = true;
+        }
+        
         this.resetAmount(); 
     }
 
