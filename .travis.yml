@@ -4,9 +4,9 @@ dist: trusty
 node_js:
   - "6"
 
-install:
-  - npm i
+install:  
   - npm i cordova ionic@beta -g
+  - npm i
   
 script:
   - npm test
