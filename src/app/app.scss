@@ -15,7 +15,12 @@
     padding-top:12px;
 }
 
-ion-app, ion-app.ios {
+ion-app {
+  &.md,
+  &.ios {
     background-color: transparent !important;
-    background: transparent !important;    
+    .ion-page.show-page ~ .nav-decor {
+      background-color: transparent !important;
+    }
+  }
 }
