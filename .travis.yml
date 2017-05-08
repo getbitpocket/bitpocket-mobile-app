@@ -6,7 +6,7 @@ node_js:
 
 install:
   - npm i
-  - npm i ionic -g
+  - npm i cordova ionic@beta -g
   
 script:
   - npm test
