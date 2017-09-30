@@ -90,8 +90,8 @@ export class PincodePage {
         this.pin = ["","","",""];
     }
 
-    hashedPin() : string {
-        return bitcoin.crypto.sha256(this.pin.join('')).toString('hex');
+    hashedPin() : string {        
+        return bitcoin.crypto.sha256(new Buffer(this.pin.join(''))).toString('hex');
     }
 
     verify(token:string) : boolean {

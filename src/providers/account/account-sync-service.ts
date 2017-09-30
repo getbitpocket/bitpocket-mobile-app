@@ -56,48 +56,14 @@ export class AccountSyncService {
                 to : (index + this.retrievalLength)
             }).then((transactions:Transaction[]) => {
                 let promises = [];                
-                for (let i = 0; i < transactions.length; i++) {
-                    // add accountId for retrieval of xpub releated transactions
-                    if (accountId != null) {
-                        transactions[i].account = accountId;
-                    }
-
-                    promises.push(new Promise<any>((resolve, reject) => {
-                        this.transactionStorageService
-                            .retrieveTransaction(transactions[i]._id)
-                            .then((transaction:Transaction) => {
-                                let store = false;
-
-                                if (transaction.confirmations < 6) {
-                                    transaction.confirmations = transactions[i].confirmations;
-                                    store = true;
-                                }
-                                if (!!transactions[i].account &&
-                                    !transaction.account) {
-                                    transaction.account = transactions[i].account;
-                                    store = true;
-                                }
-
-                                if (store) {                                
-                                    resolve(this.transactionStorageService.storeTransaction(transaction));
-                                } else {
-                                    resolve();
-                                }
-                            }).catch(() => {
-                                resolve(this.transactionStorageService.storeTransaction(transactions[i]));
-                            });
-                    }));                    
+                for (let i = 0; i < transactions.length; i++) {        
+                    promises.push(this.checkUpdateTransaction(transactions[i]));                    
                 }
                 return Promise.all(promises);                
-            }).then((promises:any) => {
-                if (!Array.isArray(promises)) {
-                    promises = [];
-                }
-
+            }).then((promises:any) => {                
                 let filtered = promises.filter((item) => {
-                    return typeof item != 'undefined';
+                    return !!item;
                 });
-
                 if (filtered && filtered.length >= this.retrievalLength) {
                     resolve(this.syncAddress(address, index + this.retrievalLength));
                 } else {
@@ -107,6 +73,27 @@ export class AccountSyncService {
                 reject(e);
             });
         });
+    }
+
+    checkUpdateTransaction(transaction:Transaction, accountId:string = null) : Promise<Transaction> {
+        return new Promise<Transaction> ((resolve, reject) => {
+            this.transactionStorageService
+                .retrieveTransaction(transaction._id)
+                .then((storedTransaction:Transaction) => {
+
+                    if ( storedTransaction.confirmations < 6 || (!!accountId && !storedTransaction.account) ) {
+                        storedTransaction.confirmations = transaction.confirmations;
+                        storedTransaction.account = transaction.account;
+                        this.transactionStorageService.storeTransaction(storedTransaction);
+                        resolve(this.transactionStorageService.storeTransaction(storedTransaction));
+                    } else {
+                        resolve(null);
+                    }        
+
+                }).catch(() => {
+                    resolve(this.transactionStorageService.storeTransaction(transaction));
+                });
+        });        
     }
 
 }

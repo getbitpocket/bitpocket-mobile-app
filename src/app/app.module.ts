@@ -1,6 +1,6 @@
 import { NgModule, ErrorHandler  } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { Http, HttpModule } from '@angular/http';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { IonicStorageModule, Storage } from '@ionic/storage';
 import { IonicApp, IonicModule, IonicErrorHandler, ModalController } from 'ionic-angular';
 
@@ -77,7 +77,7 @@ import { BitpocketCurrencyPipe } from '../pipes/currency';
 import { BitpocketUnitPipe } from './../pipes/unit';
 import { BitpocketFiatPipe } from './../pipes/fiat';
 
-export function createTranslateLoader(http: Http) {
+export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
@@ -105,7 +105,7 @@ export function createTranslateLoader(http: Http) {
   ],
   imports: [
     BrowserModule,
-    HttpModule,
+    HttpClientModule,
     IonicModule.forRoot(BitPocketApp, {}, {
       links: [
         { component: AccountCreationPage, name: 'AccountCreationPage', segment: 'account-creation' } ,
@@ -126,7 +126,7 @@ export function createTranslateLoader(http: Http) {
       loader : {
         provide: TranslateLoader,
         useFactory: (createTranslateLoader),
-        deps: [Http]
+        deps: [HttpClient]
       }
     })
   ],
@@ -152,14 +152,14 @@ export function createTranslateLoader(http: Http) {
     { provide: CurrencyService, useFactory: provideCurrencyService, deps: [Config, BitcoinAverageExchangeService] } ,
     { provide: AccountService, useFactory: provideAccountService, deps: [CryptocurrencyService, Config, Repository] } ,
     { provide: AccountSyncService, useFactory: provideAccountSyncService, deps: [InsightTransactionService, TransactionStorageService, AccountService, CryptocurrencyService] } ,
-    { provide: InsightTransactionService, useFactory: provideTransactionService, deps: [Http, CryptocurrencyService] } ,
+    { provide: InsightTransactionService, useFactory: provideTransactionService, deps: [HttpClient, CryptocurrencyService] } ,
     { provide: TransactionStorageService, useFactory: provideTransactionStorageService, deps: [Repository] } ,
     { provide: PaymentService, useFactory: providePaymentService, deps: [InsightTransactionService] } ,
     { provide: CryptocurrencyService, useFactory: provideCryptocurrencyService } ,  
     { provide: Repository, useFactory:provideRepository } ,
     { provide:Config, useFactory:provideConfig, deps:[Storage] } ,
     { provide:QRScanner, useFactory:provideQRScanner, deps:[ModalController] },
-    { provide:BitcoinAverageExchangeService, useFactory:provideBitcoinAverageExchangeService, deps:[Http] },
+    { provide:BitcoinAverageExchangeService, useFactory:provideBitcoinAverageExchangeService, deps:[HttpClient] },
     SplashScreen,
     Network,
     StatusBar

@@ -2,7 +2,7 @@ import { TransactionService } from './../../../api/transaction-service';
 import { TransactionFilter } from './../../../api/transaction-filter';
 import { CryptocurrencyService, TESTNET } from './../../index';
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import { Transaction } from './../../../api/transaction';
 import 'rxjs/add/operator/map';
 
@@ -13,13 +13,12 @@ export class InsightTransactionService implements TransactionService {
     BITCOIN_URL = "https://insight.bitpay.com";
 
     constructor(
-        protected http:Http,
+        protected http:HttpClient,
         protected cryptocurrencyService: CryptocurrencyService) {}
 
     findTransactions(filter:TransactionFilter) : Promise<Transaction[]> {
         return new Promise((resolve, reject) => {
             this.http.get(this.buildUrl(filter))
-                .map(response => response.json())
                 .subscribe(response => {
                     resolve(this.parseTransactions(filter.addresses, response));
                 },() => { reject(); });

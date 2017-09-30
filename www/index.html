@@ -2,7 +2,7 @@
 <html lang="en" dir="ltr">
 <head>
   <script data-ionic="inject">
-    (function(w){var i=w.Ionic=w.Ionic||{};i.version='3.1.1';i.angular='4.1.0';i.staticDir='build/';})(window);
+    (function(w){var i=w.Ionic=w.Ionic||{};i.version='^3.7.0';i.angular='^4.4.3';i.staticDir='build/';})(window);
   </script>
   <meta charset="UTF-8">
   <title>BitPocket</title>
@@ -37,6 +37,9 @@
 
   <!-- The polyfills js is generated during the build process -->
   <script src="build/polyfills.js"></script>
+
+  <!-- The bundle js is generated during the build process -->
+  <script src="build/vendor.js"></script> 
 
   <!-- The bundle js is generated during the build process -->
   <script src="build/main.js"></script>

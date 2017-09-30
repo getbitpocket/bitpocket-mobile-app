@@ -1,4 +1,4 @@
-import {Http} from '@angular/http';
+import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {CurrencyExchangeRate} from '../../api/currency-exchange-rate';
 import {CurrencyExchangeService} from '../../api/currency-exchange-service';
@@ -6,7 +6,7 @@ import {CurrencyExchangeService} from '../../api/currency-exchange-service';
 @Injectable()
 export class BitcoinAverageExchangeService implements CurrencyExchangeService {
         
-    constructor(protected http:Http) {
+    constructor(protected http:HttpClient) {
     }
 
     prepareOne(code, json:any) : CurrencyExchangeRate {        
@@ -38,11 +38,10 @@ export class BitcoinAverageExchangeService implements CurrencyExchangeService {
                 this.http.get('https://apiv2.bitcoinaverage.com/indices/global/ticker/short?crypto=BTC')
                     .subscribe(
                         response => {
-                            if (response.status === 200) {
-                                resolve(this.prepareAll(response.json()));
-                            } else {
-                                reject();
-                            }
+                            resolve(this.prepareAll(response));                            
+                        } ,
+                        error => {
+                            reject();
                         }
                     );
             } catch(e) {
@@ -57,12 +56,11 @@ export class BitcoinAverageExchangeService implements CurrencyExchangeService {
             try {
                 this.http.get('https://apiv2.bitcoinaverage.com/indices/global/ticker/short?crypto=BTC&fiats=' + code)
                     .subscribe(
-                        response => {
-                            if (response.status === 200) {                                
-                                resolve(this.prepareOne(code, response.json()['BTC' + code]));
-                            } else {
-                                reject();
-                            }
+                        response => {                            
+                            resolve(this.prepareOne(code, response['BTC' + code]));
+                        } ,
+                        error => {
+                            reject();
                         }
                     );
             } catch(e) {

@@ -1,5 +1,5 @@
 import { Storage } from '@ionic/storage';
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import { ModalController } from 'ionic-angular';
 import { TransactionStorageService } from './transaction/transaction-storage-service';
 import { InsightTransactionService } from './transaction/insight-transaction-service/insight-transaction-service';
@@ -41,7 +41,7 @@ export function provideAccountSyncService(transactionService:InsightTransactionS
     return new AccountSyncService(transactionService, transactionStorageService, accountService, cryptocurrencyService);
 }
 
-export function provideTransactionService(http:Http, cryptocurrencyService:CryptocurrencyService) {
+export function provideTransactionService(http:HttpClient, cryptocurrencyService:CryptocurrencyService) {
     return new InsightTransactionService(http, cryptocurrencyService);
 }
 
@@ -69,7 +69,7 @@ export function provideQRScanner(modalController: ModalController) {
     return new QRScanner(modalController);
 }
 
-export function provideBitcoinAverageExchangeService(http:Http) {
+export function provideBitcoinAverageExchangeService(http:HttpClient) {
     return new BitcoinAverageExchangeService(http);
 }
 
