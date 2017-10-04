@@ -1,11 +1,13 @@
+import { TransactionServiceWrapper } from './transaction/transaction-service-wrapper';
 import { Storage } from '@ionic/storage';
 import { HttpClient } from '@angular/common/http';
 import { ModalController } from 'ionic-angular';
 import { TransactionStorageService } from './transaction/transaction-storage-service';
 import { InsightTransactionService } from './transaction/insight-transaction-service/insight-transaction-service';
+import { BlockchainInfoService } from './transaction/blockchain-info-service/blockchain-info-service';
 import { QRScanner } from './qrscanner/qrscanner';
 import { PaymentService } from './payment/payment-service';
-import { InsightPaymentRequestHandler } from './payment/insight-payment-request-handler';
+import { InsightPaymentRequestHandler } from './payment/payment-request-handler/insight-payment-request-handler';
 import { BitcoinAverageExchangeService } from './currency/bitcoinaverage-service';
 import { BitcoinUnit } from './currency/bitcoin-unit';
 import { CurrencyService } from './currency/currency-service';
@@ -37,20 +39,20 @@ export function provideAccountService(cryptocurrencyService:CryptocurrencyServic
     return new AccountService(cryptocurrencyService, config, repository);
 }
 
-export function provideAccountSyncService(transactionService:InsightTransactionService, transactionStorageService:TransactionStorageService, accountService:AccountService, cryptocurrencyService:CryptocurrencyService) {
+export function provideAccountSyncService(transactionService:TransactionServiceWrapper, transactionStorageService:TransactionStorageService, accountService:AccountService, cryptocurrencyService:CryptocurrencyService) {
     return new AccountSyncService(transactionService, transactionStorageService, accountService, cryptocurrencyService);
 }
 
 export function provideTransactionService(http:HttpClient, cryptocurrencyService:CryptocurrencyService) {
-    return new InsightTransactionService(http, cryptocurrencyService);
+    return new TransactionServiceWrapper(http, cryptocurrencyService);
 }
 
 export function provideTransactionStorageService(repository:Repository) {
     return new TransactionStorageService(repository);
 }
 
-export function providePaymentService(transactionService:InsightTransactionService) {
-    return new PaymentService(transactionService);
+export function providePaymentService(transactionService:TransactionServiceWrapper, cryptocurrencyService:CryptocurrencyService) {
+    return new PaymentService(transactionService, cryptocurrencyService);
 }
 
 export function provideCryptocurrencyService() {
@@ -85,8 +87,10 @@ export {
     InsightPaymentRequestHandler,
     PaymentService,
     QRScanner,
-    InsightTransactionService,
     TransactionStorageService,
+    InsightTransactionService,    
+    BlockchainInfoService,
+    TransactionServiceWrapper,
     BITCOIN,
     TESTNET,
     BITCOIN_ADDRESS,

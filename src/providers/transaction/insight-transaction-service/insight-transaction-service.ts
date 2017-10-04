@@ -1,20 +1,21 @@
 import { TransactionService } from './../../../api/transaction-service';
 import { TransactionFilter } from './../../../api/transaction-filter';
-import { CryptocurrencyService, TESTNET } from './../../index';
+import { CryptocurrencyService, TESTNET, BITCOIN } from './../../index';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Transaction } from './../../../api/transaction';
-import 'rxjs/add/operator/map';
 
 @Injectable()
 export class InsightTransactionService implements TransactionService {
 
-    TESTNET_URL = "https://test-insight.bitpay.com";
-    BITCOIN_URL = "https://insight.bitpay.com";
-
     constructor(
         protected http:HttpClient,
-        protected cryptocurrencyService: CryptocurrencyService) {}
+        protected serviceUrl:string,
+        protected cryptocurrency:string = BITCOIN) {}
+
+    supports(cryptocurrency:string) {
+        return this.cryptocurrency == cryptocurrency;
+    }
 
     findTransactions(filter:TransactionFilter) : Promise<Transaction[]> {
         return new Promise((resolve, reject) => {
@@ -107,21 +108,11 @@ export class InsightTransactionService implements TransactionService {
         return -1;
     }
 
-    baseUrl(input:string) {
-        let output = this.cryptocurrencyService.parseInput(input);        
-
-        if (output.currency == TESTNET) {
-            return this.TESTNET_URL;
-        } else {
-            return this.BITCOIN_URL;
-        }
-    }
-
     buildUrl(filter:any = {}) : string {
         let url = "";
         
         if (filter.addresses && filter.addresses.length > 0) {          
-            url = this.baseUrl(filter.addresses[0]) + "/api";
+            url = this.serviceUrl + "/api";
 
             if (filter.txid) {
                 url += '/tx/' + filter.txid;
