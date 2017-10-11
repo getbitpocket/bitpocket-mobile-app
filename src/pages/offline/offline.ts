@@ -1,10 +1,13 @@
-import {Component} from '@angular/core';
-import {MenuController} from 'ionic-angular';
+import { Component } from '@angular/core';
+import { MenuController, IonicPage } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 declare var document:any;
 declare var navigator:any;
 
+@IonicPage({
+    name : 'offline'
+})
 @Component({
     templateUrl: 'offline.html',
 })

@@ -18,10 +18,6 @@ export class BlockchainInfoService implements TransactionService {
 
     constructor(protected http:HttpClient) {}
 
-    supports(cryptocurrency:string) {
-        return cryptocurrency == BITCOIN;
-    }
-
     findTransactions(filter: TransactionFilter) : Promise<Transaction[]> {
         return new Promise<Transaction[]>((resolve, reject) => {
             this.getBlockHeight()

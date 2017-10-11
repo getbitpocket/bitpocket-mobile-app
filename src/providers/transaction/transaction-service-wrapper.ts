@@ -22,10 +22,6 @@ export class TransactionServiceWrapper implements TransactionService {
         }
     }
 
-    supports(cryptocurrency: string): boolean {
-        return true;
-    }
-
     findTransactions(filter: TransactionFilter): Promise<Transaction[]> {
         this.init();
         return this.triggerRandomInstance(filter, this.checkCryptocurrency(filter));

@@ -1,21 +1,22 @@
-import {Component} from '@angular/core';
-import {NavParams,NavController} from 'ionic-angular';
-import {AmountPage} from '../amount/amount';
-import {HistoryPage} from '../history/history';
-import {CurrencyService, Config, AccountService, BitcoinUnit, AccountSyncService} from '../../providers/index';
-import {TranslateService} from '@ngx-translate/core';
-import {PaymentRequest} from './../../api/payment-request';
-import {Account} from './../../api/account';
+import { Component } from '@angular/core';
+import { NavParams, NavController, IonicPage } from 'ionic-angular';
+import { CryptocurrencyService, CurrencyService, Config, AccountService, BitcoinUnit, AccountSyncService } from '../../providers/index';
+import { TranslateService } from '@ngx-translate/core';
+import { PaymentRequest, PAYMENT_STATUS_RECEIVED, PAYMENT_STATUS_OVERPAID, PAYMENT_STATUS_PARTIAL_PAID } from './../../api/payment-request';
+import { Account } from './../../api/account';
 
+@IonicPage({
+    name : 'payment-result' ,
+    defaultHistory : ['amount']
+})
 @Component({
     templateUrl : 'payment-result.html'
 })
 export class PaymentResultPage {
     
+    resultSuccess : boolean = false;
     resultIcon : string = "";
-    resultClass = { "transaction-success" : false , "transaction-failed" : true };
     resultText : string = "";
-    success : boolean = false;
     paymentRequest:PaymentRequest;
     account:Account = null;
     
@@ -27,7 +28,11 @@ export class PaymentResultPage {
     waiting:boolean = true;
     
     getResultClasses() {
-        return this.resultClass;
+        if (this.resultSuccess) {
+            return { "transaction-success" : true , "transaction-failed" : false };
+        } else {
+            return { "transaction-success" : false , "transaction-failed" : true };
+        }
     }
 
     ionViewWillLeave() {
@@ -35,16 +40,18 @@ export class PaymentResultPage {
     }
 
     ionViewWillEnter() {
-        this.success = (this.params.data.success === true);
         this.paymentRequest = this.params.data.paymentRequest;
 
-        if (this.success) {
-            this.resultClass["transaction-success" ] = true;
-            this.resultClass["transaction-failed" ]  = false;
+        if (this.paymentRequest.status == PAYMENT_STATUS_RECEIVED) {
+            this.resultSuccess = true;
             this.resultIcon = "checkmark-circle";
+        } else if (this.paymentRequest.status == PAYMENT_STATUS_OVERPAID ||
+                   this.paymentRequest.status == PAYMENT_STATUS_PARTIAL_PAID) {
+            // change referenceAmount in accordance               
+            this.paymentRequest.referenceAmount = this.paymentRequest.referenceAmount * (this.paymentRequest.amount / this.paymentRequest.txAmount);
+            this.resultSuccess = true;
+            this.resultIcon = "alert";
         } else {
-            this.resultClass["transaction-success" ] = false;
-            this.resultClass["transaction-failed" ]  = true;
             this.resultIcon = "close-circle";
         }
         
@@ -54,31 +61,45 @@ export class PaymentResultPage {
             this.translate.get('PAYMENT_STATUS.' + this.paymentRequest.status).toPromise() ,
             this.accountService.getDefaultAccount()
         ]).then(promised => {
+            this.account = promised[3];
             this.currency = promised[0];
             this.referenceCurrency = this.paymentRequest.referenceCurrency;
-            this.amount = this.currencyService.formatNumber(BitcoinUnit.from(this.paymentRequest.amount,'BTC').to(promised[0]), promised[1], BitcoinUnit.decimalsCount(this.currency));
+            this.amount = this.currencyService.formatNumber(BitcoinUnit.from(this.paymentRequest.txAmount,'BTC').to(this.currency), promised[1], BitcoinUnit.decimalsCount(this.currency));           
             this.referenceAmount = this.currencyService.formatNumber(this.paymentRequest.referenceAmount, promised[1]);
             this.resultText = promised[2];
-            this.account = promised[3];
-
-            if (this.success) {
-                this.accountSyncService.syncAccount(this.account);
+                    
+            if (this.resultSuccess) {
+                this.accountSyncService.checkUpdateTransaction({
+                    _id       : this.paymentRequest.txid ,
+                    amount    : this.paymentRequest.txAmount ,
+                    currency  : this.cryptocurrencyService.parseInput(this.account.data).currency ,
+                    address   : this.paymentRequest.address ,
+                    incomming : true ,
+                    confirmations : 0 ,
+                    paymentReferenceAmount : this.paymentRequest.referenceAmount ,
+                    paymentReferenceCurrency : this.paymentRequest.referenceCurrency ,
+                    paymentStatus : this.paymentRequest.status
+                }, this.account._id).then(() => {
+                    // TODO: is a sync required at this moment?
+                    // index needs to be updated
+                    this.accountSyncService.syncAccount(this.account);
+                });                                       
             }
         });
 
         setTimeout(() => {
             if (this.waiting) {
-                this.nav.setRoot(AmountPage);
+                this.nav.setRoot('amount');
             }
         }, 30000);       
     }
 
-    showHistory() {
-        
-        this.nav.setRoot(HistoryPage, { account : this.account });
+    showHistory() {        
+        this.nav.setRoot('history', { account : this.account });
     }
     
     constructor(
+        protected cryptocurrencyService: CryptocurrencyService ,
         protected accountSyncService: AccountSyncService,
         protected accountService: AccountService,
         protected translate: TranslateService,

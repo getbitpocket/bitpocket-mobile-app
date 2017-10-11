@@ -1,14 +1,16 @@
 import { Component} from '@angular/core';
-import {NavParams,NavController} from 'ionic-angular';
+import { NavParams, NavController, IonicPage } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 import { PaymentRequestHandler } from './../../api/payment-request-handler';
-import { PAYMENT_STATUS_RECEIVED, PAYMENT_STATUS_TIMEOUT, PaymentRequest } from './../../api/payment-request';
+import { PAYMENT_STATUS_RECEIVED, PAYMENT_STATUS_OVERPAID, PAYMENT_STATUS_PARTIAL_PAID, PaymentRequest } from './../../api/payment-request';
 import { PaymentService, AccountService, BitcoinUnit, Config, CurrencyService } from './../../providers/index';
-import {PaymentResultPage} from '../payment-result/payment-result';
-import {AmountPage} from '../amount/amount';
 import * as bip21 from 'bip21';
 import * as qrcode from 'qrcode-generator';
 
+@IonicPage({
+    name : 'payment' ,
+    defaultHistory : ['amount']
+})
 @Component({
     templateUrl : 'payment.html'
 })
@@ -23,7 +25,8 @@ export class PaymentPage {
     currency: string = "";
     bitcoinUnit: string = "";
     currencyRate: number;
-    
+    label:string = "";    
+    currencySeparator:string = ".";
     address: string;
     readableAmount: string;
 
@@ -31,16 +34,17 @@ export class PaymentPage {
     paymentRequest:PaymentRequest;
 
     constructor(
-        private paymentService: PaymentService ,
-        private accountService: AccountService,
-        private translation: TranslateService ,
-        private currencyService: CurrencyService ,
-        private config: Config,
-        private params: NavParams,
-        private navigation:NavController) {     
+        protected paymentService: PaymentService ,
+        protected accountService: AccountService,
+        protected translation: TranslateService ,
+        protected currencyService: CurrencyService ,
+        protected config: Config,
+        protected navigation:NavController,
+        params: NavParams) {     
+        this.amount = params.data.amount;        
+    }
 
-        this.amount = params.data.amount;
-
+    ionViewWillEnter() {
         Promise.all<any>([
             this.config.get('currency') ,
             this.translation.get('FORMAT.CURRENCY_S').toPromise() ,
@@ -49,10 +53,12 @@ export class PaymentPage {
             this.currencyService.getSelectedCurrencyRate() ,
             this.config.get('payment-request-label')
         ]).then(promised => {       
-            this.currency      = promised[0];
-            this.bitcoinUnit   = promised[2];
-            this.address       = promised[3];
-            this.currencyRate  = promised[4];
+            this.currency          = promised[0];
+            this.currencySeparator = promised[1];
+            this.bitcoinUnit       = promised[2];
+            this.address           = promised[3];
+            this.currencyRate      = promised[4];
+            this.label             = promised[5];
 
             this.paymentRequest = {            
                 address : this.address ,
@@ -62,52 +68,59 @@ export class PaymentPage {
                 referenceAmount : this.amount.toFiat(this.currencyRate) ,
             };
 
-            this.fiatAmount    = this.currencyService.formatNumber(this.amount.toFiat(promised[4],2), promised[1]);
-            this.bitcoinAmount = this.currencyService.formatNumber(this.amount.to(this.bitcoinUnit), promised[1], BitcoinUnit.decimalsCount(this.bitcoinUnit));
-            
-            let bip21uri = bip21.encode(promised[3],{
+            this.fiatAmount    = this.currencyService.formatNumber(this.amount.toFiat(this.currencyRate, 2), this.currencySeparator);
+            this.bitcoinAmount = this.currencyService.formatNumber(this.amount.to(this.bitcoinUnit), this.currencySeparator, BitcoinUnit.decimalsCount(this.bitcoinUnit));                        
+            return this.createQrCode();
+        }).then((qrImage) => {
+            this.qrImage = qrImage;
+            this.initPaymentCheck();
+        }).catch((e) => {
+            this.navigation.setRoot('amount');
+            console.error(e);
+        });          
+    }
+
+    createQrCode() {
+        return new Promise<any> ((resolve, reject) => {
+            let bip21uri = bip21.encode(this.address,{
                 amount : this.amount.to('BTC') ,
-                label : promised[5]
+                label : this.label
             });
                            
             let qr:any = qrcode(6,'M');
             qr.addData(bip21uri);
             qr.make();
-            this.qrImage = qr.createImgTag(5,5); 
-
-            this.initPaymentCheck();
-        }).catch((e) => {
-            this.navigation.setRoot(AmountPage);
-            console.error(e);
-        });          
+            resolve(qr.createImgTag(5,5));
+        });
     }
 
     initPaymentCheck() {
         this.paymentRequestHandler = this.paymentService.createPaymentRequestHandler(this.paymentRequest);
         this.paymentRequestHandler
-            .once('payment-status:' + PAYMENT_STATUS_RECEIVED, () => {
+            .once('payment-status:' + PAYMENT_STATUS_RECEIVED, (result) => {
+                this.paymentRequest.txid = result.txid;
+                this.paymentRequest.txAmount = result.amount;
                 this.paymentRequest.status = PAYMENT_STATUS_RECEIVED;
                 this.paymentReceived();
-            }).once('payment-status:' + PAYMENT_STATUS_TIMEOUT, () => {
-                this.paymentRequest.status = PAYMENT_STATUS_TIMEOUT;
-                this.paymentError(PAYMENT_STATUS_TIMEOUT);
+            }).once('payment-status:' + PAYMENT_STATUS_OVERPAID, (result) => {
+                this.paymentRequest.txid = result.txid;
+                this.paymentRequest.txAmount = result.amount;
+                this.paymentRequest.status = PAYMENT_STATUS_OVERPAID;
+                this.paymentReceived();
+            }).once('payment-status:' + PAYMENT_STATUS_PARTIAL_PAID, (result) => {
+                this.paymentRequest.txid = result.txid;
+                this.paymentRequest.txAmount = result.amount;
+                this.paymentRequest.status = PAYMENT_STATUS_PARTIAL_PAID;
+                this.paymentReceived();
             });        
     }
-    
-    paymentError(status: string) {
-        this.navigation.setRoot(PaymentResultPage, {
-            success: false ,
-            paymentRequest : this.paymentRequest          
-        });
-    }
-    
+        
     paymentReceived() {
         let audio = new Audio('assets/sound/paid.mp3');
         audio.play(); 
 
-        this.navigation.setRoot(PaymentResultPage, {
-            success: true ,
-            paymentRequest : this.paymentRequest
+        this.navigation.setRoot('payment-result', {
+            paymentRequest: this.paymentRequest
         });               
     }
 

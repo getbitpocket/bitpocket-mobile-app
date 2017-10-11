@@ -13,10 +13,6 @@ export class InsightTransactionService implements TransactionService {
         protected serviceUrl:string,
         protected cryptocurrency:string = BITCOIN) {}
 
-    supports(cryptocurrency:string) {
-        return this.cryptocurrency == cryptocurrency;
-    }
-
     findTransactions(filter:TransactionFilter) : Promise<Transaction[]> {
         return new Promise((resolve, reject) => {
             this.http.get(this.buildUrl(filter))

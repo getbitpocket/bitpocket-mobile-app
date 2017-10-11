@@ -1,10 +1,14 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 import { Account } from './../../api/account';
 import { BitcoinUnit, TransactionStorageService, CurrencyService, Config, AccountSyncService } from './../../providers/index';
-import { NavController, LoadingController, NavParams } from 'ionic-angular';
-import {Transaction} from '../../api/transaction';
-import {TranslateService} from '@ngx-translate/core'
+import { NavController, LoadingController, NavParams, IonicPage } from 'ionic-angular';
+import { Transaction } from '../../api/transaction';
+import { TranslateService } from '@ngx-translate/core'
 
+@IonicPage({
+    name : 'history' ,
+    defaultHistory: ['account']
+})
 @Component({
     templateUrl : 'history.html'
 })
@@ -35,43 +39,42 @@ export class HistoryPage {
         private accountSyncService:AccountSyncService,
         private nav: NavController,
         private translation: TranslateService) {    
-        
-        try {
-            this.account = this.navParams.get('account');
-            
-            Promise.all<any>([
-                translation.get('FORMAT.CURRENCY_T').toPromise() ,
-                translation.get('FORMAT.CURRENCY_S').toPromise() ,
-                translation.get('FORMAT.DATETIME').toPromise() ,
-                translation.get('TEXT.LOADING_TRANSACTIONS').toPromise() ,
-                config.get(Config.CONFIG_KEY_BITCOIN_UNIT) ,
-                this.currencyService.getSelectedCurrency() ,
-                this.currencyService.getSelectedCurrencyRate()
-            ]).then(promised => {
-                this.currencyThousandsPoint = promised[0];
-                this.currencySeparator = promised[1];
-                this.dateTimeFormat = promised[2];
-                this.currencySymbol = promised[4];
-                this.currencyPrecision = BitcoinUnit.decimalsCount(promised[4]);
-                this.referenceCurrencySymbol = promised[5];
-                this.referenceCurrencyRate = promised[6];
+            this.account = this.navParams.get('account');        
+        }
 
-                this.loader = this.loading.create({
-                    content: promised[3]
-                });
-                this.loader.present();
+    ionViewWillEnter() {
+        Promise.all<any>([
+            this.translation.get('FORMAT.CURRENCY_T').toPromise() ,
+            this.translation.get('FORMAT.CURRENCY_S').toPromise() ,
+            this.translation.get('FORMAT.DATETIME').toPromise() ,
+            this.translation.get('TEXT.LOADING_TRANSACTIONS').toPromise() ,
+            this.config.get(Config.CONFIG_KEY_BITCOIN_UNIT) ,
+            this.currencyService.getSelectedCurrency() ,
+            this.currencyService.getSelectedCurrencyRate()
+        ]).then(promised => {
+            this.currencyThousandsPoint = promised[0];
+            this.currencySeparator = promised[1];
+            this.dateTimeFormat = promised[2];
+            this.currencySymbol = promised[4];
+            this.currencyPrecision = BitcoinUnit.decimalsCount(promised[4]);
+            this.referenceCurrencySymbol = promised[5];
+            this.referenceCurrencyRate = promised[6];
 
-                return this.accountSyncService.syncAccount(this.account);
-            }).then(() => {
-                return this.findTransactions();
-            }).then((transactions) => {
-                this.transactions = transactions;
-                this.loader.dismiss();
+            this.loader = this.loading.create({
+                content: promised[3]
             });
-        } catch (e) {
+            this.loader.present();
+
+            return this.accountSyncService.syncAccount(this.account);
+        }).then(() => {
+            return this.findTransactions();
+        }).then((transactions) => {
+            this.transactions = transactions;
+            this.loader.dismiss();
+        }).catch(e => {
             console.debug("History Error: ", e);
             this.loader.dismiss();
-        }       
+        });
     }
 
     addTransactions(transactions: Array<Transaction>) {
@@ -89,7 +92,7 @@ export class HistoryPage {
 
     openTransaction(txid: string) {
         if (/testnet/.test(this.account.type)) {
-            window.open('https://tbtc.blockr.io/tx/info/' + txid, '_system');
+            window.open('https://live.blockcypher.com/btc-testnet/tx/' + txid, '_system');
         } else {
             window.open('https://blockchain.info/tx/' + txid, '_system');
         }        

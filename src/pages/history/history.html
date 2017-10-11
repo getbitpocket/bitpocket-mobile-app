@@ -16,9 +16,11 @@
                 <p><ion-icon [class.unconfirmed]="transaction.confirmations < 6" [class.confirmed]="transaction.confirmations >= 6" name="checkmark-circle"></ion-icon> {{ (transaction.timestamp * 1000) | date:dateTimeFormat }}</p>           
             </ion-item>
             <ion-item-options>
+                <button ion-button  (click)="openTransaction(transaction._id)">
+                    <ion-icon name="link"></ion-icon> Link                    
+                </button>
                 <button ion-button color="primary" (click)="openTransaction(transaction._id)">
-                    <ion-icon name="search"></ion-icon>
-                    {{ 'BUTTON.DETAILS' | translate }}
+                    <ion-icon name="search"></ion-icon> Info
                 </button>                
             </ion-item-options>
         </ion-item-sliding>

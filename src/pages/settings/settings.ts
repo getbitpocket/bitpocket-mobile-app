@@ -1,20 +1,16 @@
-import {Component} from '@angular/core';
-import {NavController, ModalController, Modal} from 'ionic-angular';
+import { Component } from '@angular/core';
+import { NavController, ModalController, Modal, IonicPage } from 'ionic-angular';
+import { Config } from '../../providers/index';
 
-// providers
-import {Config} from '../../providers/index';
-
-// pages
-import {GeneralPage} from './general/general';
-import {CurrencyPage} from './currency/currency';
-import {PincodePage} from '../pincode/pincode';
-
+@IonicPage({
+    name : 'settings'
+})
 @Component({
     templateUrl : 'settings.html' ,
 })
 export class SettingsPage {
     
-    pages = [GeneralPage, CurrencyPage];
+    pages = ['general', 'currency'];
 
     constructor(
         private config:Config,
@@ -38,7 +34,7 @@ export class SettingsPage {
                 if (value === '') {
                     resolve();
                 } else {                    
-                    let modal:Modal = this.modalController.create(PincodePage, { token : value, closable : true });
+                    let modal:Modal = this.modalController.create('pincode', { token : value, closable : true });
 
                     modal.present();
                     modal.onDidDismiss(data => {
@@ -54,7 +50,7 @@ export class SettingsPage {
     }
 
     changePin() {
-        let modal:Modal = this.modalController.create(PincodePage, { change : true });
+        let modal:Modal = this.modalController.create('pincode', { change : true });
         modal.present();
 
         modal.onDidDismiss(data => {

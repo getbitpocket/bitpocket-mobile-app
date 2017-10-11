@@ -1,5 +1,5 @@
-import { BitcoinUnit } from './../providers/currency/bitcoin-unit';
-import {Pipe, PipeTransform} from '@angular/core';
+import { BitcoinUnit } from './../../providers/index';
+import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
     name: 'bitpocketFiat'

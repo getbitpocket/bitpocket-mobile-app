@@ -83,5 +83,7 @@
     "PAYMENT_STATUS.double_spent" : "Es liegt ein Doublespend vor",
     "PAYMENT_STATUS.error" : "Fehler mit der Zahlung",
     "PAYMENT_STATUS.timeout" : "Es kam zu einer Zeitüberschreitung bei der Zahlungsannahme",
-    "PAYMENT_STATUS.service_error" : "Das Bitcoin Netzwerk ist derzeit nicht erreichbar"
+    "PAYMENT_STATUS.service_error" : "Das Bitcoin Netzwerk ist derzeit nicht erreichbar",
+    "PAYMENT_STATUS.overpaid" : "Es wurde zuviel bezahlt, bitte überprüfen Sie die Transaktionshöhe",
+    "PAYMENT_STATUS.partial" : "Es wurde zu wenig bezahlt, bitte überprüfen Sie die Transaktionshöhe"
 }

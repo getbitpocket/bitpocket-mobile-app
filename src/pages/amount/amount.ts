@@ -1,12 +1,15 @@
 import {Component} from '@angular/core';
-import {NavController, LoadingController, Platform, Loading} from 'ionic-angular';
-import {PaymentPage} from '../payment/payment';
+import {NavController, LoadingController, Platform, Loading, IonicPage} from 'ionic-angular';
 import {Config, CurrencyService, BitcoinUnit} from '../../providers/index';
-import {TranslateService} from '@ngx-translate/core'
+import {TranslateService} from '@ngx-translate/core';
+import 'rxjs/add/operator/toPromise';
 
 const POSITION_DIGITS = 'digits';
 const POSITION_DECIMALS = 'decimals';
 
+@IonicPage({
+    name : 'amount'
+})
 @Component({
     templateUrl : 'amount.html'
 })
@@ -180,12 +183,12 @@ export class AmountPage {
         }
         
         if (this.entryInBTC) {
-            this.navigation.push(PaymentPage,{
+            this.navigation.push('payment', {
                 amount: BitcoinUnit.from(amount,this.bitcoinUnit)
             });                   
         } else {
             this.currencyService.getSelectedCurrencyRate().then(rate => {
-                this.navigation.push(PaymentPage,{
+                this.navigation.push('payment', {
                     amount: BitcoinUnit.fromFiat(amount,rate) ,                
                 });
             });

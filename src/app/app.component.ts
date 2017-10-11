@@ -1,26 +1,18 @@
 import * as ionic from 'ionic-angular';
-import {Component, ViewChild} from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Network } from '@ionic-native/network';
 
-// Pages
-import {AmountPage} from '../pages/amount/amount';
-import {SettingsPage} from '../pages/settings/settings';
-import {AccountCreationPage} from '../pages/account-creation/account-creation';
-import {OfflinePage} from '../pages/offline/offline';
-import {AccountPage} from './../pages/account/account';
-
 // Providers
-import {Repository, Config, CurrencyService, AccountService} from '../providers';
-
-import {TranslateService} from '@ngx-translate/core';
+import { Repository, Config, CurrencyService, AccountService } from '../providers';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     templateUrl: 'app.html'
 })
 export class BitPocketApp {
-    @ViewChild(ionic.Nav) nav: ionic.Nav;   
+    @ViewChild(ionic.Nav)  nav: ionic.Nav;   
     @ViewChild(ionic.Menu) menu: ionic.Menu; 
     
     menuItems:Array<{name:string,icon:string,page:any}> = [];
@@ -45,7 +37,7 @@ export class BitPocketApp {
                         
             // watch network for a disconnect
             this.network.onDisconnect().subscribe(() => {
-                this.nav.setRoot(OfflinePage);
+                this.nav.setRoot('offline');
             });
 
             // watch network for a connection
@@ -84,17 +76,17 @@ export class BitPocketApp {
             this.accountService.getAccounts()
                 .then((accounts) => {   
                     if (accounts.length > 0) {
-                        this.nav.setRoot(AmountPage);
+                        this.nav.setRoot('amount');
                     } else {
-                        this.nav.setRoot(AccountCreationPage);
+                        this.nav.setRoot('account-creation');
                     }                    
                     this.hideSplashscreen();
                 }).catch(() => {
-                    this.nav.setRoot(AccountCreationPage);
+                    this.nav.setRoot('account-creation');
                     this.hideSplashscreen();
                 });
         } else {
-            this.nav.setRoot(OfflinePage);
+            this.nav.setRoot('offline');
             this.hideSplashscreen();
         }
     }
@@ -113,9 +105,9 @@ export class BitPocketApp {
         let languageIdentifiers = ['MENU.PAYMENT', 'MENU.ACCOUNTS', 'MENU.SETTINGS', 'BUTTON.BACK'];
         this.translate.get(languageIdentifiers)
             .subscribe((res:Array<string>) => {
-                this.menuItems[0] = { name:res[languageIdentifiers[0]], icon:'keypad' , page:AmountPage };        
-                this.menuItems[1] = { name:res[languageIdentifiers[1]], icon:'list', page:AccountPage };
-                this.menuItems[2] = { name:res[languageIdentifiers[2]], icon:'options', page:SettingsPage };
+                this.menuItems[0] = { name:res[languageIdentifiers[0]], icon:'keypad' , page:'amount' };        
+                this.menuItems[1] = { name:res[languageIdentifiers[1]], icon:'list',    page:'account' };
+                this.menuItems[2] = { name:res[languageIdentifiers[2]], icon:'options', page:'settings' };
                 this.ionicConfig.set('ios', 'backButtonText', res[languageIdentifiers[3]]);
             });
     }

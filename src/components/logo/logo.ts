@@ -1,6 +1,5 @@
-import {Component} from '@angular/core';
-import {NavController, Config} from 'ionic-angular';
-import {AmountPage} from '../pages/amount/amount';
+import { Component } from '@angular/core';
+import { NavController, Config } from 'ionic-angular';
 
 @Component({
     selector: 'bitpocket-logo' ,
@@ -17,7 +16,7 @@ export class Logo {
         }
 
     click(ev: UIEvent) {      
-        this.navigation.setRoot(AmountPage);
+        this.navigation.setRoot('amount');
     }
 
 }

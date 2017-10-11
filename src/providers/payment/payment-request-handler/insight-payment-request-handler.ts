@@ -1,6 +1,6 @@
 import { PaymentRequestHandler } from './../../../api/payment-request-handler';
 import { TransactionService } from './../../../api/transaction-service';
-import { PaymentRequest, PAYMENT_STATUS_SERVICE_ERROR, PAYMENT_STATUS_RECEIVED } from './../../../api/payment-request';
+import { PaymentRequest, PAYMENT_STATUS_SERVICE_ERROR, PAYMENT_STATUS_RECEIVED, PAYMENT_STATUS_PARTIAL_PAID, PAYMENT_STATUS_OVERPAID } from './../../../api/payment-request';
 import { EventEmitter } from 'events';
 import * as io from 'socket.io-client';
 
@@ -22,6 +22,7 @@ export class InsightPaymentRequestHandler extends EventEmitter implements Paymen
     static createPaymentRequestHandler(paymentRequest: PaymentRequest, transactionService: TransactionService, serviceUrl:string) {
         let handler = new InsightPaymentRequestHandler();
         handler._paymentRequest = paymentRequest;
+        handler.transactionService = transactionService;
         handler.serviceUrl = serviceUrl;
         handler.init();
         return handler;
@@ -35,7 +36,7 @@ export class InsightPaymentRequestHandler extends EventEmitter implements Paymen
             }).on('bitcoind/addresstxid', data => {                
                 this.triggerStatusUpdate(data.txid)
                     .then((close:boolean) => {
-                        if (close) {
+                        if (close && this && this.cancel) {
                             this.cancel();
                         }
                     });
@@ -54,12 +55,23 @@ export class InsightPaymentRequestHandler extends EventEmitter implements Paymen
                 txid : txid
             }).then(transactions => {
                 if (transactions.length > 0) {
-                    if (transactions[0].amount >= this.paymentRequest.amount) {
-                        this.emit("payment-status:" + PAYMENT_STATUS_RECEIVED);
-                        resolve(true);
+                    let event = {
+                        txid    : txid ,
+                        address : this.paymentRequest.address ,
+                        amount  : transactions[0].amount
+                    };
+
+                    if (transactions[0].amount < this.paymentRequest.amount) {
+                        this.emit("payment-status:" + PAYMENT_STATUS_PARTIAL_PAID, event);
+                    } else if (transactions[0].amount > this.paymentRequest.amount) {
+                        this.emit("payment-status:" + PAYMENT_STATUS_OVERPAID, event);
                     } else {
-                        resolve(false);
+                        this.emit("payment-status:" + PAYMENT_STATUS_RECEIVED, event);
                     }
+
+                    resolve(true);
+                } else {
+                    resolve(false);
                 }
             });
         });

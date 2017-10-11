@@ -1,8 +1,12 @@
-import {Component} from '@angular/core';
-import {Loading, NavController, LoadingController} from 'ionic-angular';
+import { Component } from '@angular/core';
+import { Loading, NavController, LoadingController, IonicPage } from 'ionic-angular';
 import { CurrencyService } from '../../../providers/index';
-import {TranslateService} from '@ngx-translate/core'
+import { TranslateService } from '@ngx-translate/core'
 
+@IonicPage({
+    name : 'currency' ,
+    defaultHistory : ['settings']
+})
 @Component({
     templateUrl : 'currency.html'
 })

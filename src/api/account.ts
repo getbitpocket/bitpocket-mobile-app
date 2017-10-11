@@ -5,4 +5,5 @@ export interface Account {
     data:any;
     default?:boolean;
     index?:number;
+    lastConfirmedIndex?:number;
 }

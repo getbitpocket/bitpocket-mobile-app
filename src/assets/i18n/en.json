@@ -83,5 +83,7 @@
     "PAYMENT_STATUS.double_spent" : "Payment was double spent",
     "PAYMENT_STATUS.error" : "Unspecified payment error",
     "PAYMENT_STATUS.timeout" : "Payment request timed out, please start again",
-    "PAYMENT_STATUS.service_error" : "Bitcoin network currently not accessible"
+    "PAYMENT_STATUS.service_error" : "Bitcoin network currently not accessible",
+    "PAYMENT_STATUS.overpaid" : "Your payment was too HIGH, please check the transacted amount",
+    "PAYMENT_STATUS.partial" : "Your payment was too LOW, please check the transacted amount"
 }

@@ -1,6 +1,11 @@
-import {Component} from '@angular/core';
-import {Config} from '../../../providers/index';
+import { Component } from '@angular/core';
+import { IonicPage } from 'ionic-angular';
+import { Config } from '../../../providers/index';
 
+@IonicPage({
+    name : 'general' ,
+    defaultHistory : ['settings']
+})
 @Component({
     templateUrl : 'general.html'
 })

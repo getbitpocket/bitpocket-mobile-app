@@ -1,3 +1,4 @@
+import { Transaction } from './../../api/transaction';
 import {Injectable} from '@angular/core';
 import * as regex from 'crypto-regex';
 import * as bitcoin from 'bitcoinjs-lib';
@@ -97,6 +98,13 @@ export class CryptocurrencyService {
        }
 
        throw new Error('Could not parse input information');
+    }
+
+    isConfirmed(transaction:Transaction) : boolean {
+        if (transaction.confirmations >= 6) {
+            return true;
+        }
+        return false;
     }
 
 }

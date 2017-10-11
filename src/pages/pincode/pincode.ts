@@ -1,8 +1,11 @@
-import {Component} from '@angular/core';
-import {ToastController, ViewController, NavParams, MenuController} from 'ionic-angular';
+import { Component } from '@angular/core';
+import { ToastController, ViewController, NavParams, MenuController, IonicPage } from 'ionic-angular';
 import * as bitcoin from 'bitcoinjs-lib';
 import { TranslateService } from '@ngx-translate/core';
 
+@IonicPage({
+    name : 'pincode'
+})
 @Component({
     templateUrl : 'pincode.html'
 })

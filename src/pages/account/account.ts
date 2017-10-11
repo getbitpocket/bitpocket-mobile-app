@@ -1,9 +1,11 @@
-import { NavController } from 'ionic-angular';
-import {Component} from '@angular/core';
-import { HistoryPage } from './../history/history';
-import { AccountFormPage } from '../account-form/account-form';
+import { NavController, IonicPage } from 'ionic-angular';
+import { Component } from '@angular/core';
 import { Config, AccountService } from './../../providers/index';
 
+@IonicPage({
+    name : 'account' ,    
+    defaultHistory: ['amount']
+})
 @Component({
     templateUrl : 'account.html'
 })
@@ -18,15 +20,15 @@ export class AccountPage {
         protected accountService:AccountService) {}
 
     openAccountEditForm(i:number) {
-        this.navController.push(AccountFormPage, { id : this.accounts[i]._id });
+        this.navController.push('account-form', { id : this.accounts[i]._id });
     }
 
     openAccountCreateForm() {
-        this.navController.push(AccountFormPage);
+        this.navController.push('account-form');
     }
 
     openAccountHistory(i:number) {
-        this.navController.push(HistoryPage, { account : this.accounts[i] });
+        this.navController.push('history', { account : this.accounts[i] });
     }
 
     ionViewWillEnter() {

@@ -1,6 +1,5 @@
-import {Injectable} from '@angular/core';
-import {ModalController, Modal} from 'ionic-angular';
-import {QRScannerPage} from '../../pages/qrscanner/qrscanner';
+import { Injectable } from '@angular/core';
+import { ModalController, Modal } from 'ionic-angular';
 
 @Injectable()
 export class QRScanner {
@@ -11,7 +10,7 @@ export class QRScanner {
     }
 
     scan(validate: (text:any) => any = (text) => { return text; }) : Promise<any> { 
-        this.modal = this.modalController.create(QRScannerPage, { validate: validate});
+        this.modal = this.modalController.create('qrscanner', { validate: validate});
         this.modal.present();
 
         return new Promise<any>((resolve, reject) => {

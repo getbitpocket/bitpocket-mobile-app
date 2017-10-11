@@ -7,4 +7,8 @@ export interface Transaction {
     timestamp?: number;        
     confirmations?: number;    
     account?: string;
+
+    paymentReferenceAmount?: number;
+    paymentReferenceCurrency?: string;
+    paymentStatus?: string;
 }

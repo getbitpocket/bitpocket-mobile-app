@@ -83,5 +83,7 @@
     "PAYMENT_STATUS.double_spent" : "Płatność została podwójnie wydana",
     "PAYMENT_STATUS.error" : "Nieokreślony błąd płatności",
     "PAYMENT_STATUS.timeout" : "Żądanie płatności zostało przekroczone, proszę zacząć od nowa.",
-    "PAYMENT_STATUS.service_error" : "Obecnie sieć Bitcoin nie jest dostępna"
+    "PAYMENT_STATUS.service_error" : "Obecnie sieć Bitcoin nie jest dostępna",
+    "PAYMENT_STATUS.overpaid" : "Your payment was too HIGH, please check the transacted amount",
+    "PAYMENT_STATUS.partial" : "Your payment was too LOW, please check the transacted amount"
 }

@@ -1,10 +1,13 @@
-import {Component} from '@angular/core';
-import {NavParams,NavController,AlertController,ModalController,Modal} from 'ionic-angular';
-import { PincodePage } from "../pincode/pincode";
-import {TranslateService} from '@ngx-translate/core'
+import { Component } from '@angular/core';
+import { NavParams, NavController, AlertController, ModalController, Modal, IonicPage } from 'ionic-angular';
+import { TranslateService } from '@ngx-translate/core'
 import { Account } from './../../api/account';
 import { Config, AccountService, QRScanner } from './../../providers/index';
 
+@IonicPage({
+    name : 'account-form' ,    
+    defaultHistory: ['account']
+})
 @Component({
     templateUrl : 'account-form.html'
 })
@@ -105,7 +108,7 @@ export class AccountFormPage {
                 if (value === '') {
                     resolve();
                 } else {                    
-                    let modal:Modal = this.modalController.create(PincodePage, { token : value, closable : true });
+                    let modal:Modal = this.modalController.create('pincode', { token : value, closable : true });
 
                     modal.present();
                     modal.onDidDismiss(data => {

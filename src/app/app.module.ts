@@ -16,21 +16,6 @@ window['PouchDB'] = PouchDB;
 // Main Component
 import { BitPocketApp } from './app.component';
 
-// Pages
-import {AmountPage} from '../pages/amount/amount';
-import {AccountPage} from '../pages/account/account';
-import {AccountCreationPage} from '../pages/account-creation/account-creation';
-import {AccountFormPage} from '../pages/account-form/account-form';
-import {PaymentPage} from '../pages/payment/payment';
-import {PaymentResultPage} from '../pages/payment-result/payment-result';
-import {HistoryPage} from '../pages/history/history';
-import {SettingsPage} from '../pages/settings/settings';
-import {GeneralPage} from '../pages/settings/general/general';
-import {CurrencyPage} from '../pages/settings/currency/currency';
-import {QRScannerPage} from '../pages/qrscanner/qrscanner';
-import {PincodePage} from '../pages/pincode/pincode';
-import {OfflinePage} from '../pages/offline/offline';
-
 // Providers
 import {
   Config,
@@ -68,10 +53,6 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 // Exchange Services
 import { BitcoinAverageExchangeService } from '../providers/currency/bitcoinaverage-service';
 
-// Components, Directives
-import {DynamicFontSize} from '../components/dynamic-font-size';
-import {Logo} from '../components/logo';
-
 // Pipes
 import { BitpocketCurrencyPipe } from '../pipes/currency';
 import { BitpocketUnitPipe } from './../pipes/unit';
@@ -83,44 +64,12 @@ export function createTranslateLoader(http: HttpClient) {
 
 @NgModule({
   declarations: [
-    BitPocketApp ,
-    AccountPage,
-    AmountPage ,
-    SettingsPage ,
-    HistoryPage ,
-    AccountCreationPage ,
-    OfflinePage ,
-    GeneralPage ,
-    CurrencyPage ,
-    QRScannerPage,
-    PaymentPage,
-    PaymentResultPage,
-    AccountFormPage,
-    PincodePage,
-    DynamicFontSize ,
-    Logo,
-    BitpocketCurrencyPipe ,
-    BitpocketUnitPipe ,
-    BitpocketFiatPipe
+    BitPocketApp    
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
-    IonicModule.forRoot(BitPocketApp, {}, {
-      links: [
-        { component: AccountCreationPage, name: 'AccountCreationPage', segment: 'account-creation' } ,
-        { component: AmountPage, name: 'AmountPage', segment: 'amount' } ,
-        { component: AccountPage, name: 'AccountPage', segment: 'account' } ,
-        { component: AccountFormPage, name: 'AccountFormPage', segment: 'account-form' } ,
-        { component: OfflinePage, name: 'OfflinePage', segment: 'offline' } ,
-        { component: SettingsPage, name: 'SettiongsPage', segment: 'settings' } ,
-        { component: CurrencyPage, name: 'CurrencyPage', segment: 'currency' } ,
-        { component: GeneralPage, name: 'GeneralPage', segment :'general' } ,
-        { component: HistoryPage, name: 'HistoryPage', segment: 'history' } ,
-        { component: PaymentPage, name: 'PaymentPage', segment: 'payment' } ,
-        { component: PaymentResultPage, name: 'PaymentResultPage', segment: 'payment-result' }
-      ]
-    }) ,    
+    IonicModule.forRoot(BitPocketApp) ,    
     IonicStorageModule.forRoot(),
     TranslateModule.forRoot({
       loader : {
@@ -132,20 +81,7 @@ export function createTranslateLoader(http: HttpClient) {
   ],
   bootstrap: [IonicApp],
   entryComponents: [
-    BitPocketApp,
-    AmountPage ,
-    AccountPage,
-    SettingsPage ,
-    HistoryPage ,
-    AccountCreationPage ,
-    OfflinePage ,
-    GeneralPage ,
-    CurrencyPage ,
-    PaymentPage,
-    PaymentResultPage,
-    PincodePage,
-    AccountFormPage,
-    QRScannerPage
+    BitPocketApp
   ],
   providers: [
     { provide: ErrorHandler, useClass: IonicErrorHandler } ,

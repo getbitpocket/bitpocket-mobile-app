@@ -10,7 +10,7 @@ export class TransactionStorageService {
         protected repository: Repository
     ) {}
 
-    storeTransaction(transaction:Transaction) : Promise<any> {
+    storeTransaction(transaction:Transaction) : Promise<Transaction> {
         return new Promise<any>((resolve, reject) => {
             this.repository.addOrEditDocument(transaction)
                 .then(() => { resolve(transaction); })
@@ -26,8 +26,7 @@ export class TransactionStorageService {
         let selector:any = {
             '$and' : [
                 { 'timestamp' : { '$gt':null } }
-            ]
-            
+            ]            
         };
 
         if (transactionFilter.account && /static-address/.test(transactionFilter.account.type)) {

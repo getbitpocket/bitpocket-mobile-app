@@ -1,6 +1,9 @@
-import {Component} from '@angular/core';
-import {ToastController, Toast, ViewController, NavParams} from 'ionic-angular';
+import { Component } from '@angular/core';
+import { ToastController, Toast, ViewController, NavParams, IonicPage } from 'ionic-angular';
 
+@IonicPage({
+    name : 'qrscanner'
+})
 @Component({
     templateUrl : 'qrscanner.html'
 })
