@@ -1,21 +1,18 @@
 .history {
-    
-    .unconfirmed {
-        color: yellow;
-    }    
-    
-    .confirmed {
-        color: green;
-    }
-
     .no-transactions {
         color: white;
         margin-top:15px;
         text-align: center;
         font-size: 1.2em;
     }
-
     h2 span {
         color: lightgrey;
     }
+}
+
+.icon-unconfirmed {
+    color: yellow;
+}    
+.icon-confirmed {
+    color: green;
 }

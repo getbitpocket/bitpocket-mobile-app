@@ -23,8 +23,7 @@
     "TITLE.SCANNING" : "Scannen",
     "TITLE.ONBOARDING" : "Starten",
     "TITLE.INVALID_INPUT" : "Falsche Eingabe",
-
-    "HEADING.HISTORY" : "Transaktionen",
+    "TITLE.TRANSACTION" : "Transanktion" ,
 
     "TEXT.NO_TRANSACTIONS" : "Noch keine Transaktionen...",
     "TEXT.PIN_MISMATCH" : "PIN stimmt nicht, bitte erneut eingeben!",
@@ -67,9 +66,11 @@
     "LIST_HEADING.MERCHANT_INFORMATION" : "Händler Information",
     "LIST_HEADING.CURRENCY_FORMAT" : "Währungsformat",
     "LIST_HEADING.BITCOIN_UNIT" : "Bitcoin Einheit",
+    "LIST_HEADING.TRANSACTION" : "Transaktionsdetails",
+    "LIST_HEADING.PAYMENT" : "Zahlungsdetails",
 
     "LIST_TEXT.GENERAL_SETTINGS" : "Allgemeine Einstellungen für BitPocket",
-    "LIST_TEXT.CURRENCY" : "Wähungswahl und Kurs",
+    "LIST_TEXT.CURRENCY" : "Währungswahl und Kurs",
     "LIST_TEXT.STATIC_ADDRESS" : "Statische Adresse um Transaktionen zu empfangen",
     "LIST_TEXT.MASTER_PUBLIC_KEY" : "Neue Adresse für jede Zahlung ableiten",
     "LIST_TEXT.PIN" : "PIN eingeben und bestätigen",
@@ -77,6 +78,10 @@
     "LIST_TEXT.BITCOIN" :"Bitcoin (BTC)",
     "LIST_TEXT.MILLI_BITCOIN" :"Milli-Bitcoin (mBTC)",
     "LIST_TEXT.BITS" :"Bits (bits)",
+    "LIST_TEXT.UNCONFIRMED" :"eingegangen",
+    "LIST_TEXT.CONFIRMED" :"voll bestätigt",
+    "LIST_TEXT.INCOMMING" :"eingehend",
+    "LIST_TEXT.OUTOING" :"ausgehend",
 
     "PAYMENT_STATUS.received" : "Die Zahlung wurde erfolgreich entgegen genommen",
     "PAYMENT_STATUS.not_received" : "Die Zahlung wurde nicht erhalten",

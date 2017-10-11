@@ -6,6 +6,7 @@ import { PAYMENT_STATUS_RECEIVED, PAYMENT_STATUS_OVERPAID, PAYMENT_STATUS_PARTIA
 import { PaymentService, AccountService, BitcoinUnit, Config, CurrencyService } from './../../providers/index';
 import * as bip21 from 'bip21';
 import * as qrcode from 'qrcode-generator';
+import 'rxjs/add/operator/toPromise';
 
 @IonicPage({
     name : 'payment' ,

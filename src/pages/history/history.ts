@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
 import { Account } from './../../api/account';
 import { BitcoinUnit, TransactionStorageService, CurrencyService, Config, AccountSyncService } from './../../providers/index';
-import { NavController, LoadingController, NavParams, IonicPage } from 'ionic-angular';
+import { NavController, LoadingController, NavParams, IonicPage, ModalController } from 'ionic-angular';
 import { Transaction } from '../../api/transaction';
 import { TranslateService } from '@ngx-translate/core'
+import 'rxjs/add/operator/toPromise';
 
 @IonicPage({
     name : 'history' ,
+    segment : 'history/:account' ,
     defaultHistory: ['account']
 })
 @Component({
@@ -24,6 +26,7 @@ export class HistoryPage {
     currencyPrecision: number = 2;   
     currencySymbol:string = "BTC";
     dateTimeFormat: any;
+    loaderText:string = "";
 
     referenceCurrencySymbol:string = "";
     referenceCurrencyRate:number = 0;
@@ -31,14 +34,15 @@ export class HistoryPage {
     loader:any;
     
     constructor(
-        private navParams: NavParams,
-        private config: Config,
-        private currencyService: CurrencyService,
-        private loading: LoadingController,
-        private transactionStorageService:TransactionStorageService,
-        private accountSyncService:AccountSyncService,
-        private nav: NavController,
-        private translation: TranslateService) {    
+        protected navParams: NavParams,
+        protected config: Config,
+        protected currencyService: CurrencyService,
+        protected loading: LoadingController,
+        protected transactionStorageService:TransactionStorageService,
+        protected accountSyncService:AccountSyncService,
+        protected nav: NavController,
+        protected modalController: ModalController,
+        protected translation: TranslateService) {    
             this.account = this.navParams.get('account');        
         }
 
@@ -59,28 +63,38 @@ export class HistoryPage {
             this.currencyPrecision = BitcoinUnit.decimalsCount(promised[4]);
             this.referenceCurrencySymbol = promised[5];
             this.referenceCurrencyRate = promised[6];
-
-            this.loader = this.loading.create({
-                content: promised[3]
-            });
-            this.loader.present();
+            this.loaderText = promised[3];
+            this.presentLoader();
 
             return this.accountSyncService.syncAccount(this.account);
         }).then(() => {
             return this.findTransactions();
         }).then((transactions) => {
             this.transactions = transactions;
-            this.loader.dismiss();
+            this.dissmissLoader();
         }).catch(e => {
             console.debug("History Error: ", e);
-            this.loader.dismiss();
+            this.dissmissLoader();
         });
     }
 
-    addTransactions(transactions: Array<Transaction>) {
+    presentLoader() {
+        this.loader = this.loading.create({
+            content: this.loaderText
+        });
+        this.loader.present();
+    }
+
+    dissmissLoader() {
+        if (this.loader) {
+            this.loader.dismiss();
+        }
+    }
+
+    addTransactions(transactions: Array<Transaction>) : boolean {
         if (transactions && transactions.length <= 0) {
             this.moreContentAvailable = false;
-            return;
+            return this.moreContentAvailable;
         } else {
             this.moreContentAvailable = true;
         }
@@ -88,6 +102,14 @@ export class HistoryPage {
         for(let t of transactions) {
             this.transactions.push(t);
         }        
+
+        return this.moreContentAvailable;
+    }
+
+    openTransactionDetails(txid: string) {
+        this.modalController.create('transaction', {
+            txid : txid
+        }).present();
     }
 
     openTransaction(txid: string) {
@@ -113,5 +135,41 @@ export class HistoryPage {
         }).catch(() => {
             infiniteScroll.complete();
         });
+    }
+
+    loadAllTransactions() {
+        return new Promise<void> ((resolve, reject) => {
+            this.findTransactions().then(transactions => {
+                if (this.addTransactions(transactions)) {
+                    resolve(this.loadAllTransactions());
+                } else {
+                    resolve();
+                }
+            });
+        });        
+    }
+    
+    export() {
+        this.presentLoader();
+        this.loadAllTransactions()
+            .then(() => {                
+                let lines = [];
+                for (let t = 0; t < this.transactions.length; t++) {
+                    let line = [
+                        this.transactions[t]._id,
+                        (new Date(this.transactions[t].timestamp * 1000)).toUTCString(),
+                        this.transactions[t].address,
+                        this.transactions[t].amount,
+                        this.transactions[t].currency,
+                        this.transactions[t].incomming ? 'in' : 'out',
+                        this.transactions[t].paymentReferenceAmount > 0 ? this.transactions[t].paymentReferenceAmount : '' ,
+                        this.transactions[t].paymentReferenceCurrency ? this.transactions[t].paymentReferenceCurrency : '' ,
+                        this.transactions[t].paymentStatus ? this.transactions[t].paymentStatus : ''
+                    ].join(',');
+                    lines.push(t == 0 ? "data:text/csv;charset=utf-8," + line : line);                    
+                }
+                this.dissmissLoader();
+                window.open(lines.join("\n"));
+            });
     }    
 }

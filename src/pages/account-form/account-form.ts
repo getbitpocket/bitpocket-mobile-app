@@ -3,6 +3,7 @@ import { NavParams, NavController, AlertController, ModalController, Modal, Ioni
 import { TranslateService } from '@ngx-translate/core'
 import { Account } from './../../api/account';
 import { Config, AccountService, QRScanner } from './../../providers/index';
+import 'rxjs/add/operator/toPromise';
 
 @IonicPage({
     name : 'account-form' ,    

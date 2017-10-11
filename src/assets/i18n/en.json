@@ -23,8 +23,7 @@
     "TITLE.SCANNING" : "Scanning",
     "TITLE.ONBOARDING" : "Onboarding",
     "TITLE.INVALID_INPUT" : "Invalid input",
-    
-    "HEADING.HISTORY" : "Transactions",
+    "TITLE.TRANSACTION" : "Transaction",
 
     "TEXT.NO_TRANSACTIONS" : "No transactions yet...",
     "TEXT.PIN_MISMATCH" : "PIN mismatch, please try again!",
@@ -67,6 +66,8 @@
     "LIST_HEADING.MERCHANT_INFORMATION" : "Merchant information",
     "LIST_HEADING.CURRENCY_FORMAT" : "Currency format",
     "LIST_HEADING.BITCOIN_UNIT" : "Bitcoin unit",
+    "LIST_HEADING.TRANSACTION" : "Transaction details",
+    "LIST_HEADING.PAYMENT" : "Payment details",
 
     "LIST_TEXT.GENERAL_SETTINGS" : "General settings for BitPocket",
     "LIST_TEXT.CURRENCY" : "Select currency and exchange rate",
@@ -77,6 +78,10 @@
     "LIST_TEXT.BITCOIN" :"Bitcoin (BTC)",
     "LIST_TEXT.MILLI_BITCOIN" :"Milli-Bitcoin (mBTC)",
     "LIST_TEXT.BITS" :"Bits (bits)",
+    "LIST_TEXT.UNCONFIRMED" :"unconfirmed",
+    "LIST_TEXT.CONFIRMED" :"confirmed",
+    "LIST_TEXT.INCOMMING" :"incomming",
+    "LIST_TEXT.OUTOING" :"outgoing",
 
     "PAYMENT_STATUS.received" : "Your payment was successfully processed",
     "PAYMENT_STATUS.not_received" : "Payment not received",

@@ -23,9 +23,8 @@
     "TITLE.SCANNING" : "Skanowanie",
     "TITLE.ONBOARDING" : "Onboarding",
     "TITLE.INVALID_INPUT" : "Nieprawidłowe wejscie",
+    "TITLE.TRANSACTION" : "Transaction",
     
-    "HEADING.HISTORY" : "Transakcje",
-
     "TEXT.NO_TRANSACTIONS" : "Żadne transakcje jeszcze nie były ..",
     "TEXT.PIN_MISMATCH" : "Niezgodność kodu PIN, spróbuj ponownie!",
     "TEXT.NO_INTERNET" : "Brak połączenia z Internetem",
@@ -67,6 +66,8 @@
     "LIST_HEADING.MERCHANT_INFORMATION" : "Informacje dla sprzedawców",
     "LIST_HEADING.CURRENCY_FORMAT" : "Format waluty",
     "LIST_HEADING.BITCOIN_UNIT" : "Jednostka Bitcoin",
+    "LIST_HEADING.TRANSACTION" : "Transaction details",
+    "LIST_HEADING.PAYMENT" : "Payment details",
 
     "LIST_TEXT.GENERAL_SETTINGS" : "Ogólne ustawienia BitPocket",
     "LIST_TEXT.CURRENCY" : "Wybierz walutę i kurs walutowy",
@@ -77,6 +78,10 @@
     "LIST_TEXT.BITCOIN" :"Bitcoin (BTC)",
     "LIST_TEXT.MILLI_BITCOIN" :"mili-Bitcoin (mBTC)",
     "LIST_TEXT.BITS" :"Bity (bits)",
+    "LIST_TEXT.UNCONFIRMED" :"unconfirmed",
+    "LIST_TEXT.CONFIRMED" :"confirmed",
+    "LIST_TEXT.INCOMMING" :"incomming",
+    "LIST_TEXT.OUTOING" :"outgoing",
 
     "PAYMENT_STATUS.received" : "Twoja płatność została pomyślnie przetworzona",
     "PAYMENT_STATUS.not_received" : "Płatność nie została otrzymana",

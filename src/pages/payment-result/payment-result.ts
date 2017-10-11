@@ -4,6 +4,7 @@ import { CryptocurrencyService, CurrencyService, Config, AccountService, Bitcoin
 import { TranslateService } from '@ngx-translate/core';
 import { PaymentRequest, PAYMENT_STATUS_RECEIVED, PAYMENT_STATUS_OVERPAID, PAYMENT_STATUS_PARTIAL_PAID } from './../../api/payment-request';
 import { Account } from './../../api/account';
+import 'rxjs/add/operator/toPromise';
 
 @IonicPage({
     name : 'payment-result' ,
