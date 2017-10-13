@@ -1,9 +1,9 @@
-import { InsightTransactionService, CryptocurrencyService } from './../../index';
+import { InsightTransactionService } from './../../index';
 import {data} from './insight-transaction-data';
 
 describe('Transaction Service', () => {
 
-    let transactionService = new InsightTransactionService(null, new CryptocurrencyService());
+    let transactionService = new InsightTransactionService(null, "https://insight.bitpay.com");
 
     it('should build correct urls', () => {
         expect(transactionService.buildUrl({

@@ -1,10 +1,12 @@
-import {Component} from '@angular/core';
-import {NavController, AlertController, MenuController} from 'ionic-angular';
-import {TranslateService} from '@ngx-translate/core'
-import {Config, AccountService, QRScanner, AccountSyncService} from '../../providers/index';
-import {AmountPage} from '../amount/amount';
+import { Component } from '@angular/core';
+import { NavController, AlertController, MenuController, IonicPage } from 'ionic-angular';
+import { TranslateService } from '@ngx-translate/core'
+import { Config, AccountService, QRScanner, AccountSyncService } from '../../providers/index';
 import 'rxjs/add/operator/toPromise';
 
+@IonicPage({
+    name : 'account-creation'
+})
 @Component({
     templateUrl : 'account-creation.html'
 })
@@ -77,7 +79,7 @@ export class AccountCreationPage {
                 }).then(() => {
                     return this.accountSyncService.syncAccount(this.account);
                 }).then(() => {
-                    this.nav.setRoot(AmountPage);
+                    this.nav.setRoot('amount');
                 }).catch(e => {
                     this.triggerAlert();
                     console.error(e);

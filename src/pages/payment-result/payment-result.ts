@@ -70,7 +70,7 @@ export class PaymentResultPage {
             this.resultText = promised[2];
                     
             if (this.resultSuccess) {
-                this.accountSyncService.checkUpdateTransaction({
+                this.accountSyncService.storeTransaction({
                     _id       : this.paymentRequest.txid ,
                     amount    : this.paymentRequest.txAmount ,
                     currency  : this.cryptocurrencyService.parseInput(this.account.data).currency ,
