@@ -134,15 +134,23 @@ export class AccountService {
     }
 
     getNextAddress(account:Account) : string {
-        if(/static-address/.test(account.type)) {            
+        if(this.isAddressAccount(account)) {            
             return account.data;
-        } else if (/bitcoin-xpub-key/.test(account.type)) {
+        } else if (!this.isTestnetAccount(account)) {
             return bitcoin.HDNode.fromBase58(account.data).derive(0).derive(account.index).getAddress();
-        } else if (/testnet-tpub-key/.test(account.type)) {
+        } else if (this.isTestnetAccount(account)) {
             return bitcoin.HDNode.fromBase58(account.data, [bitcoin.networks.testnet]).derive(0).derive(account.index).getAddress();
         }
 
         throw new Error('unknown account type');
+    }
+
+    isAddressAccount(account:Account) {
+        return /static-address/.test(account.type);
+    }
+
+    isTestnetAccount(account:Account) {
+        return /testnet/.test(account.type);
     }
 
 }

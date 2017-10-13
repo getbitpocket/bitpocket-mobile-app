@@ -19,7 +19,7 @@ export class AccountSyncService {
         return new Promise<any>((resolve, reject) => {
             let startIndex = account.lastConfirmedIndex > 0 ? (account.lastConfirmedIndex + 1) : 0;
 
-            if (/static-address/.test(account.type)) {                
+            if (this.accountService.isAddressAccount(account)) {                
                 this.syncAddress(account.data, startIndex).then(result => {
                     account.lastConfirmedIndex = result.lastConfirmedIndex;
                     resolve(this.accountService.editAccount(account));    
@@ -70,7 +70,7 @@ export class AccountSyncService {
 
     /**
      * 
-     * Returns final:true if all transactions are completed, fina:false if some transactions are not
+     * Returns transaction count and lastConfirmedIndex
      * 
      * @param address 
      * @param index 
@@ -82,7 +82,7 @@ export class AccountSyncService {
                 .then((transactions:Transaction[]) => {
                     let promises = [];                                    
                     for (let i = 0; i < transactions.length; i++) {       
-                        promises.push(this.checkUpdateTransaction(transactions[i], accountId));                                 
+                        promises.push(this.storeTransaction(transactions[i], accountId));                                 
                     }                    
                     return Promise.all(promises);                
                 }).then((transactions:Transaction[]) => {
@@ -91,9 +91,10 @@ export class AccountSyncService {
                         count : transactions.length
                     };
                                        
-                    for (let transaction of transactions) {
-                        if (!this.cryptocurrencyService.isConfirmed(transaction)) {
-                            --response.lastConfirmedIndex;
+                    for (let i = 0; i < transactions.length; i++) {
+                        if (!this.cryptocurrencyService.isConfirmed(transactions[i])) {
+                            response.lastConfirmedIndex = i-1;
+                            break;
                         }
                     }
 
@@ -104,19 +105,26 @@ export class AccountSyncService {
         });
     }
     
-    checkUpdateTransaction(transaction:Transaction, accountId:string = null) : Promise<Transaction> {
-        return new Promise<Transaction> ((resolve, reject) => {
+    /**
+     * 
+     * store transaction if it is completely new, update partly otherwise
+     * 
+     * @param transaction 
+     * @param accountId 
+     */
+    storeTransaction(transaction:Transaction, accountId:string = null) : Promise<Transaction> {
+        return new Promise<Transaction> ((resolve, reject) => {         
             this.transactionStorageService
                 .retrieveTransaction(transaction._id)
                 .then((storedTransaction:Transaction) => {
-                    if (!this.cryptocurrencyService.isConfirmed(storedTransaction) || (!!accountId && !storedTransaction.account) ){
-                        storedTransaction.timestamp = transaction.timestamp;
-                        storedTransaction.confirmations = transaction.confirmations;
+                    storedTransaction.timestamp     = transaction.timestamp;
+                    storedTransaction.confirmations = transaction.confirmations;
+
+                    if (!storedTransaction.account && !!accountId) {
                         storedTransaction.account = accountId;
-                        resolve(this.transactionStorageService.storeTransaction(storedTransaction));
-                    } else {
-                        resolve(storedTransaction);
-                    }        
+                    }
+                    
+                    resolve(this.transactionStorageService.storeTransaction(storedTransaction)); 
                 }).catch(() => {
                     transaction.account = accountId;
                     resolve(this.transactionStorageService.storeTransaction(transaction));
