@@ -28,7 +28,7 @@ export class AccountPage {
     }
 
     openAccountHistory(i:number) {
-        this.navController.push('history', { account : this.accounts[i] });
+        this.navController.push('history', { accountId : this.accounts[i]._id });
     }
 
     ionViewWillEnter() {

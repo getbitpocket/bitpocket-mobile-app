@@ -1,6 +1,6 @@
 {
   "name": "bitpocket-mobile-app",
-  "app_id": "",
+  "app_id": "3cd21cf2",
   "type": "ionic-angular",
   "integrations": {
     "cordova": {}

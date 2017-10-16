@@ -38,7 +38,7 @@ export class BitcoinUnit {
         return BitcoinUnit.from(valueInBTC, 'BTC');
     }
     
-    to(bitcoinUnit: string) : number {        
+    to(bitcoinUnit: string = 'satoshis') : number {        
         let unitSpec = BitcoinUnit.getUnitSpecification(bitcoinUnit);       
         return parseFloat( (this.satoshis / unitSpec[0]).toFixed(unitSpec[1]) );
     }

@@ -2,11 +2,7 @@
     <ion-navbar>    
         <button ion-button menuToggle="left"><ion-icon name="menu"></ion-icon></button>
         <ion-title>{{ 'TITLE.HISTORY' | translate }}</ion-title>        
-        <ion-buttons start>
-            <button ion-button (click)="export()">
-                <ion-icon name="download"></ion-icon>
-            </button>
-        </ion-buttons>
+        <bitpocket-logo></bitpocket-logo>        
     </ion-navbar>
 </ion-header>
 <ion-content class="history">
@@ -15,7 +11,7 @@
             <ion-item>
                 <ion-icon item-left *ngIf="transaction.incomming" name="ios-download-outline"></ion-icon>
                 <ion-icon item-left *ngIf="!transaction.incomming" name="ios-share-outline"></ion-icon>
-                <h2>{{ currencySymbol }} {{ transaction.amount | bitpocketUnit:'BTC':currencySymbol | bitpocketCurrency:currencySeparator:currencyThousandsPoint:currencyPrecision }} <span>({{ referenceCurrencySymbol }} {{ transaction.amount | bitpocketFiat:'BTC':referenceCurrencyRate }})</span></h2>     
+                <h2>{{ currencySymbol }} {{ transaction.amount | bitpocketUnit:'BTC':currencySymbol | bitpocketCurrency:currencySeparator:currencyThousandsPoint:currencyPrecision }} <span>({{ referenceCurrencySymbol }} {{ transaction.amount | bitpocketFiat:'BTC':referenceCurrencyRate | bitpocketCurrency:currencySeparator:currencyThousandsPoint }})</span></h2>     
                 <p><ion-icon [class.icon-unconfirmed]="transaction.confirmations < 6" [class.icon-confirmed]="transaction.confirmations >= 6" name="checkmark-circle"></ion-icon> {{ (transaction.timestamp * 1000) | date:dateTimeFormat }}</p>           
             </ion-item>
             <ion-item-options>
@@ -34,4 +30,9 @@
     <ion-infinite-scroll [enabled]="moreContentAvailable" (ionInfinite)="loadTransactions($event)">
         <ion-infinite-scroll-content loadingSpinner="bubbles"></ion-infinite-scroll-content>
     </ion-infinite-scroll>
+
+    <ion-fab right bottom>
+        <button (click)="export()" ion-fab color="primary"><ion-icon name="download"></ion-icon></button>
+    </ion-fab>
+
 </ion-content>

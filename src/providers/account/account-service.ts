@@ -137,9 +137,9 @@ export class AccountService {
         if(this.isAddressAccount(account)) {            
             return account.data;
         } else if (!this.isTestnetAccount(account)) {
-            return bitcoin.HDNode.fromBase58(account.data).derive(0).derive(account.index).getAddress();
+            return bitcoin.HDNode.fromBase58(account.data).derive(0).derive(account.index + 1).getAddress();
         } else if (this.isTestnetAccount(account)) {
-            return bitcoin.HDNode.fromBase58(account.data, [bitcoin.networks.testnet]).derive(0).derive(account.index).getAddress();
+            return bitcoin.HDNode.fromBase58(account.data, [bitcoin.networks.testnet]).derive(0).derive(account.index + 1).getAddress();
         }
 
         throw new Error('unknown account type');

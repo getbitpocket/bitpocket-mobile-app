@@ -49,7 +49,7 @@ export class PaymentResultPage {
         } else if (this.paymentRequest.status == PAYMENT_STATUS_OVERPAID ||
                    this.paymentRequest.status == PAYMENT_STATUS_PARTIAL_PAID) {
             // change referenceAmount in accordance               
-            this.paymentRequest.referenceAmount = this.paymentRequest.referenceAmount * (this.paymentRequest.amount / this.paymentRequest.txAmount);
+            this.paymentRequest.referenceAmount = this.paymentRequest.referenceAmount * (this.paymentRequest.txAmount / this.paymentRequest.amount);
             this.resultSuccess = true;
             this.resultIcon = "alert";
         } else {
@@ -96,7 +96,7 @@ export class PaymentResultPage {
     }
 
     showHistory() {        
-        this.nav.setRoot('history', { account : this.account });
+        this.nav.setRoot('history', { accountId : this.account._id });
     }
     
     constructor(

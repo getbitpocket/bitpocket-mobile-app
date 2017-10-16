@@ -1,11 +1,9 @@
 import { TransactionService } from './../../../api/transaction-service';
 import { TransactionFilter } from './../../../api/transaction-filter';
 import { CryptocurrencyService, TESTNET, BITCOIN } from './../../index';
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Transaction } from './../../../api/transaction';
 
-@Injectable()
 export class InsightTransactionService implements TransactionService {
 
     constructor(

@@ -21,7 +21,7 @@
       {{ 'LIST_HEADING.TRANSACTION' | translate }}
     </ion-list-header>
     <ion-item>{{ currencySymbol }} {{ transaction.amount | bitpocketUnit:'BTC':currencySymbol | bitpocketCurrency:currencySeparator:currencyThousandsPoint:currencyPrecision }}</ion-item>
-    <ion-item>{{ referenceCurrencySymbol }} {{ transaction.amount | bitpocketFiat:'BTC':referenceCurrencyRate }}</ion-item>
+    <ion-item>{{ referenceCurrencySymbol }} {{ transaction.amount | bitpocketFiat:'BTC':referenceCurrencyRate | bitpocketCurrency:currencySeparator:currencyThousandsPoint }}</ion-item>
     <ion-item>{{ (transaction.timestamp * 1000) | date:dateTimeFormat }}</ion-item>
     <ion-item>
       <ng-container *ngIf="transaction.confirmations < 6">

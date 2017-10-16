@@ -45,6 +45,8 @@ import {
 import { StatusBar } from '@ionic-native/status-bar';
 import { Network } from '@ionic-native/network';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { File } from '@ionic-native/file';
+import { FileOpener } from '@ionic-native/file-opener';
 
 // Translations
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
@@ -98,7 +100,9 @@ export function createTranslateLoader(http: HttpClient) {
     { provide:BitcoinAverageExchangeService, useFactory:provideBitcoinAverageExchangeService, deps:[HttpClient] },
     SplashScreen,
     Network,
-    StatusBar
+    StatusBar,
+    File,
+    FileOpener
   ]
 })
 export class AppModule {}

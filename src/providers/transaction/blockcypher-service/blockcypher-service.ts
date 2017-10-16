@@ -1,13 +1,11 @@
 import { TransactionService } from './../../../api/transaction-service';
 import { TransactionFilter } from './../../../api/transaction-filter';
 import { BITCOIN, TESTNET } from './../../index';
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Transaction } from './../../../api/transaction';
 
 // NOT YET IMPLEMENTED
 
-@Injectable()
 export class BlockcypherService implements TransactionService {
 
     constructor(protected http:HttpClient, protected cryptocurrency:string) {}

@@ -39,8 +39,9 @@ export class AccountCreationPage {
     parseAccount() {
         try {
             let account = this.accountService.parseAccountInput(this.accountInput);
-            account.index = 0;
             account.name = "Bitcoin";
+            account.index = 0;
+            account.lastConfirmedIndex = -1;
             return account;            
         } catch (e) {
             this.accountInput = "";

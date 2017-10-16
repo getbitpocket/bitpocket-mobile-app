@@ -1,13 +1,11 @@
 import { TransactionService } from './../../../api/transaction-service';
 import { TransactionFilter } from './../../../api/transaction-filter';
-import { BITCOIN } from './../../index';
-import { Injectable } from '@angular/core';
+import { BITCOIN, BitcoinUnit } from './../../index';
 import { HttpClient } from '@angular/common/http';
 import { Transaction } from './../../../api/transaction';
 
 const BLOCKCHAIN_INFO_BASE_URL = "https://blockchain.info/";
 
-@Injectable()
 export class BlockchainInfoService implements TransactionService {
 
     protected lastKnownBlockchainHeight = 0;
@@ -32,10 +30,10 @@ export class BlockchainInfoService implements TransactionService {
 
     getBlockHeight() : Promise<number> {
         return new Promise<number> ((resolve, reject) => {
-            this.http.get(BLOCKCHAIN_INFO_BASE_URL + 'latestblock')
-                .subscribe((response:any) => {
-                    if (response && response.height) {
-                        this.lastKnownBlockchainHeight = response.height;
+            this.http.get(BLOCKCHAIN_INFO_BASE_URL + 'q/getblockcount?cors=true')
+                .subscribe((response:any) => {                    
+                    if (response) {
+                        this.lastKnownBlockchainHeight = response;
                     }     
                     resolve(this.lastKnownBlockchainHeight);              
                 }, () => { resolve(this.lastKnownBlockchainHeight); });
@@ -77,9 +75,9 @@ export class BlockchainInfoService implements TransactionService {
                     let index = addresses.indexOf(output.addr);
                     if (index >= 0) {
                         return {
-                            address : addresses[index] ,
+                            address   : addresses[index] ,
                             incomming : true ,
-                            amount  : output.value
+                            amount    : BitcoinUnit.from(output.value).to('BTC')
                         };
                     }
                 }
@@ -95,9 +93,9 @@ export class BlockchainInfoService implements TransactionService {
                     let index = addresses.indexOf(input.prev_out.addr);
                     if (index >= 0) {
                         return {
-                            address : addresses[index] ,
+                            address   : addresses[index] ,
                             incomming : false ,
-                            amount  : input.prev_out.value
+                            amount    : BitcoinUnit.from(input.prev_out.value).to('BTC')
                         };
                     }
                 }
@@ -122,7 +120,7 @@ export class BlockchainInfoService implements TransactionService {
             url += 'limit=50&offset=0';
         }
 
-        return url;
+        return url + '&cors=true';
     }
 
 }
