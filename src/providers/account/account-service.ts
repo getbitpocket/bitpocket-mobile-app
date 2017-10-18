@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import { Account } from '../../api/account';
 import { Config, CryptocurrencyService, Repository } from './../index';
-import * as bitcoin from 'bitcoinjs-lib';
 
 export const ACCOUNT_TYPE_BITCOIN_ADDRESS  = "bitcoin-static-address";
 export const ACCOUNT_TYPE_BITCOIN_XPUB_KEY = "bitcoin-xpub-key";
@@ -23,6 +22,11 @@ export class AccountService {
     addAccount(account:Account) : Promise<Account> {
         return new Promise<Account> ((resolve,reject) => {
             account['doctype'] = 'account';
+
+            // default values
+            account.index = 0;
+            account.lastConfirmedIndex = -1;
+            
             this.repository.addDocument(account)
                 .then((response) => {
                     account._id = response.id;
@@ -122,8 +126,7 @@ export class AccountService {
         return new Promise<string> ((resolve, reject) => {
             this.getDefaultAccount().then(account => {
                     try {
-                        let address = this.getNextAddress(account);
-                        resolve(address);
+                        resolve(this.getNextAddress(account));
                     } catch (e) {
                         reject(e);
                     }                   
@@ -133,16 +136,16 @@ export class AccountService {
         });        
     }
 
+    deriveAddress(account:Account, index:number) {        
+        return this.cryptocurrencyService.deriveAddress(account.data, index);        
+    }
+
     getNextAddress(account:Account) : string {
         if(this.isAddressAccount(account)) {            
             return account.data;
-        } else if (!this.isTestnetAccount(account)) {
-            return bitcoin.HDNode.fromBase58(account.data).derive(0).derive(account.index + 1).getAddress();
-        } else if (this.isTestnetAccount(account)) {
-            return bitcoin.HDNode.fromBase58(account.data, [bitcoin.networks.testnet]).derive(0).derive(account.index + 1).getAddress();
+        }  else {
+            return this.deriveAddress(account, account.index + 1);
         }
-
-        throw new Error('unknown account type');
     }
 
     isAddressAccount(account:Account) {

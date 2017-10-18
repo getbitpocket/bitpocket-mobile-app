@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-navbar>
+      <ion-title>{{ 'TITLE.EXPORT' | translate }}</ion-title>
+      <ion-buttons start>
+          <button ion-button (click)="close()">
+              <ion-icon name="close"></ion-icon>
+          </button>
+      </ion-buttons>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+
+    <ion-list>
+        <ion-item dark>
+            <ion-label>{{ 'TEXT.START_DATE' | translate }}</ion-label>
+            <ion-datetime [displayFormat]="'FORMAT.DATE' | translate" pickerFormat="DD MM YYYY" [(ngModel)]="start"></ion-datetime>
+        </ion-item>
+        <ion-item dark>
+            <ion-label>{{ 'TEXT.END_DATE' | translate }}</ion-label>
+            <ion-datetime [displayFormat]="'FORMAT.DATE' | translate" pickerFormat="DD MM YYYY" [(ngModel)]="end"></ion-datetime>
+        </ion-item>
+        <ion-item dark>            
+            <ion-toggle [(ngModel)]="incomming"></ion-toggle>
+            <ion-label>{{ 'TEXT.ONLY_INCOMMING' | translate }}</ion-label>
+        </ion-item>
+        <ion-item>
+            <button [disabled]="loading" (click)="export()" item-right ion-button block icon-left>
+                <ion-icon *ngIf="!loading" name="download"></ion-icon>
+                <ion-spinner *ngIf="loading" color="light"></ion-spinner>
+                {{ 'BUTTON.EXPORT' | translate }}
+            </button>
+        </ion-item>
+    </ion-list>
+
+    <ion-card>
+                
+    </ion-card>
+  
+</ion-content>

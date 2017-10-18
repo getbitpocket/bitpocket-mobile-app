@@ -157,70 +157,11 @@ export class HistoryPage {
             });
         });        
     }
+
+    openExport() {
+        this.modalController.create('export', {
+            accountId : this.accountId
+        }).present();
+    }
     
-    export() {
-        let file = this.accountId + '.csv'
-        let path = 'cdvfile://localhost/persistent/';
-
-        this.presentLoader();
-        this.loadAllTransactions()            
-            .then(() => { // create file contents             
-                let lines = [];
-
-                // headers
-                lines.push([
-                    'txid' , 'datetime', 'address', 'amount', 'currency', 'type', 'payment amount', 'payment currency', 'status'
-                ]);
-
-                for (let t = 0; t < this.transactions.length; t++) {
-                    let line = [
-                        this.transactions[t]._id,
-                        (new Date(this.transactions[t].timestamp * 1000)).toUTCString(),
-                        this.transactions[t].address,
-                        this.transactions[t].amount,
-                        this.transactions[t].currency,
-                        this.transactions[t].incomming ? 'deposit' : 'withdrawal',
-                        this.transactions[t].paymentReferenceAmount > 0 ? this.transactions[t].paymentReferenceAmount : '' ,
-                        this.transactions[t].paymentReferenceCurrency ? this.transactions[t].paymentReferenceCurrency : '' ,
-                        this.transactions[t].paymentStatus ? this.transactions[t].paymentStatus : ''
-                    ].join(',');
-                    lines.push(line);                    
-                }
-                return lines.join("\n");
-            }).then((content:string) => {
-                return new Promise<void> ((resolve, reject) => {
-                    this.file.createFile(path, file, true)
-                    .then(fileEntry => {
-                        fileEntry.createWriter((writer) => {
-                            writer.onwriteend = (event) => {
-                                resolve();
-                            };
-                            writer.write(content);
-                        }, error => {
-                            reject(error);
-                        });
-                    });
-                });       
-            }).catch(e => {
-                console.error(e);
-                this.dissmissLoader();                    
-            }).then(() => {                
-                this.dissmissLoader();
-                return this.fileOpener.open(path + file, 'text/csv');
-            }).catch(e => {
-                console.error(e);        
-                
-                Promise.all<any>([
-                    this.translation.get('TEXT.EXPORT_ERROR').toPromise() ,
-                    this.translation.get('TEXT.MISSING_CSV_APP').toPromise() ,
-                    this.translation.get('BUTTON.OK').toPromise()
-                ]).then(promised => {
-                    this.alertController.create({
-                        title : promised[0] ,
-                        subTitle : promised[1] ,
-                        buttons : [promised[2]]
-                    }).present();
-                });     
-            });
-    }    
 }

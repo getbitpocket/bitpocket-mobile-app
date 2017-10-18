@@ -23,11 +23,23 @@ export class TransactionStorageService {
     }
 
     retrieveTransactions(transactionFilter: TransactionFilter) : Promise<Transaction[]> {
-        let selector:any = {
-            '$and' : [
-                { 'timestamp' : { '$gt':null } }
-            ]            
-        };
+        let selector:any = null, limit = true;
+
+        if (transactionFilter.startTime > 0 && transactionFilter.endTime > 0) {
+            limit = false;
+            selector = {
+                '$and' : [
+                    { 'timestamp' : { '$gte':transactionFilter.startTime } } ,
+                    { 'timestamp' : { '$lte':transactionFilter.endTime } }
+                ]
+            };
+        } else {
+            selector = {
+                '$and' : [
+                    { 'timestamp' : { '$gt':null } } ,
+                ]
+            };
+        }
 
         if (transactionFilter.account && /static-address/.test(transactionFilter.account.type)) {
             selector.$and.push({ 'address' : { '$eq':transactionFilter.account.data }});
@@ -40,10 +52,13 @@ export class TransactionStorageService {
         return new Promise((resolve, reject) => {
             let query = {
                 selector : selector,
-                sort : [{ timestamp : 'desc' }] ,
-                limit : transactionFilter.to - transactionFilter.from ,
-                skip : transactionFilter.from > 0 ? transactionFilter.from : 0
+                sort : [{ timestamp : 'desc' }]                
             };
+
+            if (limit) {
+                query['limit'] = transactionFilter.to - transactionFilter.from;
+                query['skip'] = transactionFilter.from > 0 ? transactionFilter.from : 0;
+            }
 
             resolve(this.repository.findDocuments(query));
         });

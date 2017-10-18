@@ -17,7 +17,7 @@ export class AccountSyncService {
 
     syncAccount(account:Account) : Promise<any> {
         return new Promise<any>((resolve, reject) => {
-            let startIndex = account.lastConfirmedIndex > 0 ? (account.lastConfirmedIndex + 1) : 0;
+            let startIndex = account.lastConfirmedIndex >= 0 ? (account.lastConfirmedIndex + 1) : 0;
 
             if (this.accountService.isAddressAccount(account)) {                
                 this.syncAddress(account.data, startIndex).then(result => {
@@ -33,25 +33,20 @@ export class AccountSyncService {
     syncXpubKey(account:Account, index:number = 0) : Promise<any> {
         return new Promise<any>((resolve, reject) => {
             try {              
-                this.syncAddress(this.cryptocurrencyService.deriveAddress(account.data, index), 0, account._id)
-                    .then(result => {                                       
-                        // there are transactions and
-                        // all transactions are fully confirmed and 
-                        // last confirmed index is exactly 1 step below current index
-                        if (result.count > 0 &&
-                            account.lastConfirmedIndex == (index-1) &&
-                            result.lastConfirmedIndex  == (result.count-1)) {
-                            account.index = index;                            
-                            account.lastConfirmedIndex = index;
-                        } else if (index <= 0) {
+                this.syncAddress(this.accountService.deriveAddress(account, index), 0, account._id)
+                    .then(result => {                                     
+                        
+                        if (result.count > 0) {
                             account.index = index;
-                            account.lastConfirmedIndex = -1;
-                        } else if (result.count > 0) {
-                            account.index = index;
-                        } 
+
+                            if (account.lastConfirmedIndex == (index-1) &&
+                                result.lastConfirmedIndex  == (result.count-1)) {
+                                    account.lastConfirmedIndex = index;
+                                }
+                        }
                                                 
                         if (account.index == index) {
-                            console.log("index / confirmedIndex", account.index, account.lastConfirmedIndex, result.count, result.lastConfirmedIndex);
+                            console.log("index/confirmedIndex/count/lastConfirmedIndex", account.index, account.lastConfirmedIndex, result.count, result.lastConfirmedIndex);
                             resolve(Promise.all([
                                 this.accountService.editAccount(account) ,
                                 this.syncXpubKey(account, index + 1)

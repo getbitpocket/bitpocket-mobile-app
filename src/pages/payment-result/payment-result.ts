@@ -87,12 +87,6 @@ export class PaymentResultPage {
                 });                                       
             }
         });
-
-        setTimeout(() => {
-            if (this.waiting) {
-                this.nav.setRoot('amount');
-            }
-        }, 30000);       
     }
 
     showHistory() {        

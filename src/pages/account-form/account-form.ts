@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { NavParams, NavController, AlertController, ModalController, Modal, IonicPage } from 'ionic-angular';
+import { NavParams, NavController, AlertController, ModalController, Modal, IonicPage, LoadingController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core'
 import { Account } from './../../api/account';
-import { Config, AccountService, QRScanner } from './../../providers/index';
+import { Config, AccountService, AccountSyncService, QRScanner } from './../../providers/index';
 import 'rxjs/add/operator/toPromise';
 
 @IonicPage({
@@ -24,11 +24,14 @@ export class AccountFormPage {
     accountEnabled = true;
     accountDefault = false;
     canChangeDefaultAccount = false;
+    loader:any;
 
     constructor(
         protected modalController:ModalController,
+        protected loadingController:LoadingController,
         protected qrscanner: QRScanner ,
         protected accountService: AccountService,
+        protected accountSyncService: AccountSyncService,
         protected navParams: NavParams,
         protected navController: NavController,
         protected translate: TranslateService,
@@ -135,7 +138,7 @@ export class AccountFormPage {
                 if (this.account._id) {
                     promise = this.accountService.editAccount(this.account);
                 } else {
-                    promise = this.accountService.addAccount(this.account);
+                    promise = this.addAccount();                    
                 }
 
                 promise.then((account) => {
@@ -151,6 +154,38 @@ export class AccountFormPage {
                 reject();
             }  
         });        
+    }
+
+    addAccount() : Promise<Account> {
+        return new Promise<Account> ((resolve, reject) => {
+            this.presentLoader();
+            this.accountService.addAccount(this.account)
+                .then((account:Account) => {                    
+                    return this.accountSyncService.syncAccount(account);
+                }).then(() => {
+                    this.dissmissLoader();
+                    resolve(this.account);
+                }).catch(() => {
+                    this.dissmissLoader();
+                    resolve(this.account);
+                });
+        });        
+    }
+
+    presentLoader() {
+        this.translate.get('TEXT.LOADING_TRANSACTIONS').toPromise()
+            .then((text:string) => {
+                this.loader = this.loadingController.create({
+                    content : text
+                });
+                this.loader.present();
+            });
+    }
+
+    dissmissLoader() {
+        if (this.loader) {
+            this.loader.dismiss();
+        }
     }
 
     remove() {

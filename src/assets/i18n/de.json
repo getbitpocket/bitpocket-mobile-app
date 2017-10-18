@@ -1,5 +1,6 @@
 {
     "FORMAT.DATETIME" : "dd.MM.y HH:mm",
+    "FORMAT.DATE" : "DD.MM.YYYY",
     "FORMAT.CURRENCY_T" : ".",
     "FORMAT.CURRENCY_S" : ",",
 
@@ -23,7 +24,8 @@
     "TITLE.SCANNING" : "Scannen",
     "TITLE.ONBOARDING" : "Starten",
     "TITLE.INVALID_INPUT" : "Falsche Eingabe",
-    "TITLE.TRANSACTION" : "Transanktion" ,
+    "TITLE.TRANSACTION" : "Transaktion" ,
+    "TITLE.EXPORT" : "Export Transaktionen",
 
     "TEXT.NO_TRANSACTIONS" : "Noch keine Transaktionen...",
     "TEXT.PIN_MISMATCH" : "PIN stimmt nicht, bitte erneut eingeben!",
@@ -40,6 +42,9 @@
     "TEXT.DEFAULT_ACCOUNT" : "Aktives Konto" ,
     "TEXT.REMOVE_ACCOUNT" : "Account löschen",
     "TEXT.REMOVE_ACCOUNT_QUESTION" : "Soll das Konto gelöscht werden?",
+    "TEXT.START_DATE" : "Startdatum",
+    "TEXT.END_DATE" : "Enddatum",
+    "TEXT.ONLY_INCOMMING" : "Nur Einzahlungen",
     "TEXT.bitcoin-static-address" : "Bitcoin Adresse",
     "TEXT.bitcoin-xpub-key" : "Bitcoin Generalschlüssel",
     "TEXT.testnet-static-address" : "Testnet Adresse",
@@ -57,6 +62,7 @@
     "BUTTON.OK" : "Ok",
     "BUTTON.CANCEL" : "Abbrechen",
     "BUTTON.BACK" : "Zurück",
+    "BUTTON.EXPORT" : "Exportieren",
     
     "LIST_HEADING.GENERAL_SETTINGS" : "Allgemeine Einstellungen",
     "LIST_HEADING.CURRENCY" : "Währung",

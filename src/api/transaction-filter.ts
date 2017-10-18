@@ -5,5 +5,7 @@ export interface TransactionFilter {
     addresses?: string[] ,
     account?:Account ,
     from? : number ,
-    to? : number
+    to? : number ,
+    startTime? : number ,
+    endTime? : number
 }

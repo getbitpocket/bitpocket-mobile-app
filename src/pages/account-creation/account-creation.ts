@@ -37,17 +37,9 @@ export class AccountCreationPage {
     }
 
     parseAccount() {
-        try {
-            let account = this.accountService.parseAccountInput(this.accountInput);
-            account.name = "Bitcoin";
-            account.index = 0;
-            account.lastConfirmedIndex = -1;
-            return account;            
-        } catch (e) {
-            this.accountInput = "";
-            console.error(e);
-            return false;
-        }        
+        let account = this.accountService.parseAccountInput(this.accountInput);
+        account.name = "Bitcoin";        
+        return account;          
     }
 
     triggerAlert() {
@@ -74,8 +66,10 @@ export class AccountCreationPage {
                 this.account = this.parseAccount();
             }
             
+            console.log(this.account);
             this.accountService.addAccount(this.account)
                 .then(account => {
+                    this.account = account;
                     return this.config.set(Config.CONFIG_KEY_DEFAULT_ACCOUNT, account._id);
                 }).then(() => {
                     return this.accountSyncService.syncAccount(this.account);
@@ -86,6 +80,7 @@ export class AccountCreationPage {
                     console.error(e);
                 });
         } catch (e) {
+            this.account = '';
             this.triggerAlert();
         }  
     }

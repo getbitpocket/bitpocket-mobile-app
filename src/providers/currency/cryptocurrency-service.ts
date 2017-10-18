@@ -21,17 +21,23 @@ export const REGEX_TPUB_KEY        = new RegExp("^(" + regex['testnet-tpub-key']
 @Injectable()
 export class CryptocurrencyService {
 
-    deriveAddress(key:string, index:number) : string {
+    deriveAddress(key:string, index:number, change:boolean = false) : string {
         try {
             let data = this.parseXpubKeyInput(key);
+            let path = this.getDerivationPath(index, change);
+
             if (data.currency == BITCOIN) {
-                return bitcoin.HDNode.fromBase58(key).derive(0).derive(index).getAddress();
+                return bitcoin.HDNode.fromBase58(key).derivePath(path).getAddress();
             } else {
-                return bitcoin.HDNode.fromBase58(key, [bitcoin.networks.testnet]).derive(0).derive(index).getAddress();
+                return bitcoin.HDNode.fromBase58(key, [bitcoin.networks.testnet]).derivePath(path).getAddress();
             }
         } catch (e) {
             throw new Error('Could not derive index from key' + e);
         }        
+    }
+
+    getDerivationPath(index:number = 0, change:boolean = false) {
+        return (change ? 1 : 0) + '/' + index;
     }
 
     parseXpubKeyInput(input: string) {
