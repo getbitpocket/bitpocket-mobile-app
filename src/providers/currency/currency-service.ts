@@ -9,6 +9,10 @@ export class CurrencyService {
     constructor(protected config: Config, protected exchangeService: BitcoinAverageExchangeService) {        
     }
 
+    getFeePercentage() : Promise<number> {
+        return this.config.get(Config.CONFIG_KEY_FEE_PERCENTAGE);
+    }
+
     getExchangeService() : CurrencyExchangeService {
         return this.exchangeService;
     }
@@ -23,6 +27,17 @@ export class CurrencyService {
         });
     }
 
+    getCalculatedCurrencyRate() : Promise<number> {
+        return new Promise<number> ((resolve, reject) => {
+            Promise.all([
+                this.config.get(Config.CONFIG_KEY_EXCHANGE_RATE) ,
+                this.config.get(Config.CONFIG_KEY_FEE_PERCENTAGE)
+            ]).then(values => {
+                resolve(parseFloat(values[0]) * ((100.0 - parseFloat(values[1]))/100.0));
+            });
+        });        
+    }
+
     getAvailableCurrencies() : Promise<any> {
         return new Promise<any>((resolve, reject) => {
             resolve(this.getExchangeService().getAvailableCurrencies());            
@@ -33,6 +48,11 @@ export class CurrencyService {
         this.config.set(Config.CONFIG_KEY_CURRENCY, code).then(() => {
             this.updateCurrencyRate();
         });            
+        return this;
+    }
+
+    setFeePercentage(feePercentage:number) : CurrencyService {
+        this.config.set(Config.CONFIG_KEY_FEE_PERCENTAGE, feePercentage);
         return this;
     }
 

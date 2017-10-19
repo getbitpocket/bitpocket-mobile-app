@@ -6,6 +6,17 @@
 </ion-header>
 <ion-content>    
     <ion-list radio-group [(ngModel)]="selectedCurrency">
+        <ion-list-header>{{ 'LIST_HEADING.EXCHANGE_RATE_FEE' | translate }}</ion-list-header>
+        <ion-item>
+            <ion-range step="5" min="-3000" max="3000" [(ngModel)]="rateFee">
+                <button clear ion-button (click)="decreaseFee()" range-left><ion-icon small name="remove"></ion-icon></button>
+                <button clear ion-button (click)="increaseFee()" range-right><ion-icon small name="add"></ion-icon></button>
+            </ion-range>
+        </ion-item>
+        <ion-item text-wrap>
+            <span class="text-small">{{ 'LIST_TEXT.EXCHANGE_RATE_FEE' | translate }}</span>
+            <ion-badge item-end>{{ (rateFee / 100) | bitpocketCurrency:currencySeparator }} %</ion-badge>
+        </ion-item>
         <ion-list-header>{{ 'LIST_HEADING.AVAILABLE_CURRENCIES' | translate }}</ion-list-header>
         <ion-item *ngFor="let currency of availableCurrencies">
             <ion-label>{{ currency.code }}</ion-label>

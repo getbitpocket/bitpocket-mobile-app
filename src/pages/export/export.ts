@@ -63,7 +63,7 @@ export class ExportPage {
                 for (let t = 0; t < transactions.length; t++) {
                     let line = [
                         transactions[t]._id,
-                        (new Date(transactions[t].timestamp * 1000)).toUTCString(),
+                        (new Date(transactions[t].timestamp * 1000)).toISOString(),
                         transactions[t].address,
                         transactions[t].amount,
                         transactions[t].currency,

@@ -51,7 +51,7 @@ export class PaymentPage {
             this.translation.get('FORMAT.CURRENCY_S').toPromise() ,
             this.config.get('bitcoin-unit') , 
             this.accountService.getDefaultAddress() ,
-            this.currencyService.getSelectedCurrencyRate() ,
+            this.currencyService.getCalculatedCurrencyRate() ,
             this.config.get('payment-request-label')
         ]).then(promised => {       
             this.currency          = promised[0];
@@ -62,11 +62,11 @@ export class PaymentPage {
             this.label             = promised[5];
 
             this.paymentRequest = {            
-                address : this.address ,
-                amount : this.amount.to('BTC') ,
-                currency : 'BTC',
-                referenceCurrency : this.currency,
-                referenceAmount : this.amount.toFiat(this.currencyRate) ,
+                address           : this.address ,
+                amount            : this.amount.to('BTC') ,
+                currency          : 'BTC' ,
+                referenceCurrency : this.currency ,
+                referenceAmount   : this.amount.toFiat(this.currencyRate)
             };
 
             this.fiatAmount    = this.currencyService.formatNumber(this.amount.toFiat(this.currencyRate, 2), this.currencySeparator);
@@ -83,12 +83,12 @@ export class PaymentPage {
 
     createQrCode() {
         return new Promise<any> ((resolve, reject) => {
-            let bip21uri = bip21.encode(this.address,{
+            let bip21uri = bip21.encode(this.address, {
                 amount : this.amount.to('BTC') ,
-                label : this.label
+                label  : this.label
             });
                            
-            let qr:any = qrcode(6,'M');
+            let qr:any = qrcode(0,'M');
             qr.addData(bip21uri);
             qr.make();
             resolve(qr.createImgTag(5,5));

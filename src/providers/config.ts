@@ -11,19 +11,25 @@ export class Config {
     static CONFIG_KEY_PAYMENT_REQUEST_LABEL = 'payment-request-label';
     static CONFIG_KEY_CURRENCY = 'currency';
     static CONFIG_KEY_BITCOIN_UNIT = 'bitcoin-unit';
-    static CONFIG_KEY_BLOCKCHAIN_EXPLORER = 'blockchain-explorer';
     static CONFIG_KEY_EXCHANGE_RATE = 'rate';
     static CONFIG_KEY_PIN = 'pin';
     static CONFIG_KEY_DEFAULT_ACCOUNT = 'default-account';
+    static CONFIG_KEY_CURRENCY_CACHE = 'currency-cache';
+    static CONFIG_KEY_FEE_PERCENTAGE = 'fee-percentage';
 
     initConfig() : Promise<boolean> {
         return new Promise<boolean>((resolve,reject) => {
             Promise.all<any>([
                 this.initialize(Config.CONFIG_KEY_EXCHANGE_RATE,-1),
-                this.initialize(Config.CONFIG_KEY_BLOCKCHAIN_EXPLORER,'blockchain'),
                 this.initialize(Config.CONFIG_KEY_CURRENCY,'EUR'),
                 this.initialize(Config.CONFIG_KEY_BITCOIN_UNIT,'mBTC'),
-                this.initialize(Config.CONFIG_KEY_PIN,'')
+                this.initialize(Config.CONFIG_KEY_PIN,''),
+                this.initialize(Config.CONFIG_KEY_FEE_PERCENTAGE,0),
+                this.initialize(Config.CONFIG_KEY_CURRENCY_CACHE, [{
+                    code : 'EUR', rate : 0
+                }, {
+                    code : 'USD' , rate : 0
+                }])
             ]).then(() => {
                 resolve(true);
             }).catch(() => {

@@ -76,6 +76,7 @@
     "LIST_HEADING.BITCOIN_UNIT" : "Bitcoin Einheit",
     "LIST_HEADING.TRANSACTION" : "Transaktionsdetails",
     "LIST_HEADING.PAYMENT" : "Zahlungsdetails",
+    "LIST_HEADING.EXCHANGE_RATE_FEE" : "Prozentsatz Kurs",
 
     "LIST_TEXT.GENERAL_SETTINGS" : "Allgemeine Einstellungen für BitPocket",
     "LIST_TEXT.CURRENCY" : "Währungswahl und Kurs",
@@ -90,7 +91,8 @@
     "LIST_TEXT.CONFIRMED" :"voll bestätigt",
     "LIST_TEXT.INCOMMING" :"Einzahlung",
     "LIST_TEXT.OUTOING" :"Auszahlung",
-
+    "LIST_TEXT.EXCHANGE_RATE_FEE" : "Prozentsatz zur Erhöhung bzw. Verminderung des von Bitcoin Average gegebenen Kurses." ,
+   
     "PAYMENT_STATUS.received" : "Die Zahlung wurde erfolgreich entgegen genommen",
     "PAYMENT_STATUS.not_received" : "Die Zahlung wurde nicht erhalten",
     "PAYMENT_STATUS.double_spent" : "Es liegt ein Doublespend vor",

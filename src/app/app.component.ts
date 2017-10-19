@@ -62,7 +62,7 @@ export class BitPocketApp {
 
         setTimeout(() => {
             this.triggerUpdateTask();
-        },1000 * 60 * 5);
+        },1000 * 60 * 10);
     }
 
     hideSplashscreen() {

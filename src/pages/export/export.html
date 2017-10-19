@@ -13,11 +13,11 @@
     <ion-list>
         <ion-item dark>
             <ion-label>{{ 'TEXT.START_DATE' | translate }}</ion-label>
-            <ion-datetime [displayFormat]="'FORMAT.DATE' | translate" pickerFormat="DD MM YYYY" [(ngModel)]="start"></ion-datetime>
+            <ion-datetime [cancelText]="'BUTTON.CANCEL' | translate" [doneText]="'BUTTON.OK' | translate" [displayFormat]="'FORMAT.DATE' | translate" pickerFormat="DD MM YYYY" [(ngModel)]="start"></ion-datetime>
         </ion-item>
         <ion-item dark>
             <ion-label>{{ 'TEXT.END_DATE' | translate }}</ion-label>
-            <ion-datetime [displayFormat]="'FORMAT.DATE' | translate" pickerFormat="DD MM YYYY" [(ngModel)]="end"></ion-datetime>
+            <ion-datetime [cancelText]="'BUTTON.CANCEL' | translate" [doneText]="'BUTTON.OK' | translate" [displayFormat]="'FORMAT.DATE' | translate" pickerFormat="DD MM YYYY" [(ngModel)]="end"></ion-datetime>
         </ion-item>
         <ion-item dark>            
             <ion-toggle [(ngModel)]="incomming"></ion-toggle>

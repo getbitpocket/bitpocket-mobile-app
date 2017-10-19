@@ -97,7 +97,7 @@ export function createTranslateLoader(http: HttpClient) {
     { provide: Repository, useFactory:provideRepository } ,
     { provide:Config, useFactory:provideConfig, deps:[Storage] } ,
     { provide:QRScanner, useFactory:provideQRScanner, deps:[ModalController] },
-    { provide:BitcoinAverageExchangeService, useFactory:provideBitcoinAverageExchangeService, deps:[HttpClient] },
+    { provide:BitcoinAverageExchangeService, useFactory:provideBitcoinAverageExchangeService, deps:[HttpClient, Config] },
     SplashScreen,
     Network,
     StatusBar,

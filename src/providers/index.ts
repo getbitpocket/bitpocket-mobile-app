@@ -71,8 +71,8 @@ export function provideQRScanner(modalController: ModalController) {
     return new QRScanner(modalController);
 }
 
-export function provideBitcoinAverageExchangeService(http:HttpClient) {
-    return new BitcoinAverageExchangeService(http);
+export function provideBitcoinAverageExchangeService(http:HttpClient, config:Config) {
+    return new BitcoinAverageExchangeService(http, config);
 }
 
 export {

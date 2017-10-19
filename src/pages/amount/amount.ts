@@ -163,7 +163,7 @@ export class AmountPage {
     updateExchangedAmount() {
         let inputAmount = parseFloat(this.digits+"."+this.decimals);
 
-        this.currencyService.getSelectedCurrencyRate().then(rate => {
+        this.currencyService.getCalculatedCurrencyRate().then(rate => {
             if (this.entryInBTC) {
                 let amount = BitcoinUnit.from(inputAmount,this.bitcoinUnit).toFiat(rate);
                 this.exchangedAmount = this.currencyService.formatNumber(amount, this.separator, 2);                
@@ -187,7 +187,7 @@ export class AmountPage {
                 amount: BitcoinUnit.from(amount,this.bitcoinUnit)
             });                   
         } else {
-            this.currencyService.getSelectedCurrencyRate().then(rate => {
+            this.currencyService.getCalculatedCurrencyRate().then(rate => {
                 this.navigation.push('payment', {
                     amount: BitcoinUnit.fromFiat(amount,rate) ,                
                 });

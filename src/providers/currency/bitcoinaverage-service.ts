@@ -1,12 +1,13 @@
-import {HttpClient} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {CurrencyExchangeRate} from '../../api/currency-exchange-rate';
-import {CurrencyExchangeService} from '../../api/currency-exchange-service';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { CurrencyExchangeRate } from '../../api/currency-exchange-rate';
+import { CurrencyExchangeService } from '../../api/currency-exchange-service';
+import { Config } from '../../providers/index';
 
 @Injectable()
 export class BitcoinAverageExchangeService implements CurrencyExchangeService {
         
-    constructor(protected http:HttpClient) {
+    constructor(protected http:HttpClient, protected config:Config) {
     }
 
     prepareOne(code, json:any) : CurrencyExchangeRate {        
@@ -38,15 +39,17 @@ export class BitcoinAverageExchangeService implements CurrencyExchangeService {
                 this.http.get('https://apiv2.bitcoinaverage.com/indices/global/ticker/short?crypto=BTC')
                     .subscribe(
                         response => {
-                            resolve(this.prepareAll(response));                            
+                            let currencies = this.prepareAll(response);
+                            this.config.set(Config.CONFIG_KEY_CURRENCY_CACHE, currencies);
+                            resolve(currencies);                            
                         } ,
                         error => {
-                            reject();
+                            resolve(this.config.get(Config.CONFIG_KEY_CURRENCY_CACHE));
                         }
                     );
             } catch(e) {
                 console.error(e);
-                reject();
+                resolve(this.config.get(Config.CONFIG_KEY_CURRENCY_CACHE));
             }
         });
     }

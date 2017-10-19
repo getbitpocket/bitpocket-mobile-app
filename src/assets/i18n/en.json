@@ -76,6 +76,7 @@
     "LIST_HEADING.BITCOIN_UNIT" : "Bitcoin unit",
     "LIST_HEADING.TRANSACTION" : "Transaction details",
     "LIST_HEADING.PAYMENT" : "Payment details",
+    "LIST_HEADING.EXCHANGE_RATE_FEE" : "Exchange percentage",
 
     "LIST_TEXT.GENERAL_SETTINGS" : "General settings for BitPocket",
     "LIST_TEXT.CURRENCY" : "Select currency and exchange rate",
@@ -90,6 +91,7 @@
     "LIST_TEXT.CONFIRMED" :"confirmed",
     "LIST_TEXT.INCOMMING" :"deposit",
     "LIST_TEXT.OUTOING" :"withdrawal",
+    "LIST_TEXT.EXCHANGE_RATE_FEE" : "Percentage to increase/decreate market rate based on bitcoin average." ,
 
     "PAYMENT_STATUS.received" : "Your payment was successfully processed",
     "PAYMENT_STATUS.not_received" : "Payment not received",
