@@ -1,10 +1,9 @@
 <ion-header>
     <ion-navbar>
         <ion-title>{{ title }}</ion-title>
-        <ion-buttons start [hidden]="!closeable">
-            <button ion-button (click)="close()">
-                <ion-icon name="close"></ion-icon>
-            </button>
+
+        <ion-buttons left [hidden]="!closeable">
+            <button ion-button (click)="close()" class="bar-button-close"><ion-icon name="close"></ion-icon></button>
         </ion-buttons>
     </ion-navbar>
 </ion-header>

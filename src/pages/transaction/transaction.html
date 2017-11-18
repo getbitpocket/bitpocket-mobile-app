@@ -1,11 +1,9 @@
 <ion-header>
   <ion-navbar>
-      <ion-title>{{ 'TITLE.TRANSACTION' | translate }}</ion-title>
-      <ion-buttons start>
-          <button ion-button (click)="close()">
-              <ion-icon name="close"></ion-icon>
-          </button>
+      <ion-buttons left>
+          <button ion-button (click)="close()" class="bar-button-close"><ion-icon name="close"></ion-icon></button>
       </ion-buttons>
+      <ion-title>{{ 'TITLE.TRANSACTION' | translate }}</ion-title>     
   </ion-navbar>
 </ion-header>
 <ion-content>
